@@ -11,6 +11,7 @@ local M = {}
 function M.input(prompt, on_submit)
 	local input_opts = vim.deepcopy(Config.options.nui.input)
 
+	-- TODO: Override size.width and size.height
 	input_opts.border.text.top = prompt
 
 	local input_component = NuiInput(input_opts, {
