@@ -53,7 +53,9 @@ function M.check(opts)
 		"nui.nvim is installed",
 		"nui.nvim is not installed"
 	)
+
 	local overall_healthy = neovim_version_ok and diatheke_ok and nui_ok
+
 	return overall_healthy
 end
 

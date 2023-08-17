@@ -16,14 +16,14 @@ function M.format(verses_table)
 				verse.book,
 				verse.chapter,
 				verse.verse_number,
-				Config.options.plain.header_delimiter,
+				Config.options.formatter.plain.header_delimiter,
 				verse.verse
 			)
 		)
 	end
-	if not Config.options.plain.omit_module_name then
+	if not Config.options.formatter.plain.omit_module_name then
 		table.insert(res, "")
-		table.insert(res, Config.options.diatheke.translation)
+		table.insert(res, Config.options.formatter.diatheke.translation)
 	end
 
 	return res

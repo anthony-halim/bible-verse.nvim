@@ -1,3 +1,4 @@
+local Config = require("bible-verse.config")
 local NuiInput = require("nui.input")
 local NuiPopup = require("nui.popup")
 local NuiEvent = require("nui.utils.autocmd").event
@@ -8,22 +9,10 @@ local M = {}
 ---@param prompt string prompt to be used
 ---@param on_submit function Signature: (input|nil) -> nil. Execute on user submission
 function M.input(prompt, on_submit)
-	local input_opts = {
-		border = {
-			style = "rounded",
-			padding = { 0, 1 },
-			text = {
-				top = prompt,
-				top_align = "center",
-			},
-		},
-		relative = "editor",
-		position = "50%",
-		size = {
-			width = 50,
-			height = 1,
-		},
-	}
+	local input_opts = vim.deepcopy(Config.options.nui.input)
+
+	input_opts.border.text.top = prompt
+
 	local input_component = NuiInput(input_opts, {
 		prompt = "", -- Use prompt as border text
 		on_submit = on_submit,
@@ -44,28 +33,11 @@ end
 ---@param win_title string title of the pop up window
 ---@param message_table table string[], table of individual lines to be shown.
 function M.popup(win_title, message_table)
-	local popup_opts = {
-		enter = true,
-		focusable = true,
-		border = {
-			style = "rounded",
-			padding = { 1, 1 },
-			text = {
-				top = win_title,
-				top_align = "center",
-			},
-		},
-		relative = "editor",
-		position = "50%",
-		size = {
-			width = "80%",
-			height = "70%",
-		},
-		buf_options = {
-			modifiable = false,
-			readonly = true,
-		},
-	}
+	local popup_opts = vim.deepcopy(Config.options.nui.popup)
+
+	-- TODO: Override size.width and size.height
+	popup_opts.border.text.top = win_title
+
 	local popup_component = NuiPopup(popup_opts)
 
 	-- Set exit behaviour
@@ -82,6 +54,7 @@ function M.popup(win_title, message_table)
 	-- Set content
 	vim.api.nvim_buf_set_lines(popup_component.bufnr, 0, 0, false, message_table)
 
+	-- TODO: Check if windows is still mounted
 	popup_component:mount()
 end
 

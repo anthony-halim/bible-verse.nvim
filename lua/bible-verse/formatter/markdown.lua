@@ -9,10 +9,10 @@ local M = {}
 function M.format(verses_table)
 	local res = {}
 	local by_bible_chapter = FormatterCommon.organise_by_bible_chapter(verses_table)
-	local use_separator = string.len(Config.options.markdown.separator) ~= 0
+	local use_separator = string.len(Config.options.formatter.markdown.separator) ~= 0
 
 	if use_separator then
-		table.insert(res, Config.options.markdown.separator)
+		table.insert(res, Config.options.formatter.markdown.separator)
 		table.insert(res, "")
 	end
 	for chapter_name, verses in pairs(by_bible_chapter) do
@@ -24,13 +24,13 @@ function M.format(verses_table)
 		end
 		table.insert(res, table.concat(chapter_res))
 	end
-	if not Config.options.markdown.omit_module_name then
+	if not Config.options.formatter.markdown.omit_module_name then
 		table.insert(res, "")
 		table.insert(res, string.format("<sub>*%s*</sub>", Config.options.diatheke.translation))
 	end
 	if use_separator then
 		table.insert(res, "")
-		table.insert(res, Config.options.markdown.separator)
+		table.insert(res, Config.options.formatter.markdown.separator)
 	end
 
 	return res
