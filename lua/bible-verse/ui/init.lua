@@ -27,6 +27,7 @@ function M.input(prompt, on_submit)
 		input_component:unmount()
 	end, { once = true })
 
+	-- TODO: Check if windows is still mounted
 	input_component:mount()
 end
 
