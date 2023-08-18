@@ -33,7 +33,7 @@ end
 
 ---Show message as a pop up window.
 ---@param win_title string title of the pop up window
----@param message_table table string[], table of individual lines to be shown.
+---@param message_table string[] table of individual lines to be shown.
 function M.popup(win_title, message_table)
 	local popup_opts = vim.deepcopy(Config.options.nui.popup)
 

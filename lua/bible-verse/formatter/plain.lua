@@ -3,7 +3,7 @@ local Config = require("bible-verse.config")
 local M = {}
 
 --- Formats parsed diatheke output and format it in plain text format.
----@param verses_table table parsed diatheke output according to diatheke_wrapper.call.
+---@param verses_table DiathekeVerse[] parsed diatheke output.
 ---@return string[] output table of individual lines of the output.
 function M.format(verses_table)
 	local res = {}
@@ -21,9 +21,9 @@ function M.format(verses_table)
 			)
 		)
 	end
-	if not Config.options.formatter.plain.omit_module_name then
+	if not Config.options.formatter.plain.omit_translation_footnote then
 		table.insert(res, "")
-		table.insert(res, Config.options.formatter.diatheke.translation)
+		table.insert(res, Config.options.diatheke.translation)
 	end
 
 	return res

@@ -10,13 +10,13 @@ function M.module_exists(mod)
 	return pcall(_G.require, mod) == true
 end
 
----comment
----@param checkhealth boolean
----@param result boolean
----@param severity "warn"|"error"
----@param success_msg string
----@param err_msg string
-function M._report(checkhealth, result, severity, success_msg, err_msg)
+--- Report result
+---@param checkhealth boolean to trigger actual checkhealth
+---@param result boolean result of test
+---@param severity "warn"|"error" severity if result fails
+---@param success_msg string success message
+---@param err_msg string error message
+function M.report(checkhealth, result, severity, success_msg, err_msg)
 	local res_severity = result and "ok" or severity
 	local res_message = result and success_msg or err_msg
 	if checkhealth then
@@ -30,7 +30,7 @@ function M.check(opts)
 	opts = opts or {}
 	opts.checkhealth = opts.checkhealth == nil and true or opts.checkhealth
 
-	local neovim_version_ok = M._report(
+	local neovim_version_ok = M.report(
 		opts.checkhealth,
 		vim.fn.has("nvim-0.9.0") == 1,
 		"error",
@@ -38,7 +38,7 @@ function M.check(opts)
 		"BibleVerse needs Neovim >= 0.9.0"
 	)
 
-	local diatheke_ok = M._report(
+	local diatheke_ok = M.report(
 		opts.checkhealth,
 		M.command_exists("diatheke"),
 		"error",
@@ -46,7 +46,7 @@ function M.check(opts)
 		"diatheke is not installed"
 	)
 
-	local nui_ok = M._report(
+	local nui_ok = M.report(
 		opts.checkhealth,
 		M.module_exists("nui.popup") and M.module_exists("nui.input") and M.module_exists("nui.utils.autocmd"),
 		"error",

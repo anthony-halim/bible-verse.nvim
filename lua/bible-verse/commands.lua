@@ -5,6 +5,8 @@ local M = {}
 ---@type table<string, function>
 M.commands = {}
 
+--- Execute command by name
+---@param cmd string command name
 function M.cmd(cmd)
 	if M.commands[cmd] then
 		M.commands[cmd]()
