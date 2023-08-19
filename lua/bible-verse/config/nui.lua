@@ -1,8 +1,8 @@
 local M = {}
 
 ---@class BibleVerseNuiConfig
----@field input table
----@field popup table
+---@field input? table
+---@field popup? table
 
 ---@type BibleVerseNuiConfig
 M.defaults = {
@@ -22,6 +22,9 @@ M.defaults = {
 		size = {
 			width = 50,
 			height = 1,
+		},
+		win_options = {
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 		},
 	},
 	-- popup: configuration for popup component, extending from Nui configuration.
@@ -46,6 +49,9 @@ M.defaults = {
 		buf_options = {
 			modifiable = false,
 			readonly = true,
+		},
+		win_options = {
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 		},
 	},
 }

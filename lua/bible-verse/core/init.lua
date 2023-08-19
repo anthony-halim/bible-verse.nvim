@@ -18,6 +18,14 @@ local function process_query(query, formatter_type)
 	return Formatter.format(res_or_err, formatter_type)
 end
 
+function M.setup()
+	-- Check that config is sane
+	assert(
+		Config.options.diatheke.translation and string.len(Config.options.diatheke.translation) > 0,
+		"missing configuration|diatheke.translation"
+	)
+end
+
 --- Prompt for user input and show it back to the screen
 function M.query_and_show()
 	Ui.input("BibleVerse Query", function(input)

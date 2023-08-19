@@ -12,7 +12,9 @@ function M.input(prompt, on_submit)
 	local input_opts = vim.deepcopy(Config.options.nui.input)
 
 	-- TODO: Override size.width and size.height
-	input_opts.border.text.top = prompt
+	if input_opts then
+		input_opts.border.text.top = prompt
+	end
 
 	local input_component = NuiInput(input_opts, {
 		prompt = "", -- Use prompt as border text
@@ -38,7 +40,9 @@ function M.popup(win_title, message_table)
 	local popup_opts = vim.deepcopy(Config.options.nui.popup)
 
 	-- TODO: Override size.width and size.height
-	popup_opts.border.text.top = win_title
+	if popup_opts then
+		popup_opts.border.text.top = win_title
+	end
 
 	local popup_component = NuiPopup(popup_opts)
 

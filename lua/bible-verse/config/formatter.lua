@@ -1,16 +1,16 @@
 local M = {}
 
 ---@class BibleVerseFmtConfig
----@field markdown BibleVerseFmtMarkdownConfig
----@field plain BibleVerseFmtPlainConfig
+---@field markdown? BibleVerseFmtMarkdownConfig
+---@field plain? BibleVerseFmtPlainConfig
 
 ---@class BibleVerseFmtMarkdownConfig
----@field separator string
----@field omit_translation_footnote boolean
+---@field separator? string
+---@field omit_translation_footnote? boolean
 
 ---@class BibleVerseFmtPlainConfig
----@field header_delimiter string
----@field omit_translation_footnote boolean
+---@field header_delimiter? string
+---@field omit_translation_footnote? boolean
 
 ---@type BibleVerseFmtConfig
 M.defaults = {

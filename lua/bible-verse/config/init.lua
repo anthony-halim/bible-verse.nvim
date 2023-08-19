@@ -1,11 +1,11 @@
 local M = {}
 
 ---@class BibleVerseConfig
----@field default_behaviour "query"|"paste"
----@field paste_format "markdown"|"plain"
+---@field default_behaviour? "query"|"paste"
+---@field paste_format? "markdown"|"plain"
 ---@field diatheke BibleVerseDiathekeConfig
----@field nui BibleVerseNuiConfig
----@field formatter BibleVerseFmtConfig
+---@field nui? BibleVerseNuiConfig
+---@field formatter? BibleVerseFmtConfig
 
 ---@type BibleVerseConfig
 M.defaults = {

@@ -1,6 +1,6 @@
 local M = {}
 
----@param opts? BibleVerseConfig
+---@param opts BibleVerseConfig
 M.setup = function(opts)
 	-- Run healthcheck first
 	if not require("bible-verse.health").check({ checkhealth = false }) then
@@ -15,6 +15,7 @@ M.setup = function(opts)
 		require("bible-verse.config").setup(opts)
 		require("bible-verse.commands").setup()
 		require("bible-verse.formatter").setup()
+		require("bible-verse.core").setup()
 	end
 
 	load()
