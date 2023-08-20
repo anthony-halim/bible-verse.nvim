@@ -36,11 +36,11 @@ function M.query_and_show()
 	end)
 end
 
---- Prompt for user input and paste it below the cursor
-function M.query_and_paste()
-	Ui.input("BibleVerse Query (Paste)", function(input)
+--- Prompt for user input and insert it below the cursor
+function M.query_and_insert()
+	Ui.input("BibleVerse Query (Insert)", function(input)
 		if input and string.len(input) > 0 then
-			local query_result = process_query(input, Config.options.paste_format)
+			local query_result = process_query(input, Config.options.insert_format)
 			local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
 			vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, query_result)
 		end

@@ -1,6 +1,6 @@
 # 📖 bible-verse.nvim
 
-Neovim plugin to query Bible verses and display it on the screen or paste it into the current buffer.
+Neovim plugin to query Bible verses and display it on the screen or insert it into the current buffer.
 
 <!-- TODO: Show Gif -->
 
@@ -17,7 +17,6 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 -- lazy.nvim
 {
     "anthony-halim/bible-verse.nvim",
-    lazy = true,
     dependencies = {
         "MunifTanjim/nui.nvim",
     },
@@ -34,7 +33,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 For setup function, see [Setup](#setup).
 
-#### Diatheke Installation
+### Diatheke Installation
 
 Diatheke is one of the front-ends to the SWORD Project by [CrossWire Bible Society](https://crosswire.org/) and is used as the backend of this plugin to query the verses.
 
@@ -81,6 +80,9 @@ echo "yes" | installmgr -r CrossWire      # refresh remote source
 echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
 ```
 </details>
+<br/>
+
+> Post installation, it is recommended to run `:checkhealth bible-verse` to make sure all dependencies are installed and can be accessed by the plugin.
 
 ## ⚙️  Setup 
 
@@ -108,17 +110,17 @@ Below is the full configuration as well as the defaults. You can override any of
 {
     -- default_behaviour: behaviour to be used on empty command arg, i.e. :BibleVerse. Defaults to query. 
     --     Options: "query" - on verse query, display the result on the screen as a popup.
-    --              "paste" - on verse query, insert the result below the cursor of the current buffer.
+    --              "insert" - on verse query, insert the result below the cursor of the current buffer.
     default_behaviour = "query",
 
-    -- paste_format: text format on 'paste' behaviour. 
-    --     Options: "markdown" - paste as Markdown formatted text.
-    --              "plain" - paste as plain text.
-    paste_format = "markdown",
+    -- insert_format: text format on 'insert' behaviour. 
+    --     Options: "markdown" - insert as Markdown formatted text.
+    --              "plain" - insert as plain text.
+    insert_format = "markdown",
 
     -- query_format: text format on 'query' behaviour. 
-    --     Options: "nerd" - paste as Nerdfont formatted text.
-    --              "plain" - paste as plain text.
+    --     Options: "nerd" - insert as Nerdfont formatted text.
+    --              "plain" - insert as plain text.
     query_format = "nerd",
 
     diatheke = {
@@ -133,6 +135,8 @@ Below is the full configuration as well as the defaults. You can override any of
         markdown = {
             -- separator: text to be used as prefix and suffix the markdown text. Set to empty string to disable.
             separator = "---",
+            -- quote_block: put the formatted text within a quote block.
+            quote_block = true,
             -- omit_translation_footnote: omit translation name from the markdown text.
             omit_translation_footnote = false,
         },
@@ -145,7 +149,11 @@ Below is the full configuration as well as the defaults. You can override any of
             omit_translation_footnote = true,
         },
 
-        -- TODO: Write nerd settings
+        -- Formatter settings for nerd
+        nerd = {
+            -- omit_translation_footnote: omit translation name from the NerdFont text.
+            omit_translation_footnote = false,
+        }
     },
 
     nui = {
@@ -190,7 +198,23 @@ For how `formatter.*`, affects the output, see [Formatter](#formatter).
 
 ## 🌱 Usage 
  
-<!-- TODO: Write -->
+| Command  | Lua | Description |
+|--------- | -------------- | -------------- |
+| `:BibleVerse`    | `require("bible-verse.commands").cmd()`    | Execute default behaviour set as per `config.default_behaviour`.|
+| `:BibleVerseQuery` or `:BibleVerse query`    | `require("bible-verse.commands").cmd("query")`    | Query Bible verse and display it on the screen as a popup. |
+| `:BibleVerseInsert` or `:BibleVerse insert`    | `require("bible-verse.commands").cmd("insert")`    | Query Bible verse and insert it below the cursor in the current buffer. |
+
+This plugin does not set any key bindings by default. You can set keymaps to trigger the `Lua` commands, as shown below:
+
+```lua
+vim.keymap.set("n", "<leader>Bq", function()
+  require("bible-verse.commands").cmd("query")
+end, { desc = "[B]ible verse [q]uery"})
+
+vim.keymap.set("n", "<leader>Bi", function()
+  require("bible-verse.commands").cmd("insert")
+end, { desc = "[B]ible verse [i]nsert"})
+```
 
 ## 🔤 Formatter
 
@@ -198,23 +222,97 @@ Below are the formatter configurations used to format queried verses.
 
 ### Markdown
 
-> Available on: `paste` behaviour.
+> Available on: `insert` behaviour.
 
-<!-- TODO: Write -->
+With the default Markdown settings:
+```lua
+separator = "---",
+quote_block = true,
+omit_translation_footnote = false,
+```
+
+<details>
+<summary>Overall format</summary>
+
+```markdown
+> {separator}
+> 
+> **{book_name} {chapter}**
+> 
+> <sup>{verse_number}</sup>{verse} [<sup>{verse_number}</sup>...]
+>
+> <sub>{translation}</sub>
+> 
+> {separator}
+```
+
+</details>
+
+<details>
+<summary>Unrendered sample output</summary>
+
+```markdown
+> ---
+>
+> **John 1**
+> 
+> <sup>1</sup>In the beginning was the Word, and the Word was with God, and the Word was God.
+> 
+> <sub>*KJV*</sub>
+>
+> ---
+```
+
+</details>
+
+<details>
+<summary>Rendered sample output</summary>
+
+> ---
+> 
+> **John 1**
+>
+> <sup>1</sup>In the beginning was the Word, and the Word was with God, and the Word was God.
+>
+> <sub>*KJV*</sub>
+> 
+> ---
+
+</details>
 
 ### Plain
 
-> Available on: `query`, `paste` behaviour.
+> Available on: `query`, `insert` behaviour.
 
-<!-- TODO: Write -->
+With the default plain settings:
+```lua
+header_delimiter = " ",
+omit_translation_footnote = true,
+```
+
+<details>
+<summary>Overall format</summary>
+
+```markdown
+{book_name} {chapter}:{verse_number}{header_delimiter}{verse}
+```
+
+</details>
+
+<details>
+<summary>Sample output</summary>
+
+John 1:1 In the beginning was the Word, and the Word was with God, and the Word was God.
+
+</details>
 
 ### Nerd
 
 > Available on: `query` behaviour.
 
-<!-- TODO: Write -->
+<!-- TODO: Implement -->
 
 ## 🙏 Special Thanks
 
 - [vim-bible](https://github.com/robertrosman/vim-bible) by [robertrosman](https://github.com/robertrosman) as inspiration for this plugin.
-- [noice.nvim](https://github.com/folke/noice.nvim) by [folke](https://github.com/folke) as inspiration for general repository structure. Truly pleasant to work and extend from.
+- [noice.nvim](https://github.com/folke/noice.nvim) by [folke](https://github.com/folke) as inspiration for repository structure, management, and generally on how to write a Neovim plugin. Truly pleasant to work and extend from.

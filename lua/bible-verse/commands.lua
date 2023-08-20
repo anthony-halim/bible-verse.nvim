@@ -1,6 +1,6 @@
 local Config = require("bible-verse.config")
 
----@alias BibleVerseCmd "query"|"paste"
+---@alias BibleVerseCmd "query"|"insert"
 ---@alias BibleVerseCmdFunc fun(): nil
 
 local M = {}
@@ -23,8 +23,8 @@ function M.setup()
 		query = function()
 			require("bible-verse.core").query_and_show()
 		end,
-		paste = function()
-			require("bible-verse.core").query_and_paste()
+		insert = function()
+			require("bible-verse.core").query_and_insert()
 		end,
 	}
 
