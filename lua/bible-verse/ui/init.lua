@@ -11,9 +11,10 @@ local M = {}
 function M.input(prompt, on_submit)
 	local input_opts = vim.deepcopy(Config.options.nui.input)
 
-	-- TODO: Override size.width and size.height
 	if input_opts then
 		input_opts.border.text.top = prompt
+		-- TODO: Override size.width: max 50, check for screen real estate
+		input_opts.size.width = 50
 	end
 
 	local input_component = NuiInput(input_opts, {
@@ -39,9 +40,10 @@ end
 function M.popup(win_title, message_table)
 	local popup_opts = vim.deepcopy(Config.options.nui.popup)
 
-	-- TODO: Override size.width and size.height
 	if popup_opts then
 		popup_opts.border.text.top = win_title
+		-- TODO: Override size.height, max: 70, check screen real estate
+		popup_opts.size.height = "70%"
 	end
 
 	local popup_component = NuiPopup(popup_opts)

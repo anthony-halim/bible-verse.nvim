@@ -6,9 +6,9 @@ local M = {}
 
 ---@type BibleVerseDiathekeConfig
 M.defaults = {
-	-- translation: diatheke module to be used.
-	-- locale: locale as locales in the machine.
+	-- (MANDATORY) translation: diatheke module to be used.
 	translation = "",
+	-- locale: locale as locales in the machine.
 	locale = "en",
 }
 

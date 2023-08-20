@@ -13,16 +13,11 @@ M.defaults = {
 			style = "rounded",
 			padding = { 0, 1 },
 			text = {
-				top = "",
 				top_align = "center",
 			},
 		},
 		relative = "editor",
 		position = "50%",
-		size = {
-			width = 50,
-			height = 1,
-		},
 		win_options = {
 			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 		},
@@ -30,28 +25,38 @@ M.defaults = {
 	-- popup: configuration for popup component, extending from Nui configuration.
 	-- see: https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup
 	popup = {
-		enter = true,
-		focusable = true,
 		border = {
 			style = "rounded",
 			padding = { 1, 1 },
 			text = {
-				top = "",
 				top_align = "center",
 			},
 		},
 		relative = "editor",
 		position = "50%",
+		win_options = {
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+		},
+	},
+}
+
+M._default_override = {
+	input = {
+		size = {
+			height = 1,
+		},
+	},
+
+	popup = {
+		enter = true,
+		focusable = true,
 		size = {
 			width = "80%",
-			height = "70%",
 		},
+
 		buf_options = {
 			modifiable = false,
 			readonly = true,
-		},
-		win_options = {
-			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 		},
 	},
 }
