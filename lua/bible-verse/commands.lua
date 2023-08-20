@@ -1,10 +1,15 @@
 local Config = require("bible-verse.config")
 
+---@alias BibleVerseCmd "query"|"paste"
+---@alias BibleVerseCmdFunc fun(): nil
+
 local M = {}
 
----@type table<string, function>
+---@type table<BibleVerseCmd, BibleVerseCmdFunc>
 M.commands = {}
 
+--- Execute command by name
+---@param cmd string command name
 function M.cmd(cmd)
 	if M.commands[cmd] then
 		M.commands[cmd]()

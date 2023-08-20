@@ -1,17 +1,7 @@
 local M = {}
 
 --- Format verses_table by book:chapter.
---
--- Output:
--- {
---   [ book chapter ] = {
---     verses...
---   },
---   [ book chapter ] = {
---     verses...
---   }
--- }
----@param verses_table table parsed diatheke output
+---@param verses_table table<string, DiathekeVerse[]> parsed diatheke output
 function M.organise_by_bible_chapter(verses_table)
 	local by_bible_chapter = {}
 	for _, verse in ipairs(verses_table) do

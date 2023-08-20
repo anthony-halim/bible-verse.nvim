@@ -4,8 +4,8 @@ local FormatterCommon = require("bible-verse.formatter.common")
 local M = {}
 
 --- Formats parsed diatheke output and format it in Markdown style.
----@param verses_table table parsed diatheke output according to diatheke_wrapper.call.
----@return string[] output table of individual lines of the output.
+---@param verses_table DiathekeVerse[] parsed diatheke output.
+---@return string[] output individual lines of the output.
 function M.format(verses_table)
 	local res = {}
 	local by_bible_chapter = FormatterCommon.organise_by_bible_chapter(verses_table)
@@ -24,7 +24,7 @@ function M.format(verses_table)
 		end
 		table.insert(res, table.concat(chapter_res))
 	end
-	if not Config.options.formatter.markdown.omit_module_name then
+	if not Config.options.formatter.markdown.omit_translation_footnote then
 		table.insert(res, "")
 		table.insert(res, string.format("<sub>*%s*</sub>", Config.options.diatheke.translation))
 	end
