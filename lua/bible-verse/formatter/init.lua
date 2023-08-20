@@ -1,10 +1,17 @@
 local Config = require("bible-verse.config")
 
+---@alias FormatterType "plain"|"markdown"
+---@alias FormatFunc fun(verses_table: DiathekeVerse[]): string[]
+
 local M = {}
 
----@type table<string, function>
+---@type table<FormatterType, FormatFunc>
 M.formatters = {}
 
+---Format based on given formatter type
+---@param verses_table DiathekeVerse[] pased diatheke output
+---@param formatter_type FormatterType type of formatter
+---@return string[] output individual lines of the output
 function M.format(verses_table, formatter_type)
 	if M.formatters[formatter_type] == nil then
 		error("unsupported formatter|formatter_type=" .. formatter_type)

@@ -7,7 +7,7 @@ local M = {}
 
 --- Process query within diatheke and return formatted output
 ---@param query string query to diatheke
----@param formatter_type "markdown"|"plain" (string) type of formatter to be used
+---@param formatter_type FormatterType type of formatter to be used
 ---@return string[] output table of individual lines of the output.
 local function process_query(query, formatter_type)
 	local ok, res_or_err =

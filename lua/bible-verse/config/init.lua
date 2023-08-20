@@ -1,8 +1,8 @@
 local M = {}
 
 ---@class BibleVerseConfig
----@field default_behaviour? "query"|"paste"
----@field paste_format? "markdown"|"plain"
+---@field default_behaviour? BibleVerseCmd
+---@field paste_format? FormatterType
 ---@field diatheke BibleVerseDiathekeConfig
 ---@field nui? BibleVerseNuiConfig
 ---@field formatter? BibleVerseFmtConfig
