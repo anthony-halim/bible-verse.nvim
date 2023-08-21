@@ -42,9 +42,12 @@ M.defaults = {
 
 M._default_override = {
 	input = {
+		enter = true,
+		focusable = true,
 		size = {
 			height = 1,
 		},
+		zindex = 60, -- Must be > popup.zindex
 	},
 
 	popup = {
@@ -53,7 +56,7 @@ M._default_override = {
 		size = {
 			width = "80%",
 		},
-
+		zindex = 50,
 		buf_options = {
 			modifiable = false,
 			readonly = true,
