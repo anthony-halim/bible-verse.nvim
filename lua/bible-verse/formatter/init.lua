@@ -31,8 +31,8 @@ function M.setup()
 
 	-- Check that config is sane
 	assert(
-		M.formatters[Config.options.paste_format] ~= nil,
-		"unsupported formatter|formatter_type=" .. Config.options.paste_format
+		M.formatters[Config.options.insert_format] ~= nil,
+		"unsupported formatter|formatter_type=" .. Config.options.insert_format
 	)
 end
 

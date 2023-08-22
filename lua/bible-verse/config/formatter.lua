@@ -6,6 +6,7 @@ local M = {}
 
 ---@class BibleVerseFmtMarkdownConfig
 ---@field separator? string
+---@field quote_block? boolean
 ---@field omit_translation_footnote? boolean
 
 ---@class BibleVerseFmtPlainConfig
@@ -18,6 +19,8 @@ M.defaults = {
 	markdown = {
 		-- separator: text to be used as prefix and suffix the markdown text. Set to empty string to disable.
 		separator = "---",
+		-- quote_block: put the formatted text within a quote block.
+		quote_block = true,
 		-- omit_translation_footnote: omit translation name from the markdown text.
 		omit_translation_footnote = false,
 	},

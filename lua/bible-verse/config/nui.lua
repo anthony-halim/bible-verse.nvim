@@ -16,7 +16,6 @@ M.defaults = {
 				top_align = "center",
 			},
 		},
-		relative = "editor",
 		position = "50%",
 		win_options = {
 			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
@@ -32,7 +31,6 @@ M.defaults = {
 				top_align = "center",
 			},
 		},
-		relative = "editor",
 		position = "50%",
 		win_options = {
 			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
@@ -42,18 +40,21 @@ M.defaults = {
 
 M._default_override = {
 	input = {
+		enter = true,
+		focusable = true,
 		size = {
 			height = 1,
 		},
+		zindex = 60, -- Must be > popup.zindex
+		relative = "win",
 	},
 
 	popup = {
 		enter = true,
 		focusable = true,
-		size = {
-			width = "80%",
-		},
-
+		size = {},
+		zindex = 50,
+		relative = "win",
 		buf_options = {
 			modifiable = false,
 			readonly = true,
