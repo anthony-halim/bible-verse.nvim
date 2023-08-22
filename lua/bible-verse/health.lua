@@ -1,14 +1,6 @@
+local Utils = require("bible-verse.utils")
+
 local M = {}
-
----@param cmd string
-function M.command_exists(cmd)
-	return vim.fn.executable(cmd) ~= 0
-end
-
----@param mod string
-function M.module_exists(mod)
-	return pcall(_G.require, mod) == true
-end
 
 --- Report result
 ---@param checkhealth boolean to trigger actual checkhealth
@@ -40,7 +32,7 @@ function M.check(opts)
 
 	local diatheke_ok = M.report(
 		opts.checkhealth,
-		M.command_exists("diatheke"),
+		Utils.command_exists("diatheke"),
 		"error",
 		"diatheke is installed",
 		"diatheke is not installed"
@@ -48,7 +40,9 @@ function M.check(opts)
 
 	local nui_ok = M.report(
 		opts.checkhealth,
-		M.module_exists("nui.popup") and M.module_exists("nui.input") and M.module_exists("nui.utils.autocmd"),
+		Utils.module_exists("nui.popup")
+			and Utils.module_exists("nui.input")
+			and Utils.module_exists("nui.utils.autocmd"),
 		"error",
 		"nui.nvim is installed",
 		"nui.nvim is not installed"
