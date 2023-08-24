@@ -1,8 +1,8 @@
 local M = {}
 
 ---@class BibleVerseNuiConfig
----@field input? table
----@field popup? table
+---@field input? NuiInputOptions
+---@field popup? NuiPopupOptions
 
 ---@type BibleVerseNuiConfig
 M.defaults = {
@@ -12,6 +12,7 @@ M.defaults = {
 		border = {
 			style = "rounded",
 			padding = { 0, 1 },
+			-- Text will be shown on the top of border
 			text = {
 				top_align = "center",
 			},
@@ -27,6 +28,7 @@ M.defaults = {
 		border = {
 			style = "rounded",
 			padding = { 1, 1 },
+			-- Text will be shown on the top of border
 			text = {
 				top_align = "center",
 			},
@@ -38,21 +40,26 @@ M.defaults = {
 	},
 }
 
+---@type BibleVerseNuiConfig
 M._default_override = {
 	input = {
 		enter = true,
 		focusable = true,
 		size = {
+			max_width_cell = 50,
 			height = 1,
 		},
 		zindex = 60, -- Must be > popup.zindex
 		relative = "win",
 	},
-
 	popup = {
 		enter = true,
 		focusable = true,
-		size = {},
+		size = {
+			window_width_percentage = 0.5,
+			window_max_width_percentage = 0.8,
+			window_max_height_percentage = 0.7,
+		},
 		zindex = 50,
 		relative = "win",
 		buf_options = {

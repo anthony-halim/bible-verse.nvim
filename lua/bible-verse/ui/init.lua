@@ -24,7 +24,7 @@ function M._create_input_ui(prompt, on_submit)
 	local window_size = Utils.get_win_size()
 
 	input_opts.border.text.top = prompt
-	input_opts.size.width = Utils.clamp(window_size.width, 10, 50)
+	input_opts.size.width = Utils.clamp(window_size.width, string.len(prompt), input_opts.size.max_width_cell)
 
 	local input_component = NuiInput(input_opts, {
 		prompt = "", -- Use prompt as border text
@@ -54,12 +54,17 @@ function M._create_popup_ui(win_title, message_table)
 	end
 
 	local window_size = Utils.get_win_size()
-	local popup_width = math.ceil(window_size.width * 0.5)
+
+	local popup_base_width = math.ceil(window_size.width * popup_opts.size.window_width_percentage)
+	local popup_max_width = math.ceil(window_size.width * popup_opts.size.window_max_width_percentage)
+
+	local popup_base_height = #message_table
+	local popup_max_height = math.ceil(window_size.height * popup_opts.size.window_max_height_percentage)
 
 	popup_opts.border.text.top = win_title
 	popup_opts.size = {
-		width = Utils.clamp(popup_width, popup_width, math.ceil(window_size.width * 0.8)),
-		height = Utils.clamp(#message_table, 1, math.ceil(window_size.height * 0.7)),
+		width = math.min(popup_base_width, popup_max_width),
+		height = math.min(popup_base_height, popup_max_height),
 	}
 
 	local popup_component = NuiPopup(popup_opts)

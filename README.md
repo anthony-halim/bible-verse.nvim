@@ -241,7 +241,7 @@ omit_translation_footnote = false,
 > 
 > <sup>{verse_number}</sup>{verse} [<sup>{verse_number}</sup>...]
 >
-> <sub>{translation}</sub>
+> <sub>*{translation}*</sub>
 > 
 > {separator}
 ```
