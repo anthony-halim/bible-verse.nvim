@@ -18,13 +18,8 @@ local function process_query(query, formatter_type, output_wrap_line_at)
 	if not ok then
 		error("query returned error|err=" .. res_or_err)
 	end
-
 	local output = Formatter.format(res_or_err, formatter_type)
-	if output_wrap_line_at >= 0 then
-		return FormatterUtil.wrap_output_at(output, output_wrap_line_at)
-	else
-		return output
-	end
+	return FormatterUtil.wrap(output, output_wrap_line_at)
 end
 
 function M.setup()
@@ -39,16 +34,17 @@ end
 function M.query_and_show()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.query_input)
+	local window_size = Utils.get_win_size(0)
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
 
-	input_conf.size.width = math.min(border_text_len, input_conf.size.max_width)
+	input_conf.size.width = Utils.clamp(border_text_len, window_size.width, input_conf.size.max_width)
 
 	-- On submit function
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
-			local window_size = Utils.get_win_size(0)
+			window_size = Utils.get_win_size(0)
 			local popup_conf = vim.deepcopy(Config.options.ui.popup)
 
 			local popup_width = math.ceil(
@@ -75,11 +71,12 @@ end
 function M.query_and_insert()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.insert_input)
+	local window_size = Utils.get_win_size(0)
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
 
-	input_conf.size.width = math.min(border_text_len, input_conf.size.max_width)
+	input_conf.size.width = Utils.clamp(border_text_len, window_size.width, input_conf.size.max_width)
 
 	-- On submit function
 	local on_submit = function(input)

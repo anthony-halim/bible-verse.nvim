@@ -25,7 +25,7 @@ M.defaults = {
 			winhighlight = "FloatBorder:FloatBorder",
 		},
 		size = {
-			max_width = 20, -- custom attribute
+			max_width = 50, -- custom attribute
 			height = 1,
 		},
 		position = {
@@ -70,7 +70,7 @@ M.defaults = {
 			style = "rounded",
 			padding = { 1, 1 },
 			text = {
-				text = "BibleVerse",
+				top = "Bible Verse",
 				top_align = "center",
 			},
 		},
