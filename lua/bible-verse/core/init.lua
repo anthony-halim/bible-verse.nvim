@@ -1,5 +1,6 @@
 local Config = require("bible-verse.config")
 local Formatter = require("bible-verse.formatter")
+local FormatterUtil = require("bible-verse.utils.formatter")
 local Utils = require("bible-verse.utils")
 local Diatheke = require("bible-verse.core.diatheke")
 local Ui = require("bible-verse.core.ui")
@@ -17,7 +18,13 @@ local function process_query(query, formatter_type, output_wrap_line_at)
 	if not ok then
 		error("query returned error|err=" .. res_or_err)
 	end
-	return Formatter.format(res_or_err, formatter_type)
+
+	local output = Formatter.format(res_or_err, formatter_type)
+	if output_wrap_line_at >= 0 then
+		return FormatterUtil.wrap_output_at(output, output_wrap_line_at)
+	else
+		return output
+	end
 end
 
 function M.setup()

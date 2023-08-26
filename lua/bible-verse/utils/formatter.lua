@@ -14,4 +14,16 @@ function M.organise_by_bible_chapter(verses_table)
 	return by_bible_chapter
 end
 
+--- Wrap output at given character length.
+---@param output string[] output to wrap
+---@param length number character length
+---@return string[] output that is wrapped
+function M.wrap_output_at(output, length)
+	if length <= 0 then
+		error(string.format("unable to wrap output|invalid_length|length=%s", length))
+	end
+	local res = {}
+	return output
+end
+
 return M
