@@ -1,43 +1,17 @@
-local NuiInput = require("nui.input")
-local NuiPopup = require("nui.popup")
-local NuiEvent = require("nui.utils.autocmd").event
-
 local Config = require("bible-verse.config")
 local Formatter = require("bible-verse.formatter")
 local Utils = require("bible-verse.utils")
 local Diatheke = require("bible-verse.core.diatheke")
 local Ui = require("bible-verse.core.ui")
 
-local M = {
-	show_input_ui = nil,
-	show_popup_ui = nil,
-	insert_input_ui = nil,
-}
-
-local function create_popup_io(conf, message_table) end
-
-local function create_input_ui(conf, on_submit)
-	local input_component = NuiInput(conf, {
-		prompt = "", -- Use prompt as border text
-		on_submit = on_submit,
-	})
-
-	-- Set exit behaviour
-	input_component:map("n", "<Esc>", function()
-		input_component:unmount()
-	end, { noremap = true })
-	input_component:on(NuiEvent.BufLeave, function()
-		input_component:unmount()
-	end, { once = true })
-
-	return input_component
-end
+local M = {}
 
 --- Process query within diatheke and return formatted output
 ---@param query string query to diatheke
 ---@param formatter_type FormatterType type of formatter to be used
+---@param output_wrap_line_at number wrap output at given character length. Set to 0 to disable.
 ---@return string[] output table of individual lines of the output.
-local function process_query(query, formatter_type)
+local function process_query(query, formatter_type, output_wrap_line_at)
 	local ok, res_or_err =
 		pcall(Diatheke.call, Config.options.diatheke.translation, "plain", Config.options.diatheke.locale, query)
 	if not ok then
@@ -55,21 +29,9 @@ function M.setup()
 end
 
 --- Prompt for user input and show it back to the screen
-function M:query_and_show()
-	if self.show_input_ui then
-		-- unmount previous input UI
-		self.show_input_ui:unmount()
-	end
-
+function M.query_and_show()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.query_input)
-	local popup_conf = vim.deepcopy(Config.options.ui.popup)
-	local window_size = Utils.get_win_size(0)
-
-	local popup_base_width = math.ceil(window_size.width * popup_opts.size.window_width_percentage)
-	local popup_max_width = math.ceil(window_size.width * popup_opts.size.window_max_width_percentage)
-	local popup_base_height = #message_table
-	local popup_max_height = math.ceil(window_size.height * popup_opts.size.window_max_height_percentage)
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
@@ -79,28 +41,34 @@ function M:query_and_show()
 	-- On submit function
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
-			local query_result = process_query(input, "plain")
-			Ui:popup("BibleVerse", query_result)
+			local window_size = Utils.get_win_size(0)
+			local popup_conf = vim.deepcopy(Config.options.ui.popup)
+
+			local popup_width = math.ceil(
+				math.min(
+					window_size.width * popup_conf.size.window_max_width_percentage,
+					window_size.width * popup_conf.size.window_width_percentage
+				)
+			)
+			local popup_max_height = math.ceil(window_size.height * popup_conf.size.window_max_height_percentage)
+
+			local query_result = process_query(input, "plain", popup_width)
+
+			popup_conf.size.width = popup_width
+			popup_conf.size.height = Utils.clamp(#query_result, 1, popup_max_height)
+
+			Ui:popup(popup_conf, query_result)
 		end
 	end
 
-	self.show_input_ui = create_input_ui(input_conf, function(input)
-		on_submit(input)
-		self.show_input_ui = nil
-	end)
-
-	self.show_input_ui:mount()
+	Ui:input(input_conf, on_submit)
 end
 
 --- Prompt for user input and insert it below the cursor
-function M:query_and_insert()
-	if self.insert_input_ui then
-		-- unmount previous input UI
-		self.insert_input_ui:unmount()
-	end
-
+function M.query_and_insert()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.insert_input)
+
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
 
@@ -109,18 +77,13 @@ function M:query_and_insert()
 	-- On submit function
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
-			local query_result = process_query(input, Config.options.insert_format)
+			local query_result = process_query(input, Config.options.insert_format, 0)
 			local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
 			vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, query_result)
 		end
 	end
 
-	self.insert_input_ui = create_input_ui(input_conf, function(input)
-		on_submit(input)
-		self.insert_input_ui = nil
-	end)
-
-	self.insert_input_ui:mount()
+	Ui:input(input_conf, on_submit)
 end
 
 return M
