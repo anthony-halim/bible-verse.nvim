@@ -5,28 +5,24 @@ local NuiPopup = require("nui.popup")
 local NuiEvent = require("nui.utils.autocmd").event
 
 local M = {
-	input_ui = nil,
+	insert_input_ui = nil,
+	paste_input_ui = nil,
 	popup_ui = nil,
 }
 
-function M.calculate_min_max() end
 --- Create input component
----@param prompt string prompt to be used
 ---@param on_submit function Signature: (input|nil) -> nil. Execute on user submission
+---@param config NuiInputOptions
 ---@return table NuiInput
-function M._create_input_ui(prompt, on_submit)
-	local input_opts = vim.deepcopy(Config.options.nui.input)
-
-	if not input_opts then
-		error("unable_to_get_nui_input_configs")
-	end
-
+function M._create_input_ui(on_submit, config)
 	local window_size = Utils.get_win_size()
 
-	input_opts.border.text.top = prompt
-	input_opts.size.width = Utils.clamp(window_size.width, string.len(prompt), input_opts.size.max_width_cell)
+	local border_text_len =
+		math.max(string.len(config.border.text.top or ""), string.len(config.border.text.bottom or ""))
 
-	local input_component = NuiInput(input_opts, {
+	config.size.width = Utils.clamp(window_size.width, border_text_len, config.size.max_width)
+
+	local input_component = NuiInput(config, {
 		prompt = "", -- Use prompt as border text
 		on_submit = on_submit,
 	})
@@ -47,7 +43,7 @@ end
 ---@param message_table string[] table of individual lines to be shown.
 ---@return table NuiPopup
 function M._create_popup_ui(win_title, message_table)
-	local popup_opts = vim.deepcopy(Config.options.nui.popup)
+	local popup_opts = vim.deepcopy(Config.options.ui.popup)
 
 	if not popup_opts then
 		error("unable_to_get_nui_popup_configs")
