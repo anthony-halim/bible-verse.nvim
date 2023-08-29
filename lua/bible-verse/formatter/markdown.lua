@@ -1,5 +1,5 @@
 local Config = require("bible-verse.config")
-local FormatterCommon = require("bible-verse.formatter.common")
+local FormatterUtil = require("bible-verse.utils.formatter")
 
 local M = {}
 
@@ -8,7 +8,7 @@ local M = {}
 ---@return string[] output individual lines of the output.
 function M.format(verses_table)
 	local res = {}
-	local by_bible_chapter = FormatterCommon.organise_by_bible_chapter(verses_table)
+	local by_bible_chapter = FormatterUtil.organise_by_bible_chapter(verses_table)
 	local use_separator = string.len(Config.options.formatter.markdown.separator) ~= 0
 	local quote_block_char = ""
 	if Config.options.formatter.markdown.quote_block then
