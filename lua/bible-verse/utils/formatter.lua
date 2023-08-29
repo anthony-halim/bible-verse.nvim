@@ -18,31 +18,31 @@ end
 ---@param limit number character length
 ---@return string[] output that is wrapped
 function M.wrap(str_arr, limit)
-	if limit <= 0 then
-		return str_arr
-	end
+    if limit <= 0 then
+	    return str_arr
+    end
 
-	local whitespace_re = "()%s+()"
-	local lines = {}
+    local whitespace_re = "()%s+()"
+    local lines = {}
 
-	for _, str in ipairs(str_arr) do
-		if str:len() <= limit then
-			table.insert(lines, str)
-			goto continue
-		end
+    for _, str in ipairs(str_arr) do
+	    if str:len() <= limit then
+		    table.insert(lines, str)
+		    goto continue
+	    end
 
-		local start = 1
+	    local start = 1
 
         -- Executes on whitespaces
-		str:gsub(whitespace_re, function(whitespace_start_idx, whitespace_end_idx)
-			if whitespace_start_idx - start > limit then
+	    str:gsub(whitespace_re, function(whitespace_start_idx, whitespace_end_idx)
+		   if whitespace_start_idx - start > limit then
 				lines[#lines + 1] = str:sub(start, whitespace_end_idx)
 				start = whitespace_end_idx
 			end
 		end)
         lines[#lines + 1] = str:sub(start)
 
-		::continue::
+        ::continue::
 	end
 
 	return lines
