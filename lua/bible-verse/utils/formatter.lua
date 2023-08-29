@@ -14,9 +14,6 @@ function M.organise_by_bible_chapter(verses_table)
 	return by_bible_chapter
 end
 
---- Wrap output at given character length.
---- On wrapping, we append the next line automatically.
---- To disable this behaviour, set disable_prepend_on_wrap to false.
 ---@param str_arr string[] output to wrap
 ---@param limit number character length
 ---@return string[] output that is wrapped
@@ -25,35 +22,27 @@ function M.wrap(str_arr, limit)
 		return str_arr
 	end
 
-	-- https://www.computercraft.info/forums2/index.php?/topic/15790-modifying-a-word-wrapping-function/
-	local whitespace_re = "(%s+)()(%S+)()"
+	local whitespace_re = "()%s+()"
 	local lines = {}
 
-	local function split_until_below_limit()
-		while #lines[#lines] < limit do
-			lines[#lines + 1] = lines[#lines]:sub(limit + 1)
-		end
-	end
-
 	for _, str in ipairs(str_arr) do
-		-- Only wrap on length exceeding limit or on whitespace
-		if (str:len() <= limit) or (not str:find(whitespace_re)) then
-			lines[#lines + 1] = str
-		else
-			local here = 1
-
-			str:gsub(whitespace_re, function(sp, st, word, fi) -- Function gets called once for every space
-				split_until_below_limit()
-				if fi - here > limit then
-					here = st
-					lines[#lines + 1] = word
-				else
-					lines[#lines] = lines[#lines] .. " " .. word
-				end
-			end)
-
-			split_until_below_limit()
+		if str:len() <= limit then
+			table.insert(lines, str)
+			goto continue
 		end
+
+		local start = 1
+
+        -- Executes on whitespaces
+		str:gsub(whitespace_re, function(whitespace_start_idx, whitespace_end_idx)
+			if whitespace_start_idx - start > limit then
+				lines[#lines + 1] = str:sub(start, whitespace_end_idx)
+				start = whitespace_end_idx
+			end
+		end)
+        lines[#lines + 1] = str:sub(start)
+
+		::continue::
 	end
 
 	return lines
