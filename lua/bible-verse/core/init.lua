@@ -19,7 +19,9 @@ local function process_query(query, formatter_type, output_wrap_line_at)
 		error("query returned error|err=" .. res_or_err)
 	end
 	local output = Formatter.format(res_or_err, formatter_type)
-	return FormatterUtil.wrap(output, output_wrap_line_at)
+
+	-- NOTE: -4 is for 2 cell padding on each side
+	return FormatterUtil.wrap(output, output_wrap_line_at - 4)
 end
 
 function M.setup()
@@ -55,7 +57,7 @@ function M.query_and_show()
 			)
 			local popup_max_height = math.ceil(window_size.height * popup_conf.size.window_max_height_percentage)
 
-			local query_result = process_query(input, "plain", popup_width)
+			local query_result = process_query(input, "nerd", popup_width)
 
 			popup_conf.size.width = popup_width
 			popup_conf.size.height = Utils.clamp(#query_result, 1, popup_max_height)

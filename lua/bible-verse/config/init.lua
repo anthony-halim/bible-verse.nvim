@@ -32,6 +32,12 @@ M.options = {}
 function M.setup(opts)
 	opts = opts or {}
 	M.options = vim.tbl_deep_extend("force", M.defaults, opts)
+
+	-- Assert config is sane
+	assert(
+		M.options.insert_format == "markdown" or M.options.insert_format == "plain",
+		"unsupported_opts|insert_format=" .. M.options.insert_format
+	)
 end
 
 return M

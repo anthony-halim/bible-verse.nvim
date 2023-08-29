@@ -118,11 +118,6 @@ Below is the full configuration as well as the defaults. You can override any of
     --              "plain" - insert as plain text.
     insert_format = "markdown",
 
-    -- query_format: text format on 'query' behaviour. 
-    --     Options: "nerd" - insert as Nerdfont formatted text.
-    --              "plain" - insert as plain text.
-    query_format = "nerd",
-
     diatheke = {
         -- (MANDATORY) translation: diatheke module to be used.
         translation = "",
@@ -156,19 +151,56 @@ Below is the full configuration as well as the defaults. You can override any of
         }
     },
 
-    nui = {
-        -- input: configuration for input component, extending from Nui configuration.
+    ui = {
+        -- insert_input: configuration for input component for prompting input for 'insert' behaviour
         -- see https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/input
-        input = {
+        insert_input = {
+            enter = true,
+            focusable = true,
+            relative = "cursor",
             border = {
                 style = "rounded",
                 padding = { 0, 1 },
                 text = {
+                    top = "Insert verse:",
+                    top_align = "left",
+                },
+            },
+            win_options = {
+                winhighlight = "FloatBorder:FloatBorder",
+            },
+            size = {
+                -- max_width: maximum width of the insert component, in number of cells
+                max_width = 50, -- custom attribute
+                height = 1,
+            },
+            position = {
+                row = 1,
+                col = 0,
+            },
+            zindex = 60, -- Must be > popup.zindex
+        },
+
+        -- query_input: configuration for input component for prompting input for 'query' behaviour
+        -- see https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/input
+        query_input = {
+            enter = true,
+            focusable = true,
+            relative = "win",
+            border = {
+                style = "rounded",
+                padding = { 0, 1 },
+                text = {
+                    top = "Bible Verse",
                     top_align = "center",
                 },
             },
-            relative = "editor",
+            size = {
+                max_width = 50,
+                height = 1,
+            },
             position = "50%",
+            zindex = 60, -- Must be > popup.zindex
             win_options = {
                 winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
             },
@@ -177,17 +209,33 @@ Below is the full configuration as well as the defaults. You can override any of
         -- popup: configuration for popup component, extending from Nui configuration.
         -- see: https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup
         popup = {
+            enter = true,
+            focusable = true,
+            relative = "win",
             border = {
                 style = "rounded",
                 padding = { 1, 1 },
                 text = {
+                    top = "Bible Verse",
                     top_align = "center",
                 },
             },
-            relative = "editor",
+            size = {
+                -- window_width_percentage: % of current window width used for the popup, in float.
+                -- window_max_width_percentage: maximum % of current window width used for the popup, in float.
+                -- window_max_height_percentage: maximum % of current window height used for the popup, in float.
+                window_width_percentage = 0.5, -- custom attribute
+                window_max_width_percentage = 0.8, -- custom attribute
+                window_max_height_percentage = 0.7, -- custom attribute
+            },
             position = "50%",
+            zindex = 50,
             win_options = {
                 winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+            },
+            buf_options = {
+                modifiable = false,
+                readonly = true,
             },
         },
     },
@@ -221,8 +269,6 @@ end, { desc = "[B]ible verse [i]nsert"})
 Below are the formatter configurations used to format queried verses.
 
 ### Markdown
-
-> Available on: `insert` behaviour.
 
 With the default Markdown settings:
 ```lua
@@ -282,8 +328,6 @@ omit_translation_footnote = false,
 
 ### Plain
 
-> Available on: `query`, `insert` behaviour.
-
 With the default plain settings:
 ```lua
 header_delimiter = " ",
@@ -308,9 +352,12 @@ John 1:1 In the beginning was the Word, and the Word was with God, and the Word 
 
 ### Nerd
 
-> Available on: `query` behaviour.
-
-<!-- TODO: Implement -->
+With the default nerd settings:
+```lua
+header_delimiter = " ",
+omit_translation_footnote = true,
+```
+<!--TODO: Implement -->
 
 ## 🙏 Special Thanks
 

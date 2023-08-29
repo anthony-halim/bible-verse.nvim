@@ -2,11 +2,15 @@ local M = {}
 
 ---@class BibleVerseFmtConfig
 ---@field markdown? BibleVerseFmtMarkdownConfig
+---@field nerd? BibleVerseFmtNerdConfig
 ---@field plain? BibleVerseFmtPlainConfig
 
 ---@class BibleVerseFmtMarkdownConfig
 ---@field separator? string
 ---@field quote_block? boolean
+---@field omit_translation_footnote? boolean
+
+---@class BibleVerseFmtNerdConfig
 ---@field omit_translation_footnote? boolean
 
 ---@class BibleVerseFmtPlainConfig
@@ -30,6 +34,12 @@ M.defaults = {
 		-- header_delimiter: text to be used to separate between the content of verse and the verse.
 		header_delimiter = " ",
 		-- omit_translation_footnote: omit translation name from the plain text.
+		omit_translation_footnote = true,
+	},
+
+	---@type BibleVerseFmtNerdConfig
+	nerd = {
+		-- omit_translation_footnote: omit translation name from the NerdFont text.
 		omit_translation_footnote = true,
 	},
 }

@@ -25,6 +25,7 @@ M.defaults = {
 			winhighlight = "FloatBorder:FloatBorder",
 		},
 		size = {
+			-- max_width: maximum width of the insert component, in number of cells
 			max_width = 50, -- custom attribute
 			height = 1,
 		},
@@ -75,6 +76,9 @@ M.defaults = {
 			},
 		},
 		size = {
+			-- window_width_percentage: % of current window width used for the popup, in float.
+			-- window_max_width_percentage: maximum % of current window width used for the popup, in float.
+			-- window_max_height_percentage: maximum % of current window height used for the popup, in float.
 			window_width_percentage = 0.5, -- custom attribute
 			window_max_width_percentage = 0.8, -- custom attribute
 			window_max_height_percentage = 0.7, -- custom attribute
