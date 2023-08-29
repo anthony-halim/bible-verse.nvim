@@ -54,7 +54,7 @@ function M.wrap(str_arr, limit)
 		else
 			str:gsub(whitespace_re, function(whitespace_start_idx, whitespace_end_idx)
 				if whitespace_start_idx - start > limit then
-					table.insert(lines, str:sub(start, whitespace_end_idx))
+					table.insert(lines, str:sub(start, whitespace_start_idx))
 					start = whitespace_end_idx
 				end
 			end)
