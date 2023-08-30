@@ -2,7 +2,8 @@ local M = {}
 
 ---@class BibleVerseConfig
 ---@field default_behaviour? BibleVerseCmd
----@field insert_format? FormatterType
+---@field query_format? "plain"|"nerd"
+---@field insert_format? "markdown"|"plain"
 ---@field diatheke BibleVerseDiathekeConfig
 ---@field ui? BibleVerseUiConfig
 ---@field formatter? BibleVerseFmtConfig
@@ -13,6 +14,11 @@ M.defaults = {
 	--     Options: "query" - on verse query, display the result on the screen as a popup.
 	--              "insert" - on verse query, insert the result below the cursor of the current buffer.
 	default_behaviour = "query",
+
+	-- query_format: text format on 'query' behaviour.
+	--     Options: "nerd" - query as nerd formatted text.
+	--              "plain" - query as plain text.
+	query_format = "nerd",
 
 	-- insert_format: text format on 'insert' behaviour.
 	--     Options: "markdown" - insert as markdown formatted text.
@@ -34,6 +40,10 @@ function M.setup(opts)
 	M.options = vim.tbl_deep_extend("force", M.defaults, opts)
 
 	-- Assert config is sane
+	assert(
+		M.options.query_format == "nerd" or M.options.query_format == "plain",
+		"unsupported_opts|query_format=" .. M.options.query_format
+	)
 	assert(
 		M.options.insert_format == "markdown" or M.options.insert_format == "plain",
 		"unsupported_opts|insert_format=" .. M.options.insert_format
