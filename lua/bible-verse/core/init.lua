@@ -34,8 +34,7 @@ end
 function M.query_and_show()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.query_input)
-	local buffer_handler = 0
-	local window_size = Utils.get_win_size(0)
+	local window_size = Utils.get_win_size()
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
@@ -45,7 +44,7 @@ function M.query_and_show()
 	-- On submit function
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
-			window_size = Utils.get_win_size(buffer_handler)
+			window_size = Utils.get_win_size()
 			local popup_conf = vim.deepcopy(Config.options.ui.popup)
 
 			local popup_width = math.ceil(
@@ -72,8 +71,7 @@ end
 function M.query_and_insert()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.insert_input)
-	local buffer_handler = 0
-	local window_size = Utils.get_win_size(buffer_handler)
+	local window_size = Utils.get_win_size()
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
@@ -84,7 +82,7 @@ function M.query_and_insert()
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
 			local query_result = process_query(input, Config.options.insert_format, 0)
-			local row, _ = unpack(vim.api.nvim_win_get_cursor(buffer_handler))
+			local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
 			vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, query_result)
 		end
 	end
