@@ -1,3 +1,5 @@
+local Commands = require("bible-verse.commands")
+
 local M = {}
 
 ---@param opts BibleVerseConfig
@@ -19,6 +21,17 @@ M.setup = function(opts)
 	end
 
 	load()
+end
+
+-- Public APIs
+M.cmd = function()
+	Commands.cmd("")
+end
+M.query = function()
+	Commands.cmd("query")
+end
+M.insert = function()
+	Commands.cmd("insert")
 end
 
 return M

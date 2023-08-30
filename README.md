@@ -114,9 +114,9 @@ Below is the full configuration as well as the defaults. You can override any of
     default_behaviour = "query",
 
 	-- query_format: text format on 'query' behaviour.
-	--     Options: "nerd" - query as nerd formatted text.
+	--     Options: "bibleverse" - query as bibleverse formatted text.
 	--              "plain" - query as plain text.
-	query_format = "nerd",
+	query_format = "bibleverse",
 
     -- insert_format: text format on 'insert' behaviour. 
     --     Options: "markdown" - insert as Markdown formatted text.
@@ -149,9 +149,9 @@ Below is the full configuration as well as the defaults. You can override any of
             omit_translation_footnote = true,
         },
 
-        -- Formatter settings for nerd
-        nerd = {
-            -- omit_translation_footnote: omit translation name from the NerdFont text.
+        -- Formatter settings for bibleverse
+        bibleverse = {
+            -- omit_translation_footnote: omit translation name from the bibleverseFont text.
             omit_translation_footnote = false,
         }
     },
@@ -253,20 +253,15 @@ For how `formatter.*`, affects the output, see [Formatter](#formatter).
  
 | Command  | Lua | Description |
 |--------- | -------------- | -------------- |
-| `:BibleVerse`    | `require("bible-verse.commands").cmd()`    | Execute default behaviour set as per `config.default_behaviour`.|
-| `:BibleVerseQuery` or `:BibleVerse query`    | `require("bible-verse.commands").cmd("query")`    | Query Bible verse and display it on the screen as a popup. |
-| `:BibleVerseInsert` or `:BibleVerse insert`    | `require("bible-verse.commands").cmd("insert")`    | Query Bible verse and insert it below the cursor in the current buffer. |
+| `:BibleVerse`    | `require("bible-verse").cmd()`    | Execute default behaviour set as per `config.default_behaviour`.|
+| `:BibleVerseQuery` or `:BibleVerse query`    | `require("bible-verse").query()`    | Query Bible verse and display it on the screen as a popup. |
+| `:BibleVerseInsert` or `:BibleVerse insert`    | `require("bible-verse").insert()`    | Query Bible verse and insert it below the cursor in the current buffer. |
 
 This plugin does not set any key bindings by default. You can set keymaps to trigger the `Lua` commands, as shown below:
 
 ```lua
-vim.keymap.set("n", "<leader>Bq", function()
-  require("bible-verse.commands").cmd("query")
-end, { desc = "[B]ible verse [q]uery"})
-
-vim.keymap.set("n", "<leader>Bi", function()
-  require("bible-verse.commands").cmd("insert")
-end, { desc = "[B]ible verse [i]nsert"})
+vim.keymap.set("n", "<leader>Bq", require("bible-verse").query, { desc = "[B]ible verse [q]uery"})
+vim.keymap.set("n", "<leader>Bi", require("bible-verse").insert, { desc = "[B]ible verse [i]nsert"})
 ```
 
 ## 🔤 Formatter
@@ -355,11 +350,10 @@ John 1:1 In the beginning was the Word, and the Word was with God, and the Word 
 
 </details>
 
-### Nerd
+### bibleverse
 
-With the default nerd settings:
+With the default bibleverse settings:
 ```lua
-header_delimiter = " ",
 omit_translation_footnote = true,
 ```
 <!--TODO: Implement -->

@@ -1,6 +1,6 @@
 local Config = require("bible-verse.config")
 
----@alias FormatterType "plain"|"markdown"|"nerd"
+---@alias FormatterType "plain"|"markdown"|"bibleverse"
 ---@alias FormatFunc fun(verses_table: DiathekeVerse[]): string[]
 
 local M = {}
@@ -24,8 +24,8 @@ function M.setup()
 		markdown = function(verses_table)
 			return require("bible-verse.formatter.markdown").format(verses_table)
 		end,
-		nerd = function(verses_table)
-			return require("bible-verse.formatter.nerd").format(verses_table)
+		bibleverse = function(verses_table)
+			return require("bible-verse.formatter.bibleverse").format(verses_table)
 		end,
 		plain = function(verses_table)
 			return require("bible-verse.formatter.plain").format(verses_table)

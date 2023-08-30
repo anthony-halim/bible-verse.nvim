@@ -2,7 +2,7 @@ local M = {}
 
 ---@class BibleVerseConfig
 ---@field default_behaviour? BibleVerseCmd
----@field query_format? "plain"|"nerd"
+---@field query_format? "plain"|"bibleverse"
 ---@field insert_format? "markdown"|"plain"
 ---@field diatheke BibleVerseDiathekeConfig
 ---@field ui? BibleVerseUiConfig
@@ -16,9 +16,9 @@ M.defaults = {
 	default_behaviour = "query",
 
 	-- query_format: text format on 'query' behaviour.
-	--     Options: "nerd" - query as nerd formatted text.
+	--     Options: "bibleverse" - query as bibleverse formatted text.
 	--              "plain" - query as plain text.
-	query_format = "nerd",
+	query_format = "bibleverse",
 
 	-- insert_format: text format on 'insert' behaviour.
 	--     Options: "markdown" - insert as markdown formatted text.
@@ -41,7 +41,7 @@ function M.setup(opts)
 
 	-- Assert config is sane
 	assert(
-		M.options.query_format == "nerd" or M.options.query_format == "plain",
+		M.options.query_format == "bibleverse" or M.options.query_format == "plain",
 		"unsupported_opts|query_format=" .. M.options.query_format
 	)
 	assert(
