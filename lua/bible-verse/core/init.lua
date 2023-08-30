@@ -19,9 +19,7 @@ local function process_query(query, formatter_type, output_wrap_line_at)
 		error("query returned error|err=" .. res_or_err)
 	end
 	local output = Formatter.format(res_or_err, formatter_type)
-
-	-- NOTE: -4 is for 2 cell padding on each side
-	return FormatterUtil.wrap(output, output_wrap_line_at - 4)
+	return FormatterUtil.wrap(output, output_wrap_line_at)
 end
 
 function M.setup()
