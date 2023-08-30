@@ -26,17 +26,23 @@ end
 
 --- Format verses_table by book:chapter.
 ---@param verses_table DiathekeVerse[] parsed diatheke output.
----@return table<string, DiathekeVerse[]> verses_book_chapter parsed diatheke output
-function M.organise_by_bible_chapter(verses_table)
-	local by_bible_chapter = {}
+---@return { name: string, verses: DiathekeVerse[]}[] sorted_verse_table sorted output
+function M.organise_by_sorted_bible_chapter(verses_table)
+	local sorted_bible_chapter = {}
 	for _, verse in ipairs(verses_table) do
 		local book_chapter_name = string.format("%s %s", verse.book, verse.chapter)
-		if by_bible_chapter[book_chapter_name] == nil then
-			by_bible_chapter[book_chapter_name] = {}
+		if
+			sorted_bible_chapter[#sorted_bible_chapter] == nil
+			or sorted_bible_chapter[#sorted_bible_chapter].name ~= book_chapter_name
+		then
+			table.insert(sorted_bible_chapter, {
+				name = book_chapter_name,
+				verses = {},
+			})
 		end
-		table.insert(by_bible_chapter[book_chapter_name], verse)
+		table.insert(sorted_bible_chapter[#sorted_bible_chapter].verses, verse)
 	end
-	return by_bible_chapter
+	return sorted_bible_chapter
 end
 
 ---@param str_arr string[] output to wrap
@@ -54,7 +60,7 @@ function M.wrap(str_arr, limit)
 		else
 			str:gsub(whitespace_re, function(whitespace_start_idx, whitespace_end_idx)
 				if whitespace_start_idx - start > limit then
-					table.insert(lines, str:sub(start, whitespace_end_idx))
+					table.insert(lines, str:sub(start, whitespace_start_idx))
 					start = whitespace_end_idx
 				end
 			end)

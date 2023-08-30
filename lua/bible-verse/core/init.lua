@@ -57,7 +57,7 @@ function M.query_and_show()
 			)
 			local popup_max_height = math.ceil(window_size.height * popup_conf.size.window_max_height_percentage)
 
-			local query_result = process_query(input, "nerd", popup_width)
+			local query_result = process_query(input, Config.options.query_format, popup_width)
 
 			popup_conf.size.width = popup_width
 			popup_conf.size.height = Utils.clamp(#query_result, 1, popup_max_height)
