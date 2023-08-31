@@ -113,10 +113,10 @@ Below is the full configuration as well as the defaults. You can override any of
     --              "insert" - on verse query, insert the result below the cursor of the current buffer.
     default_behaviour = "query",
 
-	-- query_format: text format on 'query' behaviour.
-	--     Options: "bibleverse" - query as bibleverse formatted text.
-	--              "plain" - query as plain text.
-	query_format = "bibleverse",
+    -- query_format: text format on 'query' behaviour.
+    --     Options: "bibleverse" - query as nerd formatted text.
+    --              "plain" - query as plain text.
+    query_format = "bibleverse",
 
     -- insert_format: text format on 'insert' behaviour. 
     --     Options: "markdown" - insert as Markdown formatted text.

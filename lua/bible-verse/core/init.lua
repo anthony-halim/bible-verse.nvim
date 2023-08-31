@@ -1,9 +1,12 @@
 local Config = require("bible-verse.config")
 local Formatter = require("bible-verse.formatter")
-local FormatterUtil = require("bible-verse.utils.formatter")
+
 local Utils = require("bible-verse.utils")
+local FormatterUtil = require("bible-verse.utils.formatter")
+
 local Diatheke = require("bible-verse.core.diatheke")
 local Ui = require("bible-verse.core.ui")
+local Highlight = require("bible-verse.core.highlight")
 
 local M = {}
 
@@ -62,7 +65,11 @@ function M.query_and_show()
 			popup_conf.size.width = popup_width
 			popup_conf.size.height = Utils.clamp(#query_result, 1, popup_max_height)
 
-			Ui:popup(popup_conf, query_result)
+			Ui:popup(popup_conf, query_result, function(winid)
+				Highlight:attach(winid)
+			end, function(winid)
+				Highlight:detach(winid)
+			end)
 		end
 	end
 
