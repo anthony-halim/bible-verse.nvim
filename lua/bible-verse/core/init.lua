@@ -19,9 +19,7 @@ local function process_query(query, formatter_type, output_wrap_line_at)
 		error("query returned error|err=" .. res_or_err)
 	end
 	local output = Formatter.format(res_or_err, formatter_type)
-
-	-- NOTE: -4 is for 2 cell padding on each side
-	return FormatterUtil.wrap(output, output_wrap_line_at - 4)
+	return FormatterUtil.wrap(output, output_wrap_line_at)
 end
 
 function M.setup()
@@ -36,7 +34,8 @@ end
 function M.query_and_show()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.query_input)
-	local window_size = Utils.get_win_size(0)
+	local cur_window_handler = vim.api.nvim_get_current_win()
+	local window_size = Utils.get_win_size(cur_window_handler)
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
@@ -46,9 +45,10 @@ function M.query_and_show()
 	-- On submit function
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
-			window_size = Utils.get_win_size(0)
-			local popup_conf = vim.deepcopy(Config.options.ui.popup)
+			cur_window_handler = vim.api.nvim_get_current_win()
+			window_size = Utils.get_win_size(cur_window_handler)
 
+			local popup_conf = vim.deepcopy(Config.options.ui.popup)
 			local popup_width = math.ceil(
 				math.min(
 					window_size.width * popup_conf.size.window_max_width_percentage,
@@ -73,7 +73,8 @@ end
 function M.query_and_insert()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.insert_input)
-	local window_size = Utils.get_win_size(0)
+	local cur_window_handler = vim.api.nvim_get_current_win()
+	local window_size = Utils.get_win_size(cur_window_handler)
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
@@ -84,8 +85,8 @@ function M.query_and_insert()
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
 			local query_result = process_query(input, Config.options.insert_format, 0)
-			local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-			vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, query_result)
+			local row, _ = unpack(vim.api.nvim_win_get_cursor(cur_window_handler))
+			vim.api.nvim_buf_set_lines(cur_window_handler, row - 1, row - 1, false, query_result)
 		end
 	end
 

@@ -25,7 +25,7 @@ function M.format(verses_table)
 			table.insert(res, "")
 		end
 	end
-	if not Config.options.formatter.nerd.omit_translation_footnote then
+	if not Config.options.formatter.bibleverse.omit_translation_footnote then
 		table.insert(res, "")
 		table.insert(res, string.format("%s", Config.options.diatheke.translation))
 	end

@@ -2,7 +2,7 @@ local M = {}
 
 ---@class BibleVerseFmtConfig
 ---@field markdown? BibleVerseFmtMarkdownConfig
----@field nerd? BibleVerseFmtNerdConfig
+---@field bibleverse? BibleVerseFmtBibleVerseConfig
 ---@field plain? BibleVerseFmtPlainConfig
 
 ---@class BibleVerseFmtMarkdownConfig
@@ -10,7 +10,7 @@ local M = {}
 ---@field quote_block? boolean
 ---@field omit_translation_footnote? boolean
 
----@class BibleVerseFmtNerdConfig
+---@class BibleVerseFmtBibleVerseConfig
 ---@field omit_translation_footnote? boolean
 
 ---@class BibleVerseFmtPlainConfig
@@ -37,9 +37,9 @@ M.defaults = {
 		omit_translation_footnote = true,
 	},
 
-	---@type BibleVerseFmtNerdConfig
-	nerd = {
-		-- omit_translation_footnote: omit translation name from the NerdFont text.
+	---@type BibleVerseFmtBibleVerseConfig
+	bibleverse = {
+		-- omit_translation_footnote: omit translation name from the BibleVerse text.
 		omit_translation_footnote = true,
 	},
 }
