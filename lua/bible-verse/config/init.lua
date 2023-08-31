@@ -7,6 +7,7 @@ local M = {}
 ---@field diatheke BibleVerseDiathekeConfig
 ---@field ui? BibleVerseUiConfig
 ---@field formatter? BibleVerseFmtConfig
+---@field ns? number
 
 ---@type BibleVerseConfig
 M.defaults = {
@@ -48,6 +49,8 @@ function M.setup(opts)
 		M.options.insert_format == "markdown" or M.options.insert_format == "plain",
 		"unsupported_opts|insert_format=" .. M.options.insert_format
 	)
+
+	M.ns = vim.api.nvim_create_namespace("bible-verse")
 end
 
 return M
