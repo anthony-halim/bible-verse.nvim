@@ -8,46 +8,52 @@ local M = {
 	buf_handlers = {},
 }
 
----@param win number window handler
+---@param win integer window handler
 function M:attach(win)
-	-- if not Utils.is_valid_win_and_buf(win) then
-	-- 	return
-	-- end
-	--
-	-- local buf_handler = vim.api.nvim_win_get_buf(win)
+	if not Utils.is_valid_win_and_buf(win) then
+		vim.notify("Invalid window: " .. tostring(win))
+		return
+	end
+
+	local buf_handler = vim.api.nvim_win_get_buf(win)
 
 	-- Fresh buffer to attach
-	-- if not self.buf_handlers[buf_handler] then
-	-- vim.api.nvim_buf_attach(buf_handler, false, {
-	-- 	on_lines = function(_event, _buf, _tick, first, _last, last_new)
-	-- 		-- Detach
-	-- 		if not vim.api.nvim_buf_is_valid(buf_handler) then
-	-- 			return true
-	-- 		end
-	-- 		-- TODO: Redraw
-	-- 	end,
-	-- 	on_detach = function()
-	-- 		self.buf_handlers[buf_handler] = nil
-	-- 	end,
-	-- })
-	-- self.buf_handlers[buf_handler] = true
-	-- end
+	if not self.buf_handlers[buf_handler] then
+		vim.notify("Attaching to buffer: " .. tostring(buf_handler))
+		vim.api.nvim_buf_attach(buf_handler, false, {
+			on_lines = function(_event, _buf, _tick, first, _last, last_new)
+				vim.notify("_event")
+				vim.notify(_event)
+				-- 		-- Detach
+				-- 		if not vim.api.nvim_buf_is_valid(buf_handler) then
+				-- 			return true
+				-- 		end
+				-- 		-- TODO: Redraw
+			end,
+			on_detach = function()
+				vim.notify("Detaching from buffer: " .. tostring(buf_handler))
+				self.buf_handlers[buf_handler] = nil
+			end,
+		})
+		self.buf_handlers[buf_handler] = true
+	end
 
 	-- Fresh window to attach
-	-- if not self.win_handlers[win] then
-	-- 	M._highlight_win(win)
-	-- 	self.win_handlers[win] = true
-	-- end
+	if not self.win_handlers[win] then
+		vim.notify("Attaching to window: " .. tostring(win))
+		-- 	M._highlight_win(win)
+		self.win_handlers[win] = true
+	end
 end
 
----@param win number window handler
+---@param win integer window handler
 function M:detach(win)
 	-- if Utils.is_valid_win_and_buf(win) then
 	-- 	local buf_handler = vim.api.nvim_win_get_buf(win)
 	-- 	self.buf_handlers[buf_handler] = nil
 	-- end
-	--
-	-- self.win_handlers[win] = nil
+	vim.notify("Detaching from win:" .. tostring(win))
+	self.win_handlers[win] = nil
 end
 
 -- ---@param win number window handler

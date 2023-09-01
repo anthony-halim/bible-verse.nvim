@@ -16,9 +16,6 @@ function M:input(config, on_submit, on_mount, on_unmount)
 	local cleanup = function()
 		if self.input_ui then
 			self.input_ui:unmount()
-			if on_unmount then
-				on_unmount(self.input_ui.winid)
-			end
 			self.input_ui = nil
 		end
 	end
@@ -40,14 +37,19 @@ function M:input(config, on_submit, on_mount, on_unmount)
 		cleanup()
 	end, { noremap = true })
 	self.input_ui:on(NuiEvent.BufLeave, function()
+		-- NOTE: Other exit events will result in BufLeave
+		-- We only perform on_unmount here
+		if on_unmount then
+			on_unmount(self.input_ui.winid)
+		end
 		cleanup()
 	end, { once = true })
+
+	self.input_ui:mount()
 
 	if on_mount then
 		on_mount(self.input_ui.winid)
 	end
-
-	self.input_ui:mount()
 end
 
 ---Show message as a pop up window.
@@ -59,9 +61,6 @@ function M:popup(config, message_table, on_mount, on_unmount)
 	local cleanup = function()
 		if self.popup_ui then
 			self.popup_ui:unmount()
-			if on_unmount then
-				on_unmount(self.popup_ui.winid)
-			end
 			self.popup_ui = nil
 		end
 	end
@@ -80,17 +79,22 @@ function M:popup(config, message_table, on_mount, on_unmount)
 		cleanup()
 	end, { noremap = true })
 	self.popup_ui:on(NuiEvent.BufLeave, function()
+		-- NOTE: Other exit events will result in BufLeave
+		-- We only perform on_unmount here
+		if on_unmount then
+			on_unmount(self.popup_ui.winid)
+		end
 		cleanup()
 	end, { once = true })
 
 	-- Set content
 	vim.api.nvim_buf_set_lines(self.popup_ui.bufnr, 0, 0, false, message_table)
 
+	self.popup_ui:mount()
+
 	if on_mount then
 		on_mount(self.popup_ui.winid)
 	end
-
-	self.popup_ui:mount()
 end
 
 return M
