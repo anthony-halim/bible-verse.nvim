@@ -37,28 +37,26 @@ end
 function M.query_and_show()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.query_input)
-	local cur_window_handler = vim.api.nvim_get_current_win()
-	local window_size = Utils.get_win_size(cur_window_handler)
+	local relative_size = Utils.get_relative_size(input_conf.relative)
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
 
-	input_conf.size.width = Utils.clamp(border_text_len, window_size.width, input_conf.size.max_width)
+	input_conf.size.width = Utils.clamp(border_text_len, relative_size.width, input_conf.size.max_width)
 
 	-- On submit function
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
-			cur_window_handler = vim.api.nvim_get_current_win()
-			window_size = Utils.get_win_size(cur_window_handler)
-
 			local popup_conf = vim.deepcopy(Config.options.ui.popup)
+			relative_size = Utils.get_relative_size(popup_conf.relative)
+
 			local popup_width = math.ceil(
 				math.min(
-					window_size.width * popup_conf.size.window_max_width_percentage,
-					window_size.width * popup_conf.size.window_width_percentage
+					relative_size.width * popup_conf.size.max_width_percentage,
+					relative_size.width * popup_conf.size.width_percentage
 				)
 			)
-			local popup_max_height = math.ceil(window_size.height * popup_conf.size.window_max_height_percentage)
+			local popup_max_height = math.ceil(relative_size.height * popup_conf.size.max_height_percentage)
 
 			local query_result = process_query(input, Config.options.query_format, popup_width)
 
@@ -80,17 +78,17 @@ end
 function M.query_and_insert()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.insert_input)
-	local cur_window_handler = vim.api.nvim_get_current_win()
-	local window_size = Utils.get_win_size(cur_window_handler)
+	local relative_size = Utils.get_relative_size(input_conf.relative)
 
 	local border_text_len =
 		math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
 
-	input_conf.size.width = Utils.clamp(border_text_len, window_size.width, input_conf.size.max_width)
+	input_conf.size.width = Utils.clamp(border_text_len, relative_size.width, input_conf.size.max_width)
 
 	-- On submit function
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
+			local cur_window_handler = vim.api.nvim_get_current_win()
 			local query_result = process_query(input, Config.options.insert_format, 0)
 			local row, _ = unpack(vim.api.nvim_win_get_cursor(cur_window_handler))
 			vim.api.nvim_buf_set_lines(cur_window_handler, row - 1, row - 1, false, query_result)

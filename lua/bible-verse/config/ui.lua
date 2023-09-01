@@ -41,7 +41,7 @@ M.defaults = {
 	query_input = {
 		enter = true,
 		focusable = true,
-		relative = "win",
+		relative = "editor",
 		border = {
 			style = "rounded",
 			padding = { 0, 1 },
@@ -66,7 +66,7 @@ M.defaults = {
 	popup = {
 		enter = true,
 		focusable = true,
-		relative = "win",
+		relative = "editor",
 		border = {
 			style = "rounded",
 			padding = { 1, 1 },
@@ -76,12 +76,12 @@ M.defaults = {
 			},
 		},
 		size = {
-			-- window_width_percentage: % of current window width used for the popup, in float.
-			-- window_max_width_percentage: maximum % of current window width used for the popup, in float.
-			-- window_max_height_percentage: maximum % of current window height used for the popup, in float.
-			window_width_percentage = 0.5, -- custom attribute
-			window_max_width_percentage = 0.8, -- custom attribute
-			window_max_height_percentage = 0.7, -- custom attribute
+			-- width_percentage: % of current width used for the popup, in float.
+			-- max_width_percentage: maximum % of current width used for the popup, in float.
+			-- max_height_percentage: maximum % of current height used for the popup, in float.
+			width_percentage = 0.5, -- custom attribute
+			max_width_percentage = 0.8, -- custom attribute
+			max_height_percentage = 0.7, -- custom attribute
 		},
 		position = "50%",
 		zindex = 50,

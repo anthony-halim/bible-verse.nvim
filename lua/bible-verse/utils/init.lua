@@ -20,21 +20,43 @@ function M.clamp(x, min, max)
 	return math.min(max, math.max(min, x))
 end
 
---- Get current window width and height. If current window is a floating window, fallback to editor size.
----@param win? number window handler
+--- Get current window width and height.
+--- If current window is a floating window, fallback to editor size.
+---@param win? number window handle
+---@param disable_floating_fallback_to_editor? boolean disable fallback
 ---@return { width: integer, height: integer } size in number of cells
-function M.get_win_size(win)
-	local window_handler = win or vim.api.nvim_get_current_win()
-	if vim.api.nvim_win_get_config(window_handler).relative ~= "" then
-		return {
-			width = vim.o.columns,
-			height = vim.o.lines,
-		}
+function M.get_win_size(win, disable_floating_fallback_to_editor)
+	win = win or vim.api.nvim_get_current_win()
+	disable_floating_fallback_to_editor = disable_floating_fallback_to_editor == nil or true
+
+	if vim.api.nvim_win_get_config(win).relative ~= "" and disable_floating_fallback_to_editor then
+		return M.get_editor_size()
 	else
 		return {
-			width = vim.api.nvim_win_get_width(window_handler),
-			height = vim.api.nvim_win_get_height(window_handler),
+			width = vim.api.nvim_win_get_width(win),
+			height = vim.api.nvim_win_get_height(win),
 		}
+	end
+end
+
+---@return { width: integer, height: integer } size in number of cells
+function M.get_editor_size()
+	return {
+		width = vim.o.columns,
+		height = vim.o.lines,
+	}
+end
+
+---@param type "'cursor'"|"'editor'"|"'win'"
+---@return { width: integer, height: integer } size in number of cells
+function M.get_relative_size(type)
+	if type == "editor" then
+		return M.get_editor_size()
+	elseif type == "win" or type == "cursor" then
+		return M.get_win_size()
+	else
+		-- Fallback
+		return M.get_editor_size()
 	end
 end
 

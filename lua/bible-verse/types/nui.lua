@@ -22,9 +22,9 @@
 ---@class _NuiPopUpSize
 ---@field width? number|string
 ---@field height? number|string
----@field window_width_percentage? number -- custom attribute
----@field window_max_width_percentage? number -- custom attribute
----@field window_max_height_percentage? number -- custom attribute
+---@field width_percentage? number -- custom attribute
+---@field max_width_percentage? number -- custom attribute
+---@field max_height_percentage? number -- custom attribute
 --
 ---@class _NuiPopupOptions: _NuiBaseOptions
 ---@field size? _NuiPopUpSize
