@@ -45,31 +45,4 @@ function M.organise_by_sorted_bible_chapter(verses_table)
 	return sorted_bible_chapter
 end
 
----@param str_arr string[] output to wrap
----@param limit number character length
----@return string[] output that is wrapped
-function M.wrap(str_arr, limit)
-	if limit <= 0 then
-		return str_arr
-	end
-
-	local lines, whitespace_re = {}, "()%S+%s+()"
-	for _, str in ipairs(str_arr) do
-		if str:len() <= limit then
-			table.insert(lines, str)
-		else
-			local start = 1
-			str:gsub(whitespace_re, function(word_start_idx, next_word_start_idx)
-				if next_word_start_idx - start > limit then
-					table.insert(lines, str:sub(start, word_start_idx - 1))
-					start = next_word_start_idx
-				end
-			end)
-			table.insert(lines, str:sub(start))
-		end
-	end
-
-	return lines
-end
-
 return M

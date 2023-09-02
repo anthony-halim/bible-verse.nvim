@@ -1,5 +1,5 @@
 local Config = require("bible-verse.config")
-local FormatterUtil = require("bible-verse.utils.formatter")
+local FormatterCommon = require("bible-verse.formatter.common")
 
 local M = {}
 
@@ -8,7 +8,7 @@ local M = {}
 ---@return string[] output individual lines of the output.
 function M.format(verses_table)
 	local res = {}
-	local sorted_bible_chapter = FormatterUtil.organise_by_sorted_bible_chapter(verses_table)
+	local sorted_bible_chapter = FormatterCommon.organise_by_sorted_bible_chapter(verses_table)
 	local sorted_bible_chapter_len = #sorted_bible_chapter
 
 	for idx, sorted_chap in ipairs(sorted_bible_chapter) do
@@ -17,7 +17,10 @@ function M.format(verses_table)
 
 		local chapter_res = {}
 		for _, verse in ipairs(sorted_chap.verses) do
-			table.insert(chapter_res, string.format("%s%s ", FormatterUtil.to_sup_num(verse.verse_number), verse.verse))
+			table.insert(
+				chapter_res,
+				string.format("%s%s ", FormatterCommon.to_sup_num(verse.verse_number), verse.verse)
+			)
 		end
 		table.insert(res, table.concat(chapter_res))
 
