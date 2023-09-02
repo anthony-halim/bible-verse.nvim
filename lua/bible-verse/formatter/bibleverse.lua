@@ -16,7 +16,12 @@ function M.format(verses_table)
 		table.insert(res, "")
 
 		local chapter_res = {}
-		for _, verse in ipairs(sorted_chap.verses) do
+		for v_idx, verse in ipairs(sorted_chap.verses) do
+			if v_idx > 1 and verse.verse_prefix_newline then
+				table.insert(res, table.concat(chapter_res))
+				table.insert(res, "")
+				chapter_res = {}
+			end
 			table.insert(
 				chapter_res,
 				string.format("%s%s ", FormatterCommon.to_sup_num(verse.verse_number), verse.verse)

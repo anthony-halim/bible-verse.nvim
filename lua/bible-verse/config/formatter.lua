@@ -40,7 +40,7 @@ M.defaults = {
 	---@type BibleVerseFmtBibleVerseConfig
 	bibleverse = {
 		-- omit_translation_footnote: omit translation name from the BibleVerse text.
-		omit_translation_footnote = true,
+		omit_translation_footnote = false,
 	},
 }
 
