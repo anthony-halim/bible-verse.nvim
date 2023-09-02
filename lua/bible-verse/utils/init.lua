@@ -112,4 +112,9 @@ function M.is_valid_win_and_buf(win, buf_type_exclude, buf_must_be_modifiable)
 	return true
 end
 
+---@param s string trimmed leading and trailing whitespace
+function M.trim(s)
+	return s:match("^%s*(.*%S)") or ""
+end
+
 return M
