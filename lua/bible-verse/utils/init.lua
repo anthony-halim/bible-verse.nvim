@@ -130,7 +130,7 @@ function M.wrap(str_arr, limit)
 			str:gsub(whitespace_re, function(word_start_idx, next_word_start_idx)
 				if next_word_start_idx - start > limit then
 					table.insert(lines, str:sub(start, word_start_idx - 1))
-					start = next_word_start_idx
+					start = word_start_idx
 				end
 			end)
 			table.insert(lines, str:sub(start))

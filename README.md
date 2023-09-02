@@ -124,7 +124,7 @@ Below is the full configuration as well as the defaults. You can override any of
     insert_format = "markdown",
 
 	-- Forbid plugin on the following buffer filetypes
-    exclude_buffers = {},
+    exclude_buffer_filetypes = { "neo-tree", "NvimTree" },
 
     diatheke = {
         -- (MANDATORY) translation: diatheke module to be used.

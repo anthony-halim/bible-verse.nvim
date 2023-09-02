@@ -1,14 +1,16 @@
 local M = {}
 
 ---@class BibleVerseConfig
----@field default_behaviour? BibleVerseCmd
----@field query_format? "plain"|"bibleverse"
----@field insert_format? "markdown"|"plain"
----@field exclude_buffers string[]
+---@field default_behaviour BibleVerseCmd
+---@field query_format "plain"|"bibleverse"
+---@field insert_format "markdown"|"plain"
+---@field exclude_buffer_filetypes string[]
 ---@field diatheke BibleVerseDiathekeConfig
----@field ui? BibleVerseUiConfig
----@field formatter? BibleVerseFmtConfig
+---@field ui BibleVerseUiConfig
+---@field formatter BibleVerseFmtConfig
+---@field highlighter BibleVerseHLConfig
 ---@field ns? number
+---@field aug? number
 
 ---@type BibleVerseConfig
 M.defaults = {
@@ -28,11 +30,12 @@ M.defaults = {
 	insert_format = "markdown",
 
 	-- Forbid plugin on the following buffer filetypes
-	exclude_buffers = {},
+	exclude_buffer_filetypes = { "neo-tree", "NvimTree" },
 
 	diatheke = require("bible-verse.config.diatheke").defaults,
 	formatter = require("bible-verse.config.formatter").defaults,
 	ui = require("bible-verse.config.ui").defaults,
+	highlighter = require("bible-verse.config.highlighter").defaults,
 }
 
 ---@type BibleVerseConfig
@@ -46,15 +49,19 @@ function M.setup(opts)
 
 	-- Assert config is sane
 	assert(
-		M.options.query_format == "bibleverse" or M.options.query_format == "plain",
+		vim.tbl_contains({ "bibleverse", "plain" }, M.options.query_format),
 		"unsupported_opts|query_format=" .. M.options.query_format
 	)
 	assert(
-		M.options.insert_format == "markdown" or M.options.insert_format == "plain",
+		vim.tbl_contains({ "markdown", "plain" }, M.options.insert_format),
 		"unsupported_opts|insert_format=" .. M.options.insert_format
 	)
 
-	M.ns = vim.api.nvim_create_namespace("bible-verse")
+	M.options.highlighter =
+		vim.tbl_deep_extend("force", M.options.highlighter, require("bible-verse.config.highlighter")._default_override)
+
+	M.ns = vim.api.nvim_create_namespace("bible-verse-ns")
+	M.aug = vim.api.nvim_create_augroup("bible-verse-aug", { clear = true })
 end
 
 return M

@@ -30,6 +30,22 @@ function M.setup()
 		Config.options.diatheke.translation and string.len(Config.options.diatheke.translation) > 0,
 		"missing configuration|diatheke.translation"
 	)
+
+	-- Attach highlighting autocmd
+	-- vim.api.nvim_create_autocmd({ "WinScrolled" }, {
+	-- 	group = Config.aug,
+	-- 	callback = function(ev, data)
+	-- TODO: Check v:event
+	-- 	end,
+	-- })
+
+	-- Cleanup autocmd
+	-- vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+	-- 	group = Config.aug,
+	-- 	callback = function()
+	-- 		vim.api.nvim_del_augroup_by_id(Config.aug)
+	-- 	end,
+	-- })
 end
 
 --- Prompt for user input and show it back to the screen
@@ -75,6 +91,14 @@ end
 
 --- Prompt for user input and insert it below the cursor
 function M.query_and_insert()
+	if not Utils.is_valid_win_and_buf(vim.api.nvim_get_current_win(), Config.options.exclude_buffer_filetypes) then
+		vim.notify(
+			"BibleVerse: invalid window/buffer to do insertion. Did you try to insert on wrong buffer?",
+			vim.log.levels.WARN
+		)
+		return
+	end
+
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.insert_input)
 	local relative_size = Utils.get_relative_size(input_conf.relative)
@@ -92,9 +116,12 @@ function M.query_and_insert()
 
 			if
 				not Utils.is_valid_win(cur_window_handler)
-				or not Utils.is_valid_buf(cur_buf_handler, Config.options.exclude_buffers)
+				or not Utils.is_valid_buf(cur_buf_handler, Config.options.exclude_buffer_filetypes)
 			then
-				vim.notify_once("BibleVerse: invalid buffer to do insertion", vim.log.levels.WARN)
+				vim.notify(
+					"BibleVerse: invalid window/buffer to do insertion. Did you try to insert on wrong buffer?",
+					vim.log.levels.WARN
+				)
 				return
 			end
 
