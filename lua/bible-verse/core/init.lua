@@ -89,9 +89,20 @@ function M.query_and_insert()
 	local on_submit = function(input)
 		if input and string.len(input) > 0 then
 			local cur_window_handler = vim.api.nvim_get_current_win()
+			local cur_buf_handler = vim.api.nvim_win_get_buf(cur_window_handler)
+
+			if
+				not Utils.is_valid_win(cur_window_handler)
+				or not Utils.is_valid_buf(cur_buf_handler, Config.options.exclude_buffers, true)
+			then
+				vim.notify_once("BibleVerse: invalid buffer to do insertion", vim.log.levels.WARN)
+				return
+			end
+
 			local query_result = process_query(input, Config.options.insert_format, 0)
 			local row, _ = unpack(vim.api.nvim_win_get_cursor(cur_window_handler))
-			vim.api.nvim_buf_set_lines(cur_window_handler, row - 1, row - 1, false, query_result)
+
+			vim.api.nvim_buf_set_lines(cur_buf_handler, row - 1, row - 1, false, query_result)
 		end
 	end
 

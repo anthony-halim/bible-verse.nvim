@@ -1,3 +1,4 @@
+local Config = require("bible-verse.config")
 local Utils = require("bible-verse.utils")
 
 local M = {
@@ -10,7 +11,7 @@ local M = {
 
 ---@param win integer window handler
 function M:attach(win)
-	if not Utils.is_valid_win_and_buf(win) then
+	if not Utils.is_valid_win_and_buf(win, Config.options.exclude_buffers) then
 		vim.notify("Invalid window: " .. tostring(win))
 		return
 	end

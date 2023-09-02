@@ -123,6 +123,9 @@ Below is the full configuration as well as the defaults. You can override any of
     --              "plain" - insert as plain text.
     insert_format = "markdown",
 
+	-- Forbid plugin on the following buffer filetypes
+    exclude_buffers = {},
+
     diatheke = {
         -- (MANDATORY) translation: diatheke module to be used.
         translation = "",

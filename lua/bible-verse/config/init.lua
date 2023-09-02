@@ -4,6 +4,7 @@ local M = {}
 ---@field default_behaviour? BibleVerseCmd
 ---@field query_format? "plain"|"bibleverse"
 ---@field insert_format? "markdown"|"plain"
+---@field exclude_buffers string[]
 ---@field diatheke BibleVerseDiathekeConfig
 ---@field ui? BibleVerseUiConfig
 ---@field formatter? BibleVerseFmtConfig
@@ -25,6 +26,9 @@ M.defaults = {
 	--     Options: "markdown" - insert as markdown formatted text.
 	--              "plain" - insert as plain text.
 	insert_format = "markdown",
+
+	-- Forbid plugin on the following buffer filetypes
+	exclude_buffers = {},
 
 	diatheke = require("bible-verse.config.diatheke").defaults,
 	formatter = require("bible-verse.config.formatter").defaults,
