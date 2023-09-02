@@ -92,7 +92,7 @@ function M.query_and_insert()
 
 			if
 				not Utils.is_valid_win(cur_window_handler)
-				or not Utils.is_valid_buf(cur_buf_handler, Config.options.exclude_buffers, true)
+				or not Utils.is_valid_buf(cur_buf_handler, Config.options.exclude_buffers)
 			then
 				vim.notify_once("BibleVerse: invalid buffer to do insertion", vim.log.levels.WARN)
 				return

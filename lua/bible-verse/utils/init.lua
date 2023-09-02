@@ -62,28 +62,25 @@ end
 
 ---@param buf integer buffer handler
 ---@param exclude? string[] type of buffers to exclude
----@param must_be_modifiable? boolean force buffer to be modifiable
 ---@return boolean
-function M.is_valid_buf(buf, exclude, must_be_modifiable)
+function M.is_valid_buf(buf, exclude)
 	exclude = exclude or {}
-	must_be_modifiable = must_be_modifiable == nil or false
 
 	if not vim.api.nvim_buf_is_valid(buf) then
+		vim.notify("Invalid buffer: " .. tostring(buf))
 		return false
 	end
 
 	-- Skip special buffers
 	local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
-	if buftype ~= "" and buftype ~= "quickfix" then
+	if buftype == "" and buftype == "quickfix" then
+		vim.notify("Invalid buffer, buftype_invalid: " .. tostring(buf) .. "|buftype=" .. buftype)
 		return false
 	end
 
 	local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
 	if vim.tbl_contains(exclude, filetype) then
-		return false
-	end
-
-	if must_be_modifiable and not vim.api.nvim_get_option_value("modifiable", { buf = buf }) then
+		vim.notify("Invalid buffer, filetype_invalid: " .. tostring(buf) .. "|filetype=" .. filetype)
 		return false
 	end
 
@@ -98,14 +95,13 @@ end
 
 ---@param win number window handler
 ---@param buf_type_exclude? string[] type of buffers to exclude
----@param buf_must_be_modifiable? boolean force buffer to be modifiable
-function M.is_valid_win_and_buf(win, buf_type_exclude, buf_must_be_modifiable)
+function M.is_valid_win_and_buf(win, buf_type_exclude)
 	if not M.is_valid_win(win) then
 		return false
 	end
 
 	local buf = vim.api.nvim_win_get_buf(win)
-	if not M.is_valid_buf(buf, buf_type_exclude, buf_must_be_modifiable) then
+	if not M.is_valid_buf(buf, buf_type_exclude) then
 		return false
 	end
 
