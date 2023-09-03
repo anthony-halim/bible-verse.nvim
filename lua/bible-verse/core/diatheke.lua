@@ -14,7 +14,7 @@ local M = {}
 local function parse_raw_output(output)
 	local verses = {}
 
-	_ = output:gsub("([%w ]+)([%d]+):([%d]+):([%s]+)([^\r\n]+)[\r\n]", function(book, chap, vnum, prefix, v)
+	_ = output:gsub("([%w ]+) ([%d]+):([%d]+):([%s]+)([^\r\n]+)[\r\n]", function(book, chap, vnum, prefix, v)
 		if book and chap and vnum and v then
 			table.insert(verses, {
 				book = book,
