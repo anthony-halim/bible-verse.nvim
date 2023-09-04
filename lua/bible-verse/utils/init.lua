@@ -93,21 +93,6 @@ function M.is_valid_win(win)
 	return vim.api.nvim_win_is_valid(win)
 end
 
----@param win number window handler
----@param buf_type_exclude? string[] type of buffers to exclude
-function M.is_valid_win_and_buf(win, buf_type_exclude)
-	if not M.is_valid_win(win) then
-		return false
-	end
-
-	local buf = vim.api.nvim_win_get_buf(win)
-	if not M.is_valid_buf(buf, buf_type_exclude) then
-		return false
-	end
-
-	return true
-end
-
 ---@param s string trimmed leading and trailing whitespace
 function M.trim(s)
 	return s:match("^%s*(.*%S)") or ""
