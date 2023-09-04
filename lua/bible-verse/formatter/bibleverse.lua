@@ -12,7 +12,7 @@ function M.format(verses_table)
 	local sorted_bible_chapter_len = #sorted_bible_chapter
 
 	for idx, sorted_chap in ipairs(sorted_bible_chapter) do
-		table.insert(res, string.format("%s", sorted_chap.name))
+		table.insert(res, string.format("bc{%s}", sorted_chap.name))
 		table.insert(res, "")
 
 		local chapter_res = {}
@@ -24,7 +24,7 @@ function M.format(verses_table)
 			end
 			table.insert(
 				chapter_res,
-				string.format("%s%s ", FormatterCommon.to_sup_num(verse.verse_number), verse.verse)
+				string.format("vn{%s}%s ", FormatterCommon.to_sup_num(verse.verse_number), verse.verse)
 			)
 		end
 		table.insert(res, table.concat(chapter_res))
@@ -35,7 +35,7 @@ function M.format(verses_table)
 	end
 	if not Config.options.formatter.bibleverse.omit_translation_footnote then
 		table.insert(res, "")
-		table.insert(res, string.format("%s", Config.options.diatheke.translation))
+		table.insert(res, string.format("t{%s}", Config.options.diatheke.translation))
 	end
 
 	return res

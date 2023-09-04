@@ -1,36 +1,27 @@
 local M = {}
 
----@class BibleVerseHLConfig
----@field bibleverse BibleVerseHLBibleVerseConfig
+---@alias BibleVerseHLConfig table<FormatterType, table<string, _BibleVerseHLSettings>>
 
 ---@class _BibleVerseHLSettings
----@field pattern? string
+---@field pattern string
 ---@field color string[]
 ---@field modifier string
 
----@class BibleVerseHLBibleVerseConfig
----@field book _BibleVerseHLSettings
----@field chapter _BibleVerseHLSettings
----@field verse_number _BibleVerseHLSettings
----@field translation _BibleVerseHLSettings
-
 ---@type BibleVerseHLConfig
 M.defaults = {
-	---@type BibleVerseHLBibleVerseConfig
 	bibleverse = {
-		book = {
-			color = {},
-			modifier = "",
-		},
-		chapter = {
+		book_chapter = {
+			pattern = "",
 			color = {},
 			modifier = "",
 		},
 		verse_number = {
+			pattern = "",
 			color = {},
 			modifier = "",
 		},
 		translation = {
+			pattern = "",
 			color = {},
 			modifier = "",
 		},
@@ -41,17 +32,14 @@ M.defaults = {
 ---@diagnostic disable:missing-fields
 M._default_override = {
 	bibleverse = {
-		book = {
-			pattern = "",
-		},
-		chapter = {
-			pattern = "",
+		book_chapter = {
+			pattern = "()bc{([%w ]+)}()",
 		},
 		verse_number = {
-			pattern = "",
+			pattern = "()vn{([%S]+)}()",
 		},
 		translation = {
-			pattern = "",
+			pattern = "()t{([%w ]+)}()",
 		},
 	},
 }

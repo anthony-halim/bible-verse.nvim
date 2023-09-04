@@ -57,8 +57,11 @@ function M.setup(opts)
 		"unsupported_opts|insert_format=" .. M.options.insert_format
 	)
 
+	-- Setup highlight
 	M.options.highlighter =
 		vim.tbl_deep_extend("force", M.options.highlighter, require("bible-verse.config.highlighter")._default_override)
+
+	vim.cmd("hi def bibleversehl guibg=red")
 
 	M.ns = vim.api.nvim_create_namespace("bible-verse-ns")
 	M.aug = vim.api.nvim_create_augroup("bible-verse-aug", { clear = true })

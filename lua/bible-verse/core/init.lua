@@ -30,22 +30,6 @@ function M.setup()
 		Config.options.diatheke.translation and string.len(Config.options.diatheke.translation) > 0,
 		"missing configuration|diatheke.translation"
 	)
-
-	-- Attach highlighting autocmd
-	-- vim.api.nvim_create_autocmd({ "WinScrolled" }, {
-	-- 	group = Config.aug,
-	-- 	callback = function(ev, data)
-	-- TODO: Check v:event
-	-- 	end,
-	-- })
-
-	-- Cleanup autocmd
-	-- vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
-	-- 	group = Config.aug,
-	-- 	callback = function()
-	-- 		vim.api.nvim_del_augroup_by_id(Config.aug)
-	-- 	end,
-	-- })
 end
 
 --- Prompt for user input and show it back to the screen
@@ -78,10 +62,8 @@ function M.query_and_show()
 			popup_conf.size.width = popup_width
 			popup_conf.size.height = Utils.clamp(#query_result, 1, popup_max_height)
 
-			Ui:popup(popup_conf, query_result, function(winid)
-				Highlight:attach(winid)
-			end, function(winid)
-				Highlight:detach(winid)
+			Ui:popup(popup_conf, query_result, function(bufnr)
+				Highlight.highlight_buf(bufnr, Config.options.highlighter[Config.options.query_format])
 			end)
 		end
 	end

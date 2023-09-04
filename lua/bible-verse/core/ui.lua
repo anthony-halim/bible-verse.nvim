@@ -10,9 +10,7 @@ local M = {
 ---Take user input and call on_submit on submission.
 ---@param config NuiInputOptions
 ---@param on_submit function Signature: (input|nil) -> nil. Execute on user submission
----@param on_mount? fun(winid: integer): nil execute on popup mount
----@param on_unmount? fun(winid: integer): nil execute on popup dismount
-function M:input(config, on_submit, on_mount, on_unmount)
+function M:input(config, on_submit)
 	local cleanup = function()
 		if self.input_ui then
 			self.input_ui:unmount()
@@ -23,7 +21,6 @@ function M:input(config, on_submit, on_mount, on_unmount)
 	-- Cleanup previous instance, if any
 	cleanup()
 
-	-- Create new instance
 	self.input_ui = NuiInput(config, {
 		prompt = "", -- Use prompt as border text
 		on_submit = function(input)
@@ -37,27 +34,17 @@ function M:input(config, on_submit, on_mount, on_unmount)
 		cleanup()
 	end, { noremap = true })
 	self.input_ui:on(NuiEvent.BufLeave, function()
-		-- NOTE: Other exit events will result in BufLeave
-		-- We only perform on_unmount here
-		if on_unmount then
-			on_unmount(self.input_ui.winid)
-		end
 		cleanup()
 	end, { once = true })
 
 	self.input_ui:mount()
-
-	if on_mount then
-		on_mount(self.input_ui.winid)
-	end
 end
 
 ---Show message as a pop up window.
 ---@param config NuiPopupOptions
 ---@param message_table string[] table of individual lines to be shown.
----@param on_mount? fun(winid: integer): nil execute on popup mount
----@param on_unmount? fun(winid: integer): nil execute on popup dismount
-function M:popup(config, message_table, on_mount, on_unmount)
+---@param highlight_fn? fun(bufnr: integer): nil buffer highlighter.
+function M:popup(config, message_table, highlight_fn)
 	local cleanup = function()
 		if self.popup_ui then
 			self.popup_ui:unmount()
@@ -68,7 +55,6 @@ function M:popup(config, message_table, on_mount, on_unmount)
 	-- Cleanup previous instance, if any
 	cleanup()
 
-	-- Create new instance
 	self.popup_ui = NuiPopup(config)
 
 	-- Set exit behaviour
@@ -79,22 +65,16 @@ function M:popup(config, message_table, on_mount, on_unmount)
 		cleanup()
 	end, { noremap = true })
 	self.popup_ui:on(NuiEvent.BufLeave, function()
-		-- NOTE: Other exit events will result in BufLeave
-		-- We only perform on_unmount here
-		if on_unmount then
-			on_unmount(self.popup_ui.winid)
-		end
 		cleanup()
 	end, { once = true })
 
-	-- Set content
 	vim.api.nvim_buf_set_lines(self.popup_ui.bufnr, 0, 0, false, message_table)
 
-	self.popup_ui:mount()
-
-	if on_mount then
-		on_mount(self.popup_ui.winid)
+	if highlight_fn then
+		highlight_fn(self.popup_ui.bufnr)
 	end
+
+	self.popup_ui:mount()
 end
 
 return M
