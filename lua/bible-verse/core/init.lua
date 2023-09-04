@@ -62,8 +62,8 @@ function M.query_and_show()
 			popup_conf.size.width = popup_width
 			popup_conf.size.height = Utils.clamp(#query_result, 1, popup_max_height)
 
-			Ui:popup(popup_conf, query_result, function(bufnr)
-				Highlight.highlight_buf(bufnr, Config.options.highlighter[Config.options.query_format])
+			Ui:popup(popup_conf, query_result, function(bufnr, first, last)
+				Highlight.highlight_buf(bufnr, Config.options.highlighter[Config.options.query_format], first, last)
 			end)
 		end
 	end

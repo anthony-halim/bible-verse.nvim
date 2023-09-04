@@ -43,7 +43,7 @@ end
 ---Show message as a pop up window.
 ---@param config NuiPopupOptions
 ---@param message_table string[] table of individual lines to be shown.
----@param highlight_fn? fun(bufnr: integer): nil buffer highlighter.
+---@param highlight_fn? fun(bufnr: integer, first?: integer, last?: integer): nil buffer highlighter.
 function M:popup(config, message_table, highlight_fn)
 	local cleanup = function()
 		if self.popup_ui then
@@ -71,7 +71,12 @@ function M:popup(config, message_table, highlight_fn)
 	vim.api.nvim_buf_set_lines(self.popup_ui.bufnr, 0, 0, false, message_table)
 
 	if highlight_fn then
-		highlight_fn(self.popup_ui.bufnr)
+		-- NOTE: Once mounted, the popup may not be modifiable. We will not be able
+		-- to add highlight. Hence we highlight entire buffer before mounting.
+		-- PERF: Should be fine since we limit the buffer count to 1 (popup is kinda 'singleton')
+		local first = 0
+		local last = vim.api.nvim_buf_line_count(self.popup_ui.bufnr)
+		highlight_fn(self.popup_ui.bufnr, first, last)
 	end
 
 	self.popup_ui:mount()

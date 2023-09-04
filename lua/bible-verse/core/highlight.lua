@@ -1,10 +1,7 @@
 local Config = require("bible-verse.config")
 local Utils = require("bible-verse.utils")
 
-local M = {
-	---@type table<integer, boolean>
-	win_handlers = {},
-}
+local M = {}
 
 ---@param bufnr integer
 ---@param conf? table<string, _BibleVerseHLSettings>

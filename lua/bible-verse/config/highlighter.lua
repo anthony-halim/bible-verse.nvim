@@ -5,7 +5,6 @@ local M = {}
 ---@class _BibleVerseHLSettings
 ---@field pattern string
 ---@field color string[]
----@field modifier string
 
 ---@type BibleVerseHLConfig
 M.defaults = {
@@ -13,20 +12,22 @@ M.defaults = {
 		book_chapter = {
 			pattern = "",
 			color = {},
-			modifier = "",
 		},
 		verse_number = {
 			pattern = "",
 			color = {},
-			modifier = "",
 		},
 		translation = {
 			pattern = "",
 			color = {},
-			modifier = "",
 		},
 	},
 }
+
+---NOTE: pattern: must capture
+--- (1) before pattern idx
+--- (2) word to capture
+--- (3) after pattern idx
 
 ---@type BibleVerseHLConfig
 ---@diagnostic disable:missing-fields
