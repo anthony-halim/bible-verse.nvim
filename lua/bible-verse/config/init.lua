@@ -10,7 +10,6 @@ local M = {}
 ---@field formatter BibleVerseFmtConfig
 ---@field highlighter BibleVerseHLConfig
 ---@field ns? number
----@field aug? number
 
 ---@type BibleVerseConfig
 M.defaults = {
@@ -64,7 +63,6 @@ function M.setup(opts)
 	vim.cmd("hi def bibleversehl guibg=red")
 
 	M.ns = vim.api.nvim_create_namespace("bible-verse-ns")
-	M.aug = vim.api.nvim_create_augroup("bible-verse-aug", { clear = true })
 end
 
 return M
