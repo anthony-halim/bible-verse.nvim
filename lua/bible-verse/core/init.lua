@@ -96,17 +96,6 @@ function M.query_and_insert()
 			local cur_window_handler = vim.api.nvim_get_current_win()
 			local cur_buf_handler = vim.api.nvim_win_get_buf(cur_window_handler)
 
-			if
-				not Utils.is_valid_win(cur_window_handler)
-				or not Utils.is_valid_buf(cur_buf_handler, Config.options.exclude_buffer_filetypes)
-			then
-				vim.notify(
-					"BibleVerse: invalid window/buffer to do insertion. Did you try to insert on wrong buffer?",
-					vim.log.levels.WARN
-				)
-				return
-			end
-
 			local query_result = process_query(input, Config.options.insert_format, 0)
 			local row, _ = unpack(vim.api.nvim_win_get_cursor(cur_window_handler))
 
