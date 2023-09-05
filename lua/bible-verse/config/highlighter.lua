@@ -47,7 +47,7 @@ M._default_override = {
 			pattern = "()t{([%w ]+)}()",
 		},
 		separator = {
-			pattern = "()sp{([%S]+)}()",
+			pattern = "()sp{([%S ]+)}()",
 		},
 	},
 }

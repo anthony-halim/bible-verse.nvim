@@ -41,7 +41,7 @@ M.defaults = {
 	---@type BibleVerseFmtBibleVerseConfig
 	bibleverse = {
 		-- separator: text to be used as separator between chapters. Set to empty string to disable.
-		separator = "󰇘",
+		separator = " ",
 		-- omit_translation_footnote: omit translation name from the BibleVerse text.
 		omit_translation_footnote = false,
 	},
