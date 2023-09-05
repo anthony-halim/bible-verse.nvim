@@ -18,18 +18,32 @@ function M.highlight_buf(bufnr, conf, first, last)
 	vim.api.nvim_buf_clear_namespace(bufnr, Config.ns, first, last)
 
 	local lines = vim.api.nvim_buf_get_lines(bufnr, first, last, false)
+	local replace_offset = 0
+
 	for l, line in ipairs(lines) do
+		replace_offset = 0
+
 		for _, settings in pairs(conf) do
 			line:gsub(settings.pattern, function(pattern_start_idx, word, pattern_end_idx)
-				vim.api.nvim_buf_set_text(bufnr, l - 1, pattern_start_idx - 1, l - 1, pattern_end_idx - 1, { word })
+				vim.api.nvim_buf_set_text(
+					bufnr,
+					l - 1,
+					pattern_start_idx - 1 + replace_offset,
+					l - 1,
+					pattern_end_idx - 1 + replace_offset,
+					{ word }
+				)
 				vim.api.nvim_buf_add_highlight(
 					bufnr,
 					Config.ns,
 					"bibleversehl",
 					l - 1,
-					pattern_start_idx - 1,
-					pattern_start_idx + #word - 1
+					pattern_start_idx - 1 + replace_offset,
+					pattern_start_idx - 1 + replace_offset + #word
 				)
+
+				-- TODO: Add notes about the replace_offset magic
+				replace_offset = replace_offset + (#word - (pattern_end_idx - pattern_start_idx))
 			end)
 		end
 	end
