@@ -21,6 +21,10 @@ M.defaults = {
 			pattern = "",
 			hlgroup = "ModeMsg",
 		},
+		separator = {
+			pattern = "",
+			hlgroup = "NonText",
+		},
 	},
 }
 
@@ -41,6 +45,9 @@ M._default_override = {
 		},
 		translation = {
 			pattern = "()t{([%w ]+)}()",
+		},
+		separator = {
+			pattern = "()sp{([%S]+)}()",
 		},
 	},
 }

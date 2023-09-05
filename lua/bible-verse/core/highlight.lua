@@ -26,21 +26,17 @@ function M.highlight_buf(bufnr, conf, first, last)
 		for _, settings in pairs(conf) do
 			-- NOTE: What about matching from the back so we don't have to deal with offsets?
 			line:gsub(settings.pattern, function(pattern_start_idx, word, pattern_end_idx)
-				vim.api.nvim_buf_set_text(
-					bufnr,
-					l - 1,
-					pattern_start_idx - 1 + replace_offset,
-					l - 1,
-					pattern_end_idx - 1 + replace_offset,
-					{ word }
-				)
+				local start_replace_from = pattern_start_idx - 1 + replace_offset
+				local start_replace_to = pattern_end_idx - 1 + replace_offset
+
+				vim.api.nvim_buf_set_text(bufnr, l - 1, start_replace_from, l - 1, start_replace_to, { word })
 				vim.api.nvim_buf_add_highlight(
 					bufnr,
 					Config.ns,
 					settings.hlgroup,
 					l - 1,
-					pattern_start_idx - 1 + replace_offset,
-					pattern_start_idx - 1 + replace_offset + #word
+					start_replace_from,
+					start_replace_from + #word
 				)
 
 				-- TODO: Add notes about the replace_offset magic

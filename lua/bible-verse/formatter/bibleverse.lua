@@ -33,7 +33,7 @@ function M.format(verses_table)
 		if idx < sorted_bible_chapter_len then
 			table.insert(res, "")
 			if use_separator then
-				table.insert(res, string.format("%s", Config.options.formatter.bibleverse.separator))
+				table.insert(res, string.format("sp{%s}", Config.options.formatter.bibleverse.separator))
 			end
 			table.insert(res, "")
 		end
