@@ -33,7 +33,7 @@ M.defaults = {
 			row = 1,
 			col = 0,
 		},
-		zindex = 60, -- Must be > popup.zindex
+		zindex = 20, -- Must be > popup.zindex
 	},
 
 	-- query_input: configuration for input component for prompting input for 'query' behaviour
@@ -55,7 +55,7 @@ M.defaults = {
 			height = 1,
 		},
 		position = "50%",
-		zindex = 60, -- Must be > popup.zindex
+		zindex = 20, -- Must be > popup.zindex
 		win_options = {
 			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 		},
@@ -84,7 +84,7 @@ M.defaults = {
 			max_height_percentage = 0.7, -- custom attribute
 		},
 		position = "50%",
-		zindex = 50,
+		zindex = 10,
 		win_options = {
 			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 		},

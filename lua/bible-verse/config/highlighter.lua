@@ -8,27 +8,23 @@ local M = {}
 
 ---@type BibleVerseHLConfig
 M.defaults = {
+	-- highlighting for bibleverse text
 	bibleverse = {
+		-- highlighting for book and chapter of the output e.g. John 1
 		book_chapter = {
 			pattern = "",
-			hlgroup = "Title",
+			hlgroup = "Title", -- Highlight group to use to highlight the text
 		},
-		verse_number = {
-			pattern = "",
-			hlgroup = "Number",
-		},
-		translation = {
-			pattern = "",
-			hlgroup = "ModeMsg",
-		},
-		separator = {
-			pattern = "",
-			hlgroup = "NonText",
-		},
+		-- highlighting for verse number the output
+		verse_number = { pattern = "", hlgroup = "Number" },
+		-- highlighting for translation used in the output
+		translation = { pattern = "", hlgroup = "ModeMsg" },
+		-- highlighting for separator between book chapters used in the output
+		separator = { pattern = "", hlgroup = "NonText" },
 	},
 }
 
----NOTE: pattern: must capture
+---NOTE: pattern: must capture the following:
 --- (1) before pattern idx
 --- (2) word to capture
 --- (3) after pattern idx

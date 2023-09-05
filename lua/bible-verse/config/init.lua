@@ -33,8 +33,8 @@ M.defaults = {
 
 	diatheke = require("bible-verse.config.diatheke").defaults,
 	formatter = require("bible-verse.config.formatter").defaults,
-	ui = require("bible-verse.config.ui").defaults,
 	highlighter = require("bible-verse.config.highlighter").defaults,
+	ui = require("bible-verse.config.ui").defaults,
 }
 
 ---@type BibleVerseConfig
@@ -45,6 +45,8 @@ M.options = {}
 function M.setup(opts)
 	opts = opts or {}
 	M.options = vim.tbl_deep_extend("force", M.defaults, opts)
+	M.options.highlighter =
+		vim.tbl_deep_extend("force", M.options.highlighter, require("bible-verse.config.highlighter")._default_override)
 
 	-- Assert config is sane
 	assert(
@@ -56,12 +58,7 @@ function M.setup(opts)
 		"unsupported_opts|insert_format=" .. M.options.insert_format
 	)
 
-	M.options.highlighter =
-		vim.tbl_deep_extend("force", M.options.highlighter, require("bible-verse.config.highlighter")._default_override)
-
 	M.ns = vim.api.nvim_create_namespace("bible-verse-ns")
-
-	-- TODO: Check that highlighter.hlgroup exist
 end
 
 return M
