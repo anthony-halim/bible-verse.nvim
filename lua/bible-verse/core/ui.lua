@@ -7,64 +7,35 @@ local M = {
 	popup_ui = nil,
 }
 
---- Create input component
----@param config NuiInputOptions
----@param on_submit function Signature: (input|nil) -> nil. Execute on user submission
----@return table NuiInput
-function M._create_input_ui(config, on_submit)
-	local input_component = NuiInput(config, {
-		prompt = "", -- Use prompt as border text
-		on_submit = on_submit,
-	})
-
-	-- Set exit behaviour
-	input_component:map("n", "<Esc>", function()
-		input_component:unmount()
-	end, { noremap = true })
-	input_component:on(NuiEvent.BufLeave, function()
-		input_component:unmount()
-	end, { once = true })
-
-	return input_component
-end
-
----Create pop up window with message in it
----@param config NuiPopupOptions
----@param message_table string[] table of individual lines to be shown.
----@return table NuiPopup
-function M._create_popup_ui(config, message_table)
-	local popup_component = NuiPopup(config)
-
-	-- Set exit behaviour
-	popup_component:map("n", "<Esc>", function()
-		popup_component:unmount()
-	end, { noremap = true })
-	popup_component:map("n", "q", function()
-		popup_component:unmount()
-	end, { noremap = true })
-	popup_component:on(NuiEvent.BufLeave, function()
-		popup_component:unmount()
-	end, { once = true })
-
-	-- Set content
-	vim.api.nvim_buf_set_lines(popup_component.bufnr, 0, 0, false, message_table)
-
-	return popup_component
-end
-
 ---Take user input and call on_submit on submission.
 ---@param config NuiInputOptions
 ---@param on_submit function Signature: (input|nil) -> nil. Execute on user submission
 function M:input(config, on_submit)
-	if self.input_ui then
-		-- unmount previous instance
-		self.input_ui:unmount()
+	local cleanup = function()
+		if self.input_ui then
+			self.input_ui:unmount()
+			self.input_ui = nil
+		end
 	end
 
-	self.input_ui = M._create_input_ui(config, function(input)
-		on_submit(input)
-		self.input_ui = nil
-	end)
+	-- Cleanup previous instance, if any
+	cleanup()
+
+	self.input_ui = NuiInput(config, {
+		prompt = "", -- Use prompt as border text
+		on_submit = function(input)
+			on_submit(input)
+			cleanup()
+		end,
+	})
+
+	-- Set exit behaviour
+	self.input_ui:map("n", "<Esc>", function()
+		cleanup()
+	end, { noremap = true })
+	self.input_ui:on(NuiEvent.BufLeave, function()
+		cleanup()
+	end, { once = true })
 
 	self.input_ui:mount()
 end
@@ -72,13 +43,41 @@ end
 ---Show message as a pop up window.
 ---@param config NuiPopupOptions
 ---@param message_table string[] table of individual lines to be shown.
-function M:popup(config, message_table)
-	if self.popup_ui then
-		-- unmount previous instance
-		self.popup_ui:unmount()
+---@param highlight_fn? fun(bufnr: integer, first?: integer, last?: integer): nil buffer highlighter.
+function M:popup(config, message_table, highlight_fn)
+	local cleanup = function()
+		if self.popup_ui then
+			self.popup_ui:unmount()
+			self.popup_ui = nil
+		end
 	end
 
-	self.popup_ui = M._create_popup_ui(config, message_table)
+	-- Cleanup previous instance, if any
+	cleanup()
+
+	self.popup_ui = NuiPopup(config)
+
+	-- Set exit behaviour
+	self.popup_ui:map("n", "<Esc>", function()
+		cleanup()
+	end, { noremap = true })
+	self.popup_ui:map("n", "q", function()
+		cleanup()
+	end, { noremap = true })
+	self.popup_ui:on(NuiEvent.BufLeave, function()
+		cleanup()
+	end, { once = true })
+
+	vim.api.nvim_buf_set_lines(self.popup_ui.bufnr, 0, 0, false, message_table)
+
+	if highlight_fn then
+		-- NOTE: Once mounted, the popup may not be modifiable. We will not be able
+		-- to add highlight. Hence we highlight entire buffer before mounting.
+		-- PERF: Should be fine since we limit the buffer count to 1 (popup is kinda 'singleton')
+		local first = 0
+		local last = vim.api.nvim_buf_line_count(self.popup_ui.bufnr)
+		highlight_fn(self.popup_ui.bufnr, first, last)
+	end
 
 	self.popup_ui:mount()
 end

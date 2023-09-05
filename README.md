@@ -113,15 +113,18 @@ Below is the full configuration as well as the defaults. You can override any of
     --              "insert" - on verse query, insert the result below the cursor of the current buffer.
     default_behaviour = "query",
 
-	-- query_format: text format on 'query' behaviour.
-	--     Options: "bibleverse" - query as bibleverse formatted text.
-	--              "plain" - query as plain text.
-	query_format = "bibleverse",
+    -- query_format: text format on 'query' behaviour.
+    --     Options: "bibleverse" - query as bibleverse formatted text.
+    --              "plain" - query as plain text.
+    query_format = "bibleverse",
 
     -- insert_format: text format on 'insert' behaviour. 
     --     Options: "markdown" - insert as Markdown formatted text.
     --              "plain" - insert as plain text.
     insert_format = "markdown",
+
+	-- Forbid plugin on the following buffer filetypes
+    exclude_buffer_filetypes = { "neo-tree", "NvimTree" },
 
     diatheke = {
         -- (MANDATORY) translation: diatheke module to be used.
@@ -133,8 +136,8 @@ Below is the full configuration as well as the defaults. You can override any of
     formatter = {
         -- Formatter settings for markdown
         markdown = {
-            -- separator: text to be used as prefix and suffix the markdown text. Set to empty string to disable.
-            separator = "---",
+          -- separator: text to be used as separator between chapters. Set to empty string to disable.
+          separator = "---",
             -- quote_block: put the formatted text within a quote block.
             quote_block = true,
             -- omit_translation_footnote: omit translation name from the markdown text.
@@ -151,9 +154,27 @@ Below is the full configuration as well as the defaults. You can override any of
 
         -- Formatter settings for bibleverse
         bibleverse = {
+            -- separator: text to be used as separator between chapters. Set to empty string to disable.
+            separator = " ",
             -- omit_translation_footnote: omit translation name from the bibleverseFont text.
             omit_translation_footnote = false,
         }
+    },
+
+    highlighter = {
+        -- Highlighting for bibleverse text
+        bibleverse = {
+            -- highlighting for book and chapter of the output e.g. John 1
+            book_chapter = {
+                hlgroup = "Title", -- Highlight group to use to highlight the text
+            },
+            -- highlighting for verse number the output
+            verse_number = { hlgroup = "Number" },
+            -- highlighting for translation used in the output
+            translation = { hlgroup = "ModeMsg" },
+            -- highlighting for separator between book chapters used in the output
+            separator = { hlgroup = "NonText" },
+        },
     },
 
     ui = {
@@ -183,7 +204,7 @@ Below is the full configuration as well as the defaults. You can override any of
                 row = 1,
                 col = 0,
             },
-            zindex = 60, -- Must be > popup.zindex
+            zindex = 20, -- Must be > popup.zindex
         },
 
         -- query_input: configuration for input component for prompting input for 'query' behaviour
@@ -191,7 +212,7 @@ Below is the full configuration as well as the defaults. You can override any of
         query_input = {
             enter = true,
             focusable = true,
-            relative = "win",
+            relative = "editor",
             border = {
                 style = "rounded",
                 padding = { 0, 1 },
@@ -205,7 +226,7 @@ Below is the full configuration as well as the defaults. You can override any of
                 height = 1,
             },
             position = "50%",
-            zindex = 60, -- Must be > popup.zindex
+            zindex = 20, -- Must be > popup.zindex
             win_options = {
                 winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
             },
@@ -216,7 +237,7 @@ Below is the full configuration as well as the defaults. You can override any of
         popup = {
             enter = true,
             focusable = true,
-            relative = "win",
+            relative = "editor",
             border = {
                 style = "rounded",
                 padding = { 1, 1 },
@@ -226,15 +247,15 @@ Below is the full configuration as well as the defaults. You can override any of
                 },
             },
             size = {
-                -- window_width_percentage: % of current window width used for the popup, in float.
-                -- window_max_width_percentage: maximum % of current window width used for the popup, in float.
-                -- window_max_height_percentage: maximum % of current window height used for the popup, in float.
-                window_width_percentage = 0.5, -- custom attribute
-                window_max_width_percentage = 0.8, -- custom attribute
-                window_max_height_percentage = 0.7, -- custom attribute
+                -- width_percentage: % of current width used for the popup, in float.
+                -- max_width_percentage: maximum % of current width used for the popup, in float.
+                -- max_height_percentage: maximum % of current height used for the popup, in float.
+                width_percentage = 0.5, -- custom attribute
+                max_width_percentage = 0.8, -- custom attribute
+                max_height_percentage = 0.7, -- custom attribute
             },
             position = "50%",
-            zindex = 50,
+            zindex = 10,
             win_options = {
                 winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
             },
@@ -350,12 +371,21 @@ John 1:1 In the beginning was the Word, and the Word was with God, and the Word 
 
 </details>
 
-### bibleverse
+### BibleVerse
 
 With the default bibleverse settings:
 ```lua
+separator = " ",
 omit_translation_footnote = true,
 ```
+
+<details>
+<summary> Rendered output </summary>
+
+![image](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/1a8970d8-7074-4afb-a5a0-ff58ff2fca42)
+
+</details>
+
 <!--TODO: Implement -->
 
 ## 🙏 Special Thanks

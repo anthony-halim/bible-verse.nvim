@@ -4,7 +4,9 @@ local M = {}
 ---@field book string
 ---@field chapter string
 ---@field verse_number string
+---@field verse_prefix_newline boolean
 ---@field verse string
+---@field verse_suffix_newline boolean
 
 --- Parse raw diatheke output to the expected format.
 ---@param output string raw diatheke output
@@ -12,17 +14,18 @@ local M = {}
 local function parse_raw_output(output)
 	local verses = {}
 
-	for s in output:gmatch("[^\r\n]+") do
-		local _, _, book, chapter, verse_number, verse = string.find(s, "^(.*) ([0-9]+):([0-9]+): (.*)")
-		if book and chapter and verse_number and verse then
+	_ = output:gsub("([%w ]+) ([%d]+):([%d]+):([%s]+)([^\r\n]+)[\r\n]", function(book, chap, vnum, prefix, v)
+		if book and chap and vnum and v then
 			table.insert(verses, {
 				book = book,
-				chapter = chapter,
-				verse_number = verse_number,
-				verse = verse,
+				chapter = chap,
+				verse_number = vnum,
+				verse_prefix_newline = prefix and prefix:find("[\r\n]"),
+				verse = v,
+				verse_suffix_newline = false,
 			})
 		end
-	end
+	end)
 
 	return verses
 end

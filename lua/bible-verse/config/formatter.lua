@@ -1,27 +1,28 @@
 local M = {}
 
 ---@class BibleVerseFmtConfig
----@field markdown? BibleVerseFmtMarkdownConfig
----@field bibleverse? BibleVerseFmtBibleVerseConfig
----@field plain? BibleVerseFmtPlainConfig
+---@field markdown BibleVerseFmtMarkdownConfig
+---@field bibleverse BibleVerseFmtBibleVerseConfig
+---@field plain BibleVerseFmtPlainConfig
 
 ---@class BibleVerseFmtMarkdownConfig
----@field separator? string
----@field quote_block? boolean
----@field omit_translation_footnote? boolean
-
----@class BibleVerseFmtBibleVerseConfig
----@field omit_translation_footnote? boolean
+---@field separator string
+---@field quote_block boolean
+---@field omit_translation_footnote boolean
 
 ---@class BibleVerseFmtPlainConfig
----@field header_delimiter? string
----@field omit_translation_footnote? boolean
+---@field header_delimiter string
+---@field omit_translation_footnote boolean
+
+---@class BibleVerseFmtBibleVerseConfig
+---@field separator string
+---@field omit_translation_footnote boolean
 
 ---@type BibleVerseFmtConfig
 M.defaults = {
 	---@type BibleVerseFmtMarkdownConfig
 	markdown = {
-		-- separator: text to be used as prefix and suffix the markdown text. Set to empty string to disable.
+		-- separator: text to be used as separator between chapters. Set to empty string to disable.
 		separator = "---",
 		-- quote_block: put the formatted text within a quote block.
 		quote_block = true,
@@ -39,8 +40,10 @@ M.defaults = {
 
 	---@type BibleVerseFmtBibleVerseConfig
 	bibleverse = {
+		-- separator: text to be used as separator between chapters. Set to empty string to disable.
+		separator = " ",
 		-- omit_translation_footnote: omit translation name from the BibleVerse text.
-		omit_translation_footnote = true,
+		omit_translation_footnote = false,
 	},
 }
 
