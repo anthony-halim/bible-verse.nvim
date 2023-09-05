@@ -24,6 +24,7 @@ function M.highlight_buf(bufnr, conf, first, last)
 		replace_offset = 0
 
 		for _, settings in pairs(conf) do
+			-- NOTE: What about matching from the back so we don't have to deal with offsets?
 			line:gsub(settings.pattern, function(pattern_start_idx, word, pattern_end_idx)
 				vim.api.nvim_buf_set_text(
 					bufnr,
@@ -36,7 +37,7 @@ function M.highlight_buf(bufnr, conf, first, last)
 				vim.api.nvim_buf_add_highlight(
 					bufnr,
 					Config.ns,
-					"bibleversehl",
+					settings.hlgroup,
 					l - 1,
 					pattern_start_idx - 1 + replace_offset,
 					pattern_start_idx - 1 + replace_offset + #word

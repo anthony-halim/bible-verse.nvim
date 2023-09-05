@@ -4,22 +4,22 @@ local M = {}
 
 ---@class _BibleVerseHLSettings
 ---@field pattern string
----@field color string[]
+---@field hlgroup string
 
 ---@type BibleVerseHLConfig
 M.defaults = {
 	bibleverse = {
 		book_chapter = {
 			pattern = "",
-			color = {},
+			hlgroup = "Special",
 		},
 		verse_number = {
 			pattern = "",
-			color = {},
+			hlgroup = "Number",
 		},
 		translation = {
 			pattern = "",
-			color = {},
+			hlgroup = "Constant",
 		},
 	},
 }
