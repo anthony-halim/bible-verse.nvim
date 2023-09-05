@@ -11,7 +11,7 @@ M.defaults = {
 	bibleverse = {
 		book_chapter = {
 			pattern = "",
-			hlgroup = "Special",
+			hlgroup = "Title",
 		},
 		verse_number = {
 			pattern = "",
@@ -19,7 +19,7 @@ M.defaults = {
 		},
 		translation = {
 			pattern = "",
-			hlgroup = "Constant",
+			hlgroup = "ModeMsg",
 		},
 	},
 }

@@ -16,10 +16,6 @@ function M.format(verses_table)
 	if Config.options.formatter.markdown.quote_block then
 		quote_block_char = "> "
 	end
-	if use_separator then
-		table.insert(res, string.format("%s%s", quote_block_char, Config.options.formatter.markdown.separator))
-		table.insert(res, string.format("%s", quote_block_char))
-	end
 	for idx, sorted_chap in ipairs(sorted_bible_chapter) do
 		table.insert(res, string.format("%s**%s**", quote_block_char, sorted_chap.name))
 		table.insert(res, string.format("%s", quote_block_char))
@@ -37,15 +33,15 @@ function M.format(verses_table)
 
 		if idx < sorted_bible_chapter_len then
 			table.insert(res, string.format("%s", quote_block_char))
+			if use_separator then
+				table.insert(res, string.format("%s%s", quote_block_char, Config.options.formatter.markdown.separator))
+			end
+			table.insert(res, string.format("%s", quote_block_char))
 		end
 	end
 	if not Config.options.formatter.markdown.omit_translation_footnote then
 		table.insert(res, string.format("%s", quote_block_char))
 		table.insert(res, string.format("%s<sub>*%s*</sub>", quote_block_char, Config.options.diatheke.translation))
-	end
-	if use_separator then
-		table.insert(res, string.format("%s", quote_block_char))
-		table.insert(res, string.format("%s%s", quote_block_char, Config.options.formatter.markdown.separator))
 	end
 
 	return res

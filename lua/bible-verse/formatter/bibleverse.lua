@@ -10,6 +10,7 @@ function M.format(verses_table)
 	local res = {}
 	local sorted_bible_chapter = FormatterCommon.organise_by_sorted_bible_chapter(verses_table)
 	local sorted_bible_chapter_len = #sorted_bible_chapter
+	local use_separator = string.len(Config.options.formatter.bibleverse.separator) ~= 0
 
 	for idx, sorted_chap in ipairs(sorted_bible_chapter) do
 		table.insert(res, string.format("bc{%s}", sorted_chap.name))
@@ -30,6 +31,10 @@ function M.format(verses_table)
 		table.insert(res, table.concat(chapter_res))
 
 		if idx < sorted_bible_chapter_len then
+			table.insert(res, "")
+			if use_separator then
+				table.insert(res, string.format("%s", Config.options.formatter.bibleverse.separator))
+			end
 			table.insert(res, "")
 		end
 	end
