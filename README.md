@@ -60,7 +60,7 @@ echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
 ```
 </details>
 
-##### Debian
+##### Ubuntu
 
 <details>
 <summary>Installation</summary>
@@ -319,15 +319,17 @@ omit_translation_footnote = false,
 <summary>Unrendered sample output</summary>
 
 ```markdown
-> ---
->
 > **John 1**
 > 
-> <sup>1</sup>In the beginning was the Word, and the Word was with God, and the Word was God.
+> <sup>51</sup>And he saith unto him, Verily, verily, I say unto you, Hereafter ye shall see heaven open, and the angels of God ascending and descending upon the Son of man.  
+> 
+> ---
+> 
+> **John 2**
+> 
+> <sup>1</sup>And the third day there was a marriage in Cana of Galilee; and the mother of Jesus was there: 
 > 
 > <sub>*KJV*</sub>
->
-> ---
 ```
 
 </details>
@@ -335,15 +337,17 @@ omit_translation_footnote = false,
 <details>
 <summary>Rendered sample output</summary>
 
-> ---
-> 
 > **John 1**
->
-> <sup>1</sup>In the beginning was the Word, and the Word was with God, and the Word was God.
->
-> <sub>*KJV*</sub>
+> 
+> <sup>51</sup>And he saith unto him, Verily, verily, I say unto you, Hereafter ye shall see heaven open, and the angels of God ascending and descending upon the Son of man.  
 > 
 > ---
+> 
+> **John 2**
+> 
+> <sup>1</sup>And the third day there was a marriage in Cana of Galilee; and the mother of Jesus was there: 
+> 
+> <sub>*KJV*</sub>
 
 </details>
 
@@ -375,8 +379,15 @@ John 1:1 In the beginning was the Word, and the Word was with God, and the Word 
 
 With the default bibleverse settings:
 ```lua
+-- Formatter settings
 separator = " ",
 omit_translation_footnote = true,
+
+-- Highlighter settings
+book_chapter = { hlgroup = "Title" },
+verse_number = { hlgroup = "Number" },
+translation = { hlgroup = "ModeMsg" },
+separator = { hlgroup = "NonText" },
 ```
 
 <details>
@@ -386,7 +397,6 @@ omit_translation_footnote = true,
 
 </details>
 
-<!--TODO: Implement -->
 
 ## 🙏 Special Thanks
 
