@@ -53,6 +53,7 @@ Below are the installation snippets for your convenience. Note that this is not 
 
 <details>
 <summary>MacOS Installation</summary>
+<br />
 
 ```sh
 # Install SWORD
@@ -72,6 +73,7 @@ yes "yes" | installmgr -ri CrossWire KJV # install module from remote source
 
 <details>
 <summary>Ubuntu Installation</summary>
+<br />
 
 ```sh
 # Install SWORD
@@ -116,7 +118,8 @@ This plugin does not set any key bindings by default. Example of setting keymaps
 ##### Via Vim keymap
 
 <details>
-  
+<br />
+    
   ```lua
   vim.keymap.set("n", "<leader>Bq", "<cmd>BibleVerse query<cr>", { desc = "Bible query" })
   vim.keymap.set("n", "<leader>Bi", "<cmd>BibleVerse insert<cr>", { desc = "Bible insert" })
@@ -127,6 +130,7 @@ This plugin does not set any key bindings by default. Example of setting keymaps
 ##### Via [lazy.nvim](https://github.com/folke/lazy.nvim) at installation phase
 
 <details>
+<br />
 
   ```lua
   {
@@ -185,8 +189,8 @@ Below is the full configuration as well as the defaults. You can override any of
     formatter = {
         -- Formatter settings for markdown
         markdown = {
-          -- separator: text to be used as separator between chapters. Set to empty string to disable.
-          separator = "---",
+            -- separator: text to be used as separator between chapters. Set to empty string to disable.
+            separator = "---",
             -- quote_block: put the formatted text within a quote block.
             quote_block = true,
             -- omit_translation_footnote: omit translation name from the markdown text.
@@ -338,23 +342,27 @@ omit_translation_footnote = false,
 
 <details>
 <summary>Overall format</summary>
+<br />
 
 ```markdown
+> **{book_name} {chapter}**
+> 
+> <sup>{verse_number}</sup>{verse} [<sup>{verse_number}</sup>{verse}...]
+> 
 > {separator}
 > 
 > **{book_name} {chapter}**
 > 
-> <sup>{verse_number}</sup>{verse} [<sup>{verse_number}</sup>...]
+> <sup>{verse_number}</sup>{verse} [<sup>{verse_number}</sup>{verse}...]
 >
 > <sub>*{translation}*</sub>
-> 
-> {separator}
 ```
 
 </details>
 
 <details>
 <summary>Unrendered sample output</summary>
+<br />
 
 ```markdown
 > **John 1**
@@ -374,6 +382,7 @@ omit_translation_footnote = false,
 
 <details>
 <summary>Rendered sample output</summary>
+<br />
 
 > **John 1**
 > 
@@ -399,8 +408,10 @@ omit_translation_footnote = true,
 
 <details>
 <summary>Overall format</summary>
+<br />
 
 ```markdown
+{book_name} {chapter}:{verse_number}{header_delimiter}{verse}
 {book_name} {chapter}:{verse_number}{header_delimiter}{verse}
 ```
 
@@ -408,8 +419,12 @@ omit_translation_footnote = true,
 
 <details>
 <summary>Sample output</summary>
+<br />
 
-John 1:1 In the beginning was the Word, and the Word was with God, and the Word was God.
+```
+John 1:51 And he saith unto him, Verily, verily, I say unto you, Hereafter ye shall see heaven open, and the angels of God ascending and descending upon the Son of man.
+John 2:1 And the third day there was a marriage in Cana of Galilee; and the mother of Jesus was there:
+```
 
 </details>
 
@@ -419,7 +434,7 @@ With the default bibleverse settings:
 ```lua
 -- Formatter settings
 separator = " ",
-omit_translation_footnote = true,
+omit_translation_footnote = false,
 
 -- Highlighter settings
 book_chapter = { hlgroup = "Title" },
@@ -429,7 +444,28 @@ separator = { hlgroup = "NonText" },
 ```
 
 <details>
+<summary>Overall format</summary>
+<br />
+
+```markdown
+{book_chapter}
+
+{verse_number}{verse} [{verse_number}{verse}...]
+
+{separator}
+
+{book_chapter}
+
+{verse_number}{verse} [{verse_number}{verse}...]
+
+{translation}
+```
+
+</details>
+
+<details>
 <summary> Rendered output </summary>
+<br />
 
 ![image](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/8e176cf8-f99c-4f3e-91ff-21acb191a4d3)
 
