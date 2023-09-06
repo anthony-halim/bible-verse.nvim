@@ -29,8 +29,8 @@ jobs:
 
       - name: Run Tests
         run: |
+          command -v diatheke >/dev/null 2>&1 || exit 1
           nvim --version
-          diatheke --version
           [ ! -d tests ] && exit 0
           nvim --headless -u tests/init.lua -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/init.lua', sequential = true}"
 
