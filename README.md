@@ -1,6 +1,6 @@
 # 📖 bible-verse.nvim
 
-![build](https://github.com/anthony-halim/bible-verse.nvim/actions/workflows/main.yml/badge.svg)
+![build](https://github.com/anthony-halim/bible-verse.nvim/actions/workflows/ci.yml/badge.svg)
 
 Neovim plugin to query Bible verses and display it on the screen or insert it into the current buffer.
 
