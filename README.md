@@ -5,6 +5,7 @@ Neovim plugin to query Bible verses and display it on the screen or insert it in
 ##### Query Verse
 
 ![query_gif](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/34d299f2-1367-4721-9f87-8b3d93d7488b)
+
 ##### Insert Verse
 
 Insertion is done on the line **below** the current cursor position.
@@ -29,7 +30,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 {
     "anthony-halim/bible-verse.nvim",
     dependencies = {
-      "MunifTanjim/nui.nvim",
+        "MunifTanjim/nui.nvim",
     },
     opts = {
         diatheke = {
@@ -100,8 +101,8 @@ echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
 | Command  | Lua | Description |
 |--------- | -------------- | -------------- |
 | `:BibleVerse`    | `require("bible-verse").cmd()`    | Execute default behaviour set as per `config.default_behaviour`.|
-| `:BibleVerseQuery` or `:BibleVerse query`    | `require("bible-verse").query()`    | Query Bible verse and display it on the screen as a popup. |
-| `:BibleVerseInsert` or `:BibleVerse insert`    | `require("bible-verse").insert()`    | Query Bible verse and insert it below the cursor in the current buffer. |
+| `:BibleVerseQuery` or `:BibleVerse query`    | `require("bible-verse").cmd("query")`    | Query Bible verse and display it on the screen as a popup. |
+| `:BibleVerseInsert` or `:BibleVerse insert`    | `require("bible-verse").cmd("insert")`    | Query Bible verse and insert it below the cursor in the current buffer. |
 
 #### Key Bindings
 

@@ -9,9 +9,9 @@ local M = {}
 M.commands = {}
 
 --- Execute command by name
----@param cmd string command name
+---@param cmd? string command name
 function M.cmd(cmd)
-	if M.commands[cmd] then
+	if cmd and M.commands[cmd] then
 		M.commands[cmd]()
 	else
 		M.commands[Config.options.default_behaviour]()
