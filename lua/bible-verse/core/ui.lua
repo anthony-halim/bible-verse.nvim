@@ -9,7 +9,7 @@ local M = {
 
 ---Take user input and call on_submit on submission.
 ---@param config NuiInputOptions
----@param on_submit function Signature: (input|nil) -> nil. Execute on user submission
+---@param on_submit fun(input?: string): nil to execute on user submission
 function M:input(config, on_submit)
 	local cleanup = function()
 		if self.input_ui then

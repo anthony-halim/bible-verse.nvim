@@ -41,7 +41,7 @@ M.defaults = {
 ---@diagnostic disable-next-line:missing-fields
 M.options = {}
 
----@param opts? BibleVerseConfig options to override.
+---@param opts? table options to override.
 function M.setup(opts)
 	opts = opts or {}
 	M.options = vim.tbl_deep_extend("force", M.defaults, opts)
