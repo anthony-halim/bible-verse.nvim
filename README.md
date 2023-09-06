@@ -2,7 +2,14 @@
 
 Neovim plugin to query Bible verses and display it on the screen or insert it into the current buffer.
 
-<!-- TODO: Show Gif -->
+##### Query Verse
+
+![query_gif](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/34d299f2-1367-4721-9f87-8b3d93d7488b)
+##### Insert Verse
+
+Insertion is done on the line **below** the current cursor position.
+
+![insert_gif](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/a6dd47eb-b4f5-432f-aa2c-c28702a2ed77)
 
 ## 📋 Requirements
 
@@ -60,7 +67,7 @@ echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
 ```
 </details>
 
-##### Debian
+##### Ubuntu
 
 <details>
 <summary>Installation</summary>
@@ -319,15 +326,17 @@ omit_translation_footnote = false,
 <summary>Unrendered sample output</summary>
 
 ```markdown
-> ---
->
 > **John 1**
 > 
-> <sup>1</sup>In the beginning was the Word, and the Word was with God, and the Word was God.
+> <sup>51</sup>And he saith unto him, Verily, verily, I say unto you, Hereafter ye shall see heaven open, and the angels of God ascending and descending upon the Son of man.  
+> 
+> ---
+> 
+> **John 2**
+> 
+> <sup>1</sup>And the third day there was a marriage in Cana of Galilee; and the mother of Jesus was there: 
 > 
 > <sub>*KJV*</sub>
->
-> ---
 ```
 
 </details>
@@ -335,15 +344,17 @@ omit_translation_footnote = false,
 <details>
 <summary>Rendered sample output</summary>
 
-> ---
-> 
 > **John 1**
->
-> <sup>1</sup>In the beginning was the Word, and the Word was with God, and the Word was God.
->
-> <sub>*KJV*</sub>
+> 
+> <sup>51</sup>And he saith unto him, Verily, verily, I say unto you, Hereafter ye shall see heaven open, and the angels of God ascending and descending upon the Son of man.  
 > 
 > ---
+> 
+> **John 2**
+> 
+> <sup>1</sup>And the third day there was a marriage in Cana of Galilee; and the mother of Jesus was there: 
+> 
+> <sub>*KJV*</sub>
 
 </details>
 
@@ -375,8 +386,15 @@ John 1:1 In the beginning was the Word, and the Word was with God, and the Word 
 
 With the default bibleverse settings:
 ```lua
+-- Formatter settings
 separator = " ",
 omit_translation_footnote = true,
+
+-- Highlighter settings
+book_chapter = { hlgroup = "Title" },
+verse_number = { hlgroup = "Number" },
+translation = { hlgroup = "ModeMsg" },
+separator = { hlgroup = "NonText" },
 ```
 
 <details>
@@ -386,7 +404,6 @@ omit_translation_footnote = true,
 
 </details>
 
-<!--TODO: Implement -->
 
 ## 🙏 Special Thanks
 
