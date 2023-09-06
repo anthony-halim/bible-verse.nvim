@@ -8,6 +8,10 @@ local M = {}
 
 ---@type BibleVerseHLConfig
 M.defaults = {
+	-- To see all highlight groups that is currently active,
+	-- :so $VIMRUNTIME/syntax/hitest.vim
+	-- see :h highlight
+
 	-- highlighting for bibleverse text
 	bibleverse = {
 		-- highlighting for book and chapter of the output e.g. John 1

@@ -5,6 +5,7 @@ Neovim plugin to query Bible verses and display it on the screen or insert it in
 ##### Query Verse
 
 ![query_gif](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/34d299f2-1367-4721-9f87-8b3d93d7488b)
+
 ##### Insert Verse
 
 Insertion is done on the line **below** the current cursor position.
@@ -19,6 +20,10 @@ Insertion is done on the line **below** the current cursor position.
 
 ## 🛠️ Installation
 
+#### Plugin Installation
+
+This plugin is not setup by default. The only mandatory configuration to be supplied is `diatheke.translation`.
+
 Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 ```lua
 -- lazy.nvim
@@ -27,29 +32,29 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
     dependencies = {
         "MunifTanjim/nui.nvim",
     },
-    config = function()
-        -- plugin is not enabled by default and the setup function must be called.
-        require("bible-verse").setup({
-            diatheke = {
-                translation = "KJV",
-            },
-        })
-    end,
+    opts = {
+        diatheke = {
+            -- (MANDATORY)
+            -- Corresponds to the diatheke module; diatheke's -b flag.
+            -- In this example, we are using KJV module.
+            translation = "KJV",
+        },
+    },
+    -- plugin is not setup by default
+    config = true,
 }
 ```
 
-For setup function, see [Setup](#setup).
+For full *opts*, see [Configuration](#configuration).
 
-### Diatheke Installation
+#### Diatheke Installation
 
 Diatheke is one of the front-ends to the SWORD Project by [CrossWire Bible Society](https://crosswire.org/) and is used as the backend of this plugin to query the verses.
 
 Below is the installation snippets for your convenience. Note that this is not the official method of installation by any means.
 
-##### MacOS
-
 <details>
-<summary>Installation</summary>
+<summary>MacOS Installation</summary>
 
 ```sh
 # Install SWORD
@@ -67,10 +72,8 @@ echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
 ```
 </details>
 
-##### Ubuntu
-
 <details>
-<summary>Installation</summary>
+<summary>Ubuntu Installation</summary>
 
 ```sh
 # Install SWORD
@@ -91,23 +94,57 @@ echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
 
 > Post installation, it is recommended to run `:checkhealth bible-verse` to make sure all dependencies are installed and can be accessed by the plugin.
 
-## ⚙️  Setup 
+## 🌱 Usage 
 
-This plugin is not enabled by default and must be setup. The only mandatory configuration to be supplied is `diatheke.translation`.
+#### API
 
-Sample setup:
-```lua
-require("bible-verse").setup({
-  diatheke = {
-    -- Corresponds to the diatheke module; diatheke's -b flag.
-    -- In this example, we are using KJV module.
-    translation = "KJV",
-  },
-  ...remaining opts
-})
-```
+| Command  | Lua | Description |
+|--------- | -------------- | -------------- |
+| `:BibleVerse`    | `require("bible-verse").cmd()`    | Execute default behaviour set as per `config.default_behaviour`.|
+| `:BibleVerseQuery` or `:BibleVerse query`    | `require("bible-verse").cmd("query")`    | Query Bible verse and display it on the screen as a popup. |
+| `:BibleVerseInsert` or `:BibleVerse insert`    | `require("bible-verse").cmd("insert")`    | Query Bible verse and insert it below the cursor in the current buffer. |
 
-For *opts*, see [Configuration](#configuration).
+#### Key Bindings
+
+This plugin does not set any key bindings by default. Example of setting keymaps:
+
+##### Via Vim keymap
+
+<details>
+  
+  ```lua
+  vim.keymap.set("n", "<leader>Bq", "<cmd>BibleVerse query<cr>", { desc = "Bible query" })
+  vim.keymap.set("n", "<leader>Bi", "<cmd>BibleVerse insert<cr>", { desc = "Bible insert" })
+  ```
+
+</details>
+
+##### Via [lazy.nvim](https://github.com/folke/lazy.nvim) at installation phase
+
+<details>
+
+  ```lua
+  {
+      ... -- Other lazy.nvim configurations
+      init = function()
+          -- (OPTIONAL)
+          -- Register to which-key.nvim for prefix visibility
+          require("which-key").register({
+              ["<leader>"] = {
+                  B = {
+                      name = "+Bible",
+                  },
+              },
+          })
+      end,
+      keys = {
+          { "<leader>Bq", require("bible-verse").query, desc = "Bible query" },
+          { "<leader>Bi", require("bible-verse").insert, desc = "Bible insert" },
+      },
+  }
+  ```
+ 
+</details>
 
 ## ✏️  Configuration
 
@@ -130,7 +167,7 @@ Below is the full configuration as well as the defaults. You can override any of
     --              "plain" - insert as plain text.
     insert_format = "markdown",
 
-	-- Forbid plugin on the following buffer filetypes
+    -- Forbid plugin on the following buffer filetypes
     exclude_buffer_filetypes = { "neo-tree", "NvimTree" },
 
     diatheke = {
@@ -169,6 +206,10 @@ Below is the full configuration as well as the defaults. You can override any of
     },
 
     highlighter = {
+        -- To see all highlight groups that is currently active,
+        -- :so $VIMRUNTIME/syntax/hitest.vim
+        -- see :h highlight
+
         -- Highlighting for bibleverse text
         bibleverse = {
             -- highlighting for book and chapter of the output e.g. John 1
@@ -276,22 +317,7 @@ Below is the full configuration as well as the defaults. You can override any of
 ```
 
 For how `formatter.*`, affects the output, see [Formatter](#formatter).
-
-## 🌱 Usage 
  
-| Command  | Lua | Description |
-|--------- | -------------- | -------------- |
-| `:BibleVerse`    | `require("bible-verse").cmd()`    | Execute default behaviour set as per `config.default_behaviour`.|
-| `:BibleVerseQuery` or `:BibleVerse query`    | `require("bible-verse").query()`    | Query Bible verse and display it on the screen as a popup. |
-| `:BibleVerseInsert` or `:BibleVerse insert`    | `require("bible-verse").insert()`    | Query Bible verse and insert it below the cursor in the current buffer. |
-
-This plugin does not set any key bindings by default. You can set keymaps to trigger the `Lua` commands, as shown below:
-
-```lua
-vim.keymap.set("n", "<leader>Bq", require("bible-verse").query, { desc = "[B]ible verse [q]uery"})
-vim.keymap.set("n", "<leader>Bi", require("bible-verse").insert, { desc = "[B]ible verse [i]nsert"})
-```
-
 ## 🔤 Formatter
 
 Below are the formatter configurations used to format queried verses.
