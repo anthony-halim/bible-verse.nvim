@@ -2,7 +2,12 @@
 
 Neovim plugin to query Bible verses and display it on the screen or insert it into the current buffer.
 
-<!-- TODO: Show Gif -->
+##### Query Verse
+
+![query_gif](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/34d299f2-1367-4721-9f87-8b3d93d7488b)
+##### Insert Verse
+
+![insert_gif](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/a6dd47eb-b4f5-432f-aa2c-c28702a2ed77)
 
 ## 📋 Requirements
 
