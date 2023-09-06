@@ -106,19 +106,19 @@ function M.wrap(str_arr, limit)
 		return str_arr
 	end
 
-	local lines, whitespace_re = {}, "()%S+%s+()"
+	local lines, whitespace_re = {}, "()%S+()"
 	for _, str in ipairs(str_arr) do
 		if str:len() <= limit then
 			table.insert(lines, str)
 		else
 			local start = 1
 			str:gsub(whitespace_re, function(word_start_idx, next_word_start_idx)
-				if next_word_start_idx - start > limit then
-					table.insert(lines, str:sub(start, word_start_idx - 1))
+				if next_word_start_idx - start > limit and (word_start_idx - 1 - start > 0) then
+					table.insert(lines, M.trim(str:sub(start, word_start_idx - 1)))
 					start = word_start_idx
 				end
 			end)
-			table.insert(lines, str:sub(start))
+			table.insert(lines, M.trim(str:sub(start)))
 		end
 	end
 

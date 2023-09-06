@@ -1,5 +1,7 @@
 # 📖 bible-verse.nvim
 
+![build](https://github.com/anthony-halim/bible-verse.nvim/actions/workflows/ci.yml/badge.svg)
+
 Neovim plugin to query Bible verses and display it on the screen or insert it into the current buffer.
 
 ![query_gif](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/001fa095-75e5-4e5e-b029-b6970968e540)
@@ -10,7 +12,7 @@ Insertion is done on the line **below** the current cursor position.
 
 ## 📋 Requirements
 
-- Neovim >= 0.9.0
+- Neovim >= 0.9.1
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim): used for UI components.
 - Diatheke: backend for verse querying.
 
@@ -47,7 +49,7 @@ For full *opts*, see [Configuration](#configuration).
 
 Diatheke is one of the front-ends to the SWORD Project by [CrossWire Bible Society](https://crosswire.org/) and is used as the backend of this plugin to query the verses.
 
-Below is the installation snippets for your convenience. Note that this is not the official method of installation by any means.
+Below are the installation snippets for your convenience. Note that this is not the official method of installation by any means.
 
 <details>
 <summary>MacOS Installation</summary>
@@ -59,12 +61,12 @@ brew install sword
 export SWORD_PATH="${HOME}/.sword"
 mkdir -p "${SWORD_PATH}/mods.d"
 
-echo "yes" | installmgr -init # create a basic user config file
-echo "yes" | installmgr -sc   # sync config with list of known remote repos
+yes "yes" | installmgr -init # create a basic user config file
+yes "yes" | installmgr -sc   # sync config with list of known remote repos
 
 # Sample module installation with CrossWire remote source and KJV module.
-echo "yes" | installmgr -r CrossWire      # refresh remote source
-echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
+yes "yes" | installmgr -r CrossWire      # refresh remote source
+yes "yes" | installmgr -ri CrossWire KJV # install module from remote source
 ```
 </details>
 
@@ -78,15 +80,22 @@ sudo apt install -y libsword-utils diatheke
 export SWORD_PATH="${HOME}/.sword"
 mkdir -p "${SWORD_PATH}/mods.d"
 
-echo "yes" | installmgr -init # create a basic user config file
-echo "yes" | installmgr -sc   # sync config with list of known remote repos
+yes "yes" | installmgr -init # create a basic user config file
+yes "yes" | installmgr -sc   # sync config with list of known remote repos
 
 # Sample module installation with CrossWire remote source and KJV module.
-echo "yes" | installmgr -r CrossWire      # refresh remote source
-echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
+yes "yes" | installmgr -r CrossWire      # refresh remote source
+yes "yes" | installmgr -ri CrossWire KJV # install module from remote source
 ```
 </details>
 <br/>
+
+Add $SWORD_PATH to your shell profile to ensure Diatheke modules can be found.
+
+```sh
+# Example: adding to ZSH's .zshrc
+echo 'export SWORD_PATH="${HOME}/.sword" >> ~/.zshrc'
+```
 
 > Post installation, it is recommended to run `:checkhealth bible-verse` to make sure all dependencies are installed and can be accessed by the plugin.
 
@@ -202,7 +211,7 @@ Below is the full configuration as well as the defaults. You can override any of
     },
 
     highlighter = {
-        -- To see all highlight groups that is currently active,
+        -- To see all highlight groups that are currently active,
         -- :so $VIMRUNTIME/syntax/hitest.vim
         -- see :h highlight
 
@@ -312,7 +321,7 @@ Below is the full configuration as well as the defaults. You can override any of
 }
 ```
 
-For how `formatter.*`, affects the output, see [Formatter](#formatter).
+For how `formatter.*` affects the output, see [Formatter](#formatter).
  
 ## 🔤 Formatter
 
@@ -422,7 +431,7 @@ separator = { hlgroup = "NonText" },
 <details>
 <summary> Rendered output </summary>
 
-![image](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/1a8970d8-7074-4afb-a5a0-ff58ff2fca42)
+![image](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/8e176cf8-f99c-4f3e-91ff-21acb191a4d3)
 
 </details>
 

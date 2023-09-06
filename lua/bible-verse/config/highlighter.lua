@@ -8,7 +8,7 @@ local M = {}
 
 ---@type BibleVerseHLConfig
 M.defaults = {
-	-- To see all highlight groups that is currently active,
+	-- To see all highlight groups that are currently active,
 	-- :so $VIMRUNTIME/syntax/hitest.vim
 	-- see :h highlight
 
