@@ -90,6 +90,13 @@ yes "yes" | installmgr -ri CrossWire KJV # install module from remote source
 </details>
 <br/>
 
+Add $SWORD_PATH to your shell profile to ensure Diatheke modules can be found.
+
+```sh
+# Example: adding to ZSH's .zshrc
+echo 'export SWORD_PATH="${HOME}/.sword" >> ~/.zshrc'
+```
+
 > Post installation, it is recommended to run `:checkhealth bible-verse` to make sure all dependencies are installed and can be accessed by the plugin.
 
 ## 🌱 Usage 
