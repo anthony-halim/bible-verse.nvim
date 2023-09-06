@@ -24,10 +24,10 @@ function M.check(opts)
 
 	local neovim_version_ok = M.report(
 		opts.checkhealth,
-		vim.fn.has("nvim-0.9.0") == 1,
+		vim.fn.has("nvim-0.9.1") == 1,
 		"error",
-		"Neovim >= 0.9.0",
-		"BibleVerse needs Neovim >= 0.9.0"
+		"Neovim >= 0.9.1",
+		"BibleVerse needs Neovim >= 0.9.1"
 	)
 
 	local diatheke_ok = M.report(

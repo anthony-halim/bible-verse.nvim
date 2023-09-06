@@ -10,7 +10,7 @@ Insertion is done on the line **below** the current cursor position.
 
 ## 📋 Requirements
 
-- Neovim >= 0.9.0
+- Neovim >= 0.9.1
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim): used for UI components.
 - Diatheke: backend for verse querying.
 
@@ -47,7 +47,7 @@ For full *opts*, see [Configuration](#configuration).
 
 Diatheke is one of the front-ends to the SWORD Project by [CrossWire Bible Society](https://crosswire.org/) and is used as the backend of this plugin to query the verses.
 
-Below is the installation snippets for your convenience. Note that this is not the official method of installation by any means.
+Below are the installation snippets for your convenience. Note that this is not the official method of installation by any means.
 
 <details>
 <summary>MacOS Installation</summary>
@@ -202,7 +202,7 @@ Below is the full configuration as well as the defaults. You can override any of
     },
 
     highlighter = {
-        -- To see all highlight groups that is currently active,
+        -- To see all highlight groups that are currently active,
         -- :so $VIMRUNTIME/syntax/hitest.vim
         -- see :h highlight
 
@@ -312,7 +312,7 @@ Below is the full configuration as well as the defaults. You can override any of
 }
 ```
 
-For how `formatter.*`, affects the output, see [Formatter](#formatter).
+For how `formatter.*` affects the output, see [Formatter](#formatter).
  
 ## 🔤 Formatter
 
