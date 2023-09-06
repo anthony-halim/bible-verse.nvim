@@ -143,8 +143,8 @@ This plugin does not set any key bindings by default. Example of setting keymaps
           })
       end,
       keys = {
-          { "<leader>Bq", require("bible-verse").query, desc = "Bible query" },
-          { "<leader>Bi", require("bible-verse").insert, desc = "Bible insert" },
+          { "<leader>Bq", "<cmd>BibleVerse query<cr>", desc = "Bible query" },
+          { "<leader>Bi", "<cmd>BibleVerse insert<cr>", desc = "Bible insert" },
       },
   }
   ```
