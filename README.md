@@ -422,7 +422,7 @@ separator = { hlgroup = "NonText" },
 <details>
 <summary> Rendered output </summary>
 
-![image](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/1a8970d8-7074-4afb-a5a0-ff58ff2fca42)
+![image](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/8e176cf8-f99c-4f3e-91ff-21acb191a4d3)
 
 </details>
 
