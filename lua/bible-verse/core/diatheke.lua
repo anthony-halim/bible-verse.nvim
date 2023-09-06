@@ -20,7 +20,7 @@ local function parse_raw_output(output)
 				book = book,
 				chapter = chap,
 				verse_number = vnum,
-				verse_prefix_newline = prefix and prefix:find("[\r\n]"),
+				verse_prefix_newline = prefix and prefix:find("[\r\n]") ~= nil,
 				verse = v,
 				verse_suffix_newline = false,
 			})

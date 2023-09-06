@@ -1,3 +1,6 @@
+# Test related
+.tests
+
 # Compiled Lua sources
 luac.out
 
