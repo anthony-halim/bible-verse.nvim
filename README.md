@@ -61,12 +61,12 @@ brew install sword
 export SWORD_PATH="${HOME}/.sword"
 mkdir -p "${SWORD_PATH}/mods.d"
 
-echo "yes" | installmgr -init # create a basic user config file
-echo "yes" | installmgr -sc   # sync config with list of known remote repos
+yes "yes" | installmgr -init # create a basic user config file
+yes "yes" | installmgr -sc   # sync config with list of known remote repos
 
 # Sample module installation with CrossWire remote source and KJV module.
-echo "yes" | installmgr -r CrossWire      # refresh remote source
-echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
+yes "yes" | installmgr -r CrossWire      # refresh remote source
+yes "yes" | installmgr -ri CrossWire KJV # install module from remote source
 ```
 </details>
 
@@ -80,12 +80,12 @@ sudo apt install -y libsword-utils diatheke
 export SWORD_PATH="${HOME}/.sword"
 mkdir -p "${SWORD_PATH}/mods.d"
 
-echo "yes" | installmgr -init # create a basic user config file
-echo "yes" | installmgr -sc   # sync config with list of known remote repos
+yes "yes" | installmgr -init # create a basic user config file
+yes "yes" | installmgr -sc   # sync config with list of known remote repos
 
 # Sample module installation with CrossWire remote source and KJV module.
-echo "yes" | installmgr -r CrossWire      # refresh remote source
-echo "yes" | installmgr -ri CrossWire KJV # install module from remote source
+yes "yes" | installmgr -r CrossWire      # refresh remote source
+yes "yes" | installmgr -ri CrossWire KJV # install module from remote source
 ```
 </details>
 <br/>

@@ -6,7 +6,7 @@
 - [ ] Diatheke: query diatheke -> split -> wrap -> Concat == Query diatheke -> split -> concat
 - [ ] Highlight: given highlight config -> text is replaced as expected
 
-#### Failure Cases
+#### Failure Cases 
 
 - [ ] Insert at NvimTree buffer
 - [ ] Insert at no file buffer

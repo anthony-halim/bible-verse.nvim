@@ -28,6 +28,12 @@ function M.setup()
 
 	M.load("MunifTanjim/nui.nvim")
 	M.load("nvim-lua/plenary.nvim")
+
+	require("bible-verse").setup({
+		diatheke = {
+			translation = "KJV",
+		},
+	})
 end
 
 M.setup()

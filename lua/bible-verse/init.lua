@@ -1,7 +1,9 @@
 local M = {}
 
----@param opts BibleVerseConfig
+---@param opts? table
 M.setup = function(opts)
+	opts = opts or {}
+
 	-- Run healthcheck first
 	if not require("bible-verse.health").check({ checkhealth = false }) then
 		vim.notify_once(

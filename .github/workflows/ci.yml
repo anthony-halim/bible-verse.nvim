@@ -19,9 +19,18 @@ jobs:
           neovim: true
           version: ${{ matrix.neovim_version }}
 
+      - name: Setup diatheke
+        run: |
+          sudo apt install -y libsword-utils diatheke
+          yes "yes" | installmgr -init
+          yes "yes" | installmgr -sc
+          yes "yes" | installmgr -r CrossWire
+          yes "yes" | installmgr -ri CrossWire KJV
+
       - name: Run Tests
         run: |
           nvim --version
+          diatheke --version
           [ ! -d tests ] && exit 0
           nvim --headless -u tests/init.lua -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/init.lua', sequential = true}"
 
