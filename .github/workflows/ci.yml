@@ -22,6 +22,8 @@ jobs:
       - name: Setup diatheke
         run: |
           sudo apt install -y libsword-utils diatheke
+          export SWORD_PATH="/tmp/bibleverse/.sword"
+          mkdir -p "${SWORD_PATH}/mods.d"
           yes "yes" | installmgr -init
           yes "yes" | installmgr -sc
           yes "yes" | installmgr -r CrossWire
