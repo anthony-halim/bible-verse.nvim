@@ -67,7 +67,7 @@ yes "yes" | installmgr -sc   # sync config with known remote repos
 
 # Sample module installation with CrossWire remote source and KJV module.
 yes "yes" | installmgr -r CrossWire      # refresh remote source
-yes "yes" | installmgr -ri CrossWire KJV # install the KJV module from the remote source
+yes "yes" | installmgr -ri CrossWire KJV # install KJV module from the remote source
 ```
 </details>
 
