@@ -2,7 +2,7 @@
 
 ![build](https://github.com/anthony-halim/bible-verse.nvim/actions/workflows/ci.yml/badge.svg)
 
-Neovim plugin to query Bible verses and display it on the screen or insert it into the current buffer.
+Neovim plugin to query Bible verses and display them on the screen or insert them into the current buffer.
 
 ![query_gif](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/001fa095-75e5-4e5e-b029-b6970968e540)
 
@@ -20,7 +20,7 @@ Insertion is done on the line **below** the current cursor position.
 
 #### Plugin Installation
 
-This plugin is not setup by default. The only mandatory configuration to be supplied is `diatheke.translation`.
+This plugin is not set up by default. The only mandatory configuration to be supplied is `diatheke.translation`.
 
 Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 ```lua
@@ -38,7 +38,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
             translation = "KJV",
         },
     },
-    -- plugin is not setup by default
+    -- plugin is not set up by default
     config = true,
 }
 ```
@@ -63,11 +63,11 @@ export SWORD_PATH="${HOME}/.sword"
 mkdir -p "${SWORD_PATH}/mods.d"
 
 yes "yes" | installmgr -init # create a basic user config file
-yes "yes" | installmgr -sc   # sync config with list of known remote repos
+yes "yes" | installmgr -sc   # sync config with known remote repos
 
 # Sample module installation with CrossWire remote source and KJV module.
 yes "yes" | installmgr -r CrossWire      # refresh remote source
-yes "yes" | installmgr -ri CrossWire KJV # install module from remote source
+yes "yes" | installmgr -ri CrossWire KJV # install KJV module from the remote source
 ```
 </details>
 
@@ -83,11 +83,11 @@ export SWORD_PATH="${HOME}/.sword"
 mkdir -p "${SWORD_PATH}/mods.d"
 
 yes "yes" | installmgr -init # create a basic user config file
-yes "yes" | installmgr -sc   # sync config with list of known remote repos
+yes "yes" | installmgr -sc   # sync config with known remote repos
 
 # Sample module installation with CrossWire remote source and KJV module.
 yes "yes" | installmgr -r CrossWire      # refresh remote source
-yes "yes" | installmgr -ri CrossWire KJV # install module from remote source
+yes "yes" | installmgr -ri CrossWire KJV # install KJV module from the remote source
 ```
 </details>
 <br/>
@@ -172,7 +172,7 @@ Below is the full configuration as well as the defaults. You can override any of
     query_format = "bibleverse",
 
     -- insert_format: text format on 'insert' behaviour. 
-    --     Options: "markdown" - insert as Markdown formatted text.
+    --     Options: "markdown" - insert as Markdown-formatted text.
     --              "plain" - insert as plain text.
     insert_format = "markdown",
 
@@ -476,3 +476,4 @@ separator = { hlgroup = "NonText" },
 
 - [vim-bible](https://github.com/robertrosman/vim-bible) by [robertrosman](https://github.com/robertrosman) as inspiration for this plugin.
 - [noice.nvim](https://github.com/folke/noice.nvim) by [folke](https://github.com/folke) as inspiration for repository structure, management, and generally on how to write a Neovim plugin. Truly pleasant to work and extend from.
+
