@@ -110,7 +110,8 @@ echo 'export SWORD_PATH="${HOME}/.sword" >> ~/.zshrc'
 | `:BibleVerse`    | `require("bible-verse").cmd()`    | Execute default behaviour set as per `config.default_behaviour`.|
 | `:BibleVerseQuery` or `:BibleVerse query`    | `require("bible-verse").cmd("query")`    | Query Bible verse and display it on the screen as a popup. |
 | `:BibleVerseInsert` or `:BibleVerse insert`    | `require("bible-verse").cmd("insert")`    | Query Bible verse and insert it below the cursor in the current buffer. |
-| `:{command} random`    | `require("bible-verse").cmd("{command?} random")`    | Query a random Bible verse and executes the specified command. |
+| `:BibleVerseRandom`    | `:BibleVerse random` | `require("bible-verse").cmd("random")`    | Query random Bible verse and returns a table containing the Book with chapter, the verse and translation name. |
+| `:BibleVerseQueryRandom` or `:BibleVerse queryRandom`    | `require("bible-verse").cmd("queryRandom")`    | Query random Bible verse and display it on the screen as a popup. |
 
 #### Key Bindings
 
