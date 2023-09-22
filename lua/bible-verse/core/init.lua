@@ -6,6 +6,7 @@ local Utils = require("bible-verse.utils")
 local Diatheke = require("bible-verse.core.diatheke")
 local Ui = require("bible-verse.core.ui")
 local Highlight = require("bible-verse.core.highlight")
+local random_verse = require("bible-verse.core.random-verse")
 
 local M = {}
 
@@ -33,8 +34,7 @@ function M.setup()
 end
 
 --- Prompt for user input and show it back to the screen
----@param query? string query to diatheke
-function M.query_and_show(query)
+function M.query_and_show()
 	-- Handle UI config
 	local input_conf = vim.deepcopy(Config.options.ui.query_input)
 	local relative_size = Utils.get_relative_size(input_conf.relative)
@@ -69,17 +69,11 @@ function M.query_and_show(query)
 		end
 	end
 
-	if query and string.len(query) > 0 then
-		on_submit(query)
-		return
-	end
-
 	Ui:input(input_conf, on_submit)
 end
 
 --- Prompt for user input and insert it below the cursor
----@param query? string query to diatheke
-function M.query_and_insert(query)
+function M.query_and_insert()
 	local cur_window_handler = vim.api.nvim_get_current_win()
 	if not Utils.is_valid_win(cur_window_handler) then
 		vim.notify("BibleVerse: invalid window to do insertion.", vim.log.levels.WARN)
@@ -114,12 +108,35 @@ function M.query_and_insert(query)
 		end
 	end
 
-	if query and string.len(query) > 0 then
-		on_submit(query)
-		return
-	end
-
 	Ui:input(input_conf, on_submit)
+end
+
+--- Returns a random verse
+function M.random_query()
+	return process_query(random_verse(), Config.options.query_format, 0)
+end
+
+--- Query and shows a random verse
+function M.query_and_show_random()
+	local popup_conf = vim.deepcopy(Config.options.ui.popup)
+	local relative_size = Utils.get_relative_size(popup_conf.relative)
+
+	local popup_width = math.ceil(
+		math.min(
+			relative_size.width * popup_conf.size.max_width_percentage,
+			relative_size.width * popup_conf.size.width_percentage
+		)
+	)
+	local popup_max_height = math.ceil(relative_size.height * popup_conf.size.max_height_percentage)
+
+	local query_result = M.random_query()
+
+	popup_conf.size.width = popup_width
+	popup_conf.size.height = Utils.clamp(#query_result, 1, popup_max_height)
+
+	Ui:popup(popup_conf, query_result, function(bufnr, first, last)
+		Highlight.highlight_buf(bufnr, Config.options.highlighter[Config.options.query_format], first, last)
+	end)
 end
 
 return M
