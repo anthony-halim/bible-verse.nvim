@@ -125,11 +125,4 @@ function M.wrap(str_arr, limit)
 	return lines
 end
 
----@param s string string to sanitise
-function M.sanitise_random(s)
-	local sanitised_str = string.gsub(s, "random", "")
-
-	return M.trim(sanitised_str)
-end
-
 return M
