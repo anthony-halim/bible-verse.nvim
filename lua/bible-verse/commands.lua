@@ -1,21 +1,10 @@
 local Config = require("bible-verse.config")
 local Core = require("bible-verse.core")
-local Utils = require("bible-verse.utils")
-local random_verse = require("bible-verse.utils.random-verse")
 
----@alias BibleVerseCmd "query"|"insert"|"random"
+---@alias BibleVerseCmd "query"|"insert"|"random"|"queryRandom"
 ---@alias BibleVerseCmdFunc fun(): nil
 
 local M = {}
-
-local is_random = false
-local function get_arguments()
-	if is_random then
-		return random_verse()
-	end
-
-	return nil
-end
 
 ---@type table<BibleVerseCmd, BibleVerseCmdFunc>
 M.commands = {}
@@ -23,29 +12,27 @@ M.commands = {}
 --- Execute command by name
 ---@param cmd? string command name
 function M.cmd(cmd)
-	if cmd and string.find(cmd, "random") then
-		is_random = true
-	end
-
-	local sanitised_cmd = Utils.sanitise_random(cmd or "")
-
-	if cmd and M.commands[sanitised_cmd] then
-		M.commands[sanitised_cmd]()
+	if cmd and M.commands[cmd] then
+		M.commands[cmd]()
 	else
 		M.commands[Config.options.default_behaviour]()
 	end
-
-	is_random = false
 end
 
 function M.setup()
 	M.commands = {
 		query = function()
-			Core.query_and_show(get_arguments())
+			Core.query_and_show()
 		end,
 		insert = function()
-			Core.query_and_insert(get_arguments())
+			Core.query_and_insert()
 		end,
+		random = function()
+			Core.random_query()
+		end,
+		queryRandom = function()
+			Core.query_and_show_random()
+		end
 	}
 
 	-- Check that config is sane
@@ -69,22 +56,18 @@ function M.setup()
 
 			-- Midword
 			local prefix = line:match("^%s*BibleVerse (%w*)") or ""
-			local arguments = vim.tbl_keys(M.commands)
-			table.insert(arguments, "random")
-
 			return vim.tbl_filter(function(key)
 				return key:find(prefix) == 1
-			end, arguments)
+			end, vim.tbl_keys(M.commands))
 		end,
 	})
 
 	-- Sub funcs
 	for name in pairs(M.commands) do
 		local cmd = "BibleVerse" .. name:sub(1, 1):upper() .. name:sub(2)
-		vim.api.nvim_create_user_command(cmd, function(args)
-			local command = name .. " " .. vim.trim(args.args or "")
-			M.cmd(command)
-		end, { nargs = "?", desc = "BibleVerse " .. name })
+		vim.api.nvim_create_user_command(cmd, function()
+			M.cmd(name)
+		end, { desc = "BibleVerse " .. name })
 	end
 end
 
