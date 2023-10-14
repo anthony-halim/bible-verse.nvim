@@ -8,24 +8,24 @@ local M = {}
 
 ---@type BibleVerseHLConfig
 M.defaults = {
-	-- To see all highlight groups that are currently active,
-	-- :so $VIMRUNTIME/syntax/hitest.vim
-	-- see :h highlight
+  -- To see all highlight groups that are currently active,
+  -- :so $VIMRUNTIME/syntax/hitest.vim
+  -- see :h highlight
 
-	-- highlighting for bibleverse text
-	bibleverse = {
-		-- highlighting for book and chapter of the output e.g. John 1
-		book_chapter = {
-			pattern = "",
-			hlgroup = "Title", -- Highlight group to use to highlight the text
-		},
-		-- highlighting for verse number the output
-		verse_number = { pattern = "", hlgroup = "Number" },
-		-- highlighting for translation used in the output
-		translation = { pattern = "", hlgroup = "ModeMsg" },
-		-- highlighting for separator between book chapters used in the output
-		separator = { pattern = "", hlgroup = "NonText" },
-	},
+  -- highlighting for bibleverse text
+  bibleverse = {
+    -- highlighting for book and chapter of the output e.g. John 1
+    book_chapter = {
+      pattern = "",
+      hlgroup = "Title", -- Highlight group to use to highlight the text
+    },
+    -- highlighting for verse number the output
+    verse_number = { pattern = "", hlgroup = "Number" },
+    -- highlighting for translation used in the output
+    translation = { pattern = "", hlgroup = "ModeMsg" },
+    -- highlighting for separator between book chapters used in the output
+    separator = { pattern = "", hlgroup = "NonText" },
+  },
 }
 
 ---NOTE: pattern: must capture the following:
@@ -36,20 +36,20 @@ M.defaults = {
 ---@type BibleVerseHLConfig
 ---@diagnostic disable:missing-fields
 M._default_override = {
-	bibleverse = {
-		book_chapter = {
-			pattern = "()bc{([%w ]+)}()",
-		},
-		verse_number = {
-			pattern = "()vn{([%S]+)}()",
-		},
-		translation = {
-			pattern = "()t{([%w ]+)}()",
-		},
-		separator = {
-			pattern = "()sp{([%S ]+)}()",
-		},
-	},
+  bibleverse = {
+    book_chapter = {
+      pattern = "()bc{([%w ]+)}()",
+    },
+    verse_number = {
+      pattern = "()vn{([%S]+)}()",
+    },
+    translation = {
+      pattern = "()t{([%w ]+)}()",
+    },
+    separator = {
+      pattern = "()sp{([%S ]+)}()",
+    },
+  },
 }
 
 return M
