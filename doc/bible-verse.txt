@@ -9,6 +9,9 @@ Table of Contents                              *bible-verse-table-of-contents*
   - Usage                                 |bible-verse-bible-verse.nvim-usage|
   - Configuration                 |bible-verse-bible-verse.nvim-configuration|
   - Formatter                         |bible-verse-bible-verse.nvim-formatter|
+  - API                                     |bible-verse-bible-verse.nvim-api|
+  - Recipes                             |bible-verse-bible-verse.nvim-recipes|
+  - Alternatives                   |bible-verse-bible-verse.nvim-alternatives|
   - Special Thanks               |bible-verse-bible-verse.nvim-special-thanks|
 
 ==============================================================================
@@ -41,6 +44,8 @@ Using lazy.nvim <https://github.com/folke/lazy.nvim>
     -- lazy.nvim
     {
         "anthony-halim/bible-verse.nvim",
+        -- Lazy load on plugin commands
+        cmd = { "BibleVerse", "BibleVerseQuery", "BibleVerseInsert" },
         dependencies = {
             "MunifTanjim/nui.nvim",
         },
@@ -80,12 +85,12 @@ MacOS Installation ~
     export SWORD_PATH="${HOME}/.sword"
     mkdir -p "${SWORD_PATH}/mods.d"
     
-    yes "yes" | installmgr -init # create a basic user config file
-    yes "yes" | installmgr -sc   # sync config with known remote repos
+    yes "yes" 2>/dev/null | installmgr -init # create a basic user config file
+    yes "yes" 2>/dev/null | installmgr -sc   # sync config with known remote repos
     
     # Sample module installation with CrossWire remote source and KJV module.
-    yes "yes" | installmgr -r CrossWire      # refresh remote source
-    yes "yes" | installmgr -ri CrossWire KJV # install KJV module from the remote source
+    yes "yes" 2>/dev/null | installmgr -r CrossWire      # refresh remote source
+    yes "yes" 2>/dev/null | installmgr -ri CrossWire KJV # install KJV module from the remote source
 <
 
 Ubuntu Installation ~
@@ -99,17 +104,18 @@ Ubuntu Installation ~
     export SWORD_PATH="${HOME}/.sword"
     mkdir -p "${SWORD_PATH}/mods.d"
     
-    yes "yes" | installmgr -init # create a basic user config file
-    yes "yes" | installmgr -sc   # sync config with known remote repos
+    yes "yes" 2>/dev/null | installmgr -init # create a basic user config file
+    yes "yes" 2>/dev/null | installmgr -sc   # sync config with known remote repos
     
     # Sample module installation with CrossWire remote source and KJV module.
-    yes "yes" | installmgr -r CrossWire      # refresh remote source
-    yes "yes" | installmgr -ri CrossWire KJV # install KJV module from the remote source
+    yes "yes" 2>/dev/null | installmgr -r CrossWire      # refresh remote source
+    yes "yes" 2>/dev/null | installmgr -ri CrossWire KJV # install KJV module from the remote source
 <
 
 
 
-Add $SWORD_PATH to your shell profile to ensure Diatheke modules can be found.
+Add `$SWORD_PATH` to your shell profile to ensure Diatheke modules can be
+found.
 
 >sh
     # Example: adding to ZSH's .zshrc
@@ -119,35 +125,17 @@ Add $SWORD_PATH to your shell profile to ensure Diatheke modules can be found.
 
   Post installation, it is recommended to run `:checkhealth bible-verse` to make
   sure all dependencies are installed and can be accessed by the plugin.
+------------------------------------------------------------------------------
 
 USAGE                                     *bible-verse-bible-verse.nvim-usage*
 
-
-API
-
-  ---------------------------------------------------------------------------------------
-  Command              Lua                                    Description
-  -------------------- -------------------------------------- ---------------------------
-  :BibleVerse          require("bible-verse").cmd()           Execute default behaviour
-                                                              set as per
-                                                              config.default_behaviour.
-
-  :BibleVerseQuery or  require("bible-verse").cmd("query")    Query Bible verse and
-  :BibleVerse query                                           display it on the screen as
-                                                              a popup.
-
-  :BibleVerseInsert or require("bible-verse").cmd("insert")   Query Bible verse and
-  :BibleVerse insert                                          insert it below the cursor
-                                                              in the current buffer.
-  ---------------------------------------------------------------------------------------
 
 KEY BINDINGS
 
 This plugin does not set any key bindings by default. Example of setting
 keymaps:
 
-
-VIA VIM KEYMAP
+**Via Vim keymap**
 
 
 
@@ -156,8 +144,7 @@ VIA VIM KEYMAP
     vim.keymap.set("n", "<leader>Bi", "<cmd>BibleVerse insert<cr>", { desc = "Bible insert" })
 <
 
-
-VIA LAZY.NVIM AT INSTALLATION PHASE
+**lazy.nvim at installation phase**
 
 
 
@@ -175,6 +162,10 @@ VIA LAZY.NVIM AT INSTALLATION PHASE
                 },
             })
         end,
+        opts = {
+            -- Configurations
+            ...
+        }
         keys = {
             { "<leader>Bq", "<cmd>BibleVerse query<cr>", desc = "Bible query" },
             { "<leader>Bi", "<cmd>BibleVerse insert<cr>", desc = "Bible insert" },
@@ -182,6 +173,7 @@ VIA LAZY.NVIM AT INSTALLATION PHASE
     }
 <
 
+------------------------------------------------------------------------------
 
 CONFIGURATION                     *bible-verse-bible-verse.nvim-configuration*
 
@@ -356,13 +348,13 @@ of these options during the |bible-verse-setup|.
 
 For how `formatter.*` affects the output, see |bible-verse-formatter|.
 
+------------------------------------------------------------------------------
 
 FORMATTER                             *bible-verse-bible-verse.nvim-formatter*
 
 Below are the formatter configurations used to format queried verses.
 
-
-MARKDOWN ~
+**Markdown**
 
 With the default Markdown settings:
 
@@ -422,8 +414,7 @@ Rendered sample output ~
   1And the third day there was a marriage in Cana of Galilee; and the mother of
   Jesus was there:
   _KJV_
-
-PLAIN ~
+**Plain**
 
 With the default plain settings:
 
@@ -450,8 +441,7 @@ Sample output ~
     John 2:1 And the third day there was a marriage in Cana of Galilee; and the mother of Jesus was there:
 <
 
-
-BIBLEVERSE ~
+**BibleVerse**
 
 With the default bibleverse settings:
 
@@ -489,6 +479,124 @@ Rendered output ~
 
 
 
+------------------------------------------------------------------------------
+
+API                                         *bible-verse-bible-verse.nvim-api*
+
+
+QUERY
+
+Query Bible verse and returns a parsed, but unformatted, `Verse[]` object.
+
+
+  This is intended for user who wants to integrate with the plugin
+  programmatically and format the output themselves. For example for
+  integrations, see |bible-verse-recipes|.
+Lua API ~
+
+>lua
+      --- If random = true, will query a random verse. Else, we will query query_opt.query.
+      ---@param query_opt { query: string, random: boolean }
+      require("bible-verse").query(query_opt)
+<
+
+Output: ```lua —@class Verse —@field book string —@field chapter string
+—@field verse_number string —@field verse_prefix_newline boolean whether
+the verse is prepended with newline. Usually indicates when starting a new
+paragraph. —@field verse string —@field verse_suffix_newline boolean
+whether the verse is followed with newline. Usually indicates when finishing a
+paragraph.
+
+– We return Verse[], e.g.
+{
+{
+book = "John",
+chapter = "1",
+verse_number = "13",
+verse_prefix_newline = false,
+verse = "Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.",
+verse_suffix_newline = false,
+}
+}
+```
+QUERY AND SHOW
+
+Query Bible verse and display the result to the screen.
+
+Command ~
+
+`:BibleVerseQuery` or `:BibleVerse query`Lua API ~
+
+>lua
+      --- If query_opt is not supplied, will prompt user input through input UI.
+      --- If random = true, will query a random verse. Else, we will query query_opt.query.
+      ---@param query_opt? { query: string, random: boolean }
+      require("bible-verse").query_and_show(query_opt)
+<
+
+
+QUERY AND INSERT
+
+Query Bible verse and insert it below the cursor in the current buffer.
+
+Command ~
+
+`:BibleVerseInsert` or `:BibleVerse insert`Lua API ~
+
+>lua
+      --- If query_opt is not supplied, will prompt user input through input UI.
+      --- If random = true, will query a random verse. Else, we will query query_opt.query.
+      ---@param query_opt? { query: string, random: boolean }
+      require("bible-verse").query_and_insert(query_opt)
+<
+
+------------------------------------------------------------------------------
+
+RECIPES                                 *bible-verse-bible-verse.nvim-recipes*
+
+This section show examples of integration with the plugin.
+
+**Integrate with splash screen**
+
+Configuration snippet: goolord/alpha-nvim ~
+
+>lua
+      -- Splash screen
+      {
+        "goolord/alpha-nvim",
+        opts = function()
+          local dashboard = require("alpha.themes.dashboard")
+    
+          -- Query verse 
+          local verses_result = require("bible-verse").query({ random = true })
+    
+          -- Format result into table of strings, where each element is individual lines
+          local verses_fmt_table = {}
+          for _, verse in ipairs(verses_result) do
+            local formatted_verse =
+                string.format("%s %s:%s - %s", verse.book, verse.chapter, verse.verse_number, verse.verse)
+            table.insert(verses_fmt_table, formatted_verse)
+          end
+    
+          -- Apply wrapping at half of editor's width
+          local verses_fmt_wrap_table = require("bible-verse.utils").wrap(verses_fmt_table, math.floor(vim.o.columns * 0.5))
+    
+          -- Add as footer
+          dashboard.section.footer.val = verses_fmt_wrap_table
+    
+          return dashboard
+        end,
+      },
+<
+
+------------------------------------------------------------------------------
+
+ALTERNATIVES                       *bible-verse-bible-verse.nvim-alternatives*
+
+- vim-bible <https://github.com/robertrosman/vim-bible> by robertrosman <https://github.com/robertrosman>, the original inspiration and Vim equivalent plugin.
+- bible.nvim <https://github.com/MasterTemple/bible.nvim> by MasterTemple <https://github.com/MasterTemple>, Telescope.nvim <https://github.com/nvim-telescope/telescope.nvim> plugin for accessing Bible within Neovim.
+
+------------------------------------------------------------------------------
 
 SPECIAL THANKS                   *bible-verse-bible-verse.nvim-special-thanks*
 
@@ -502,6 +610,14 @@ SPECIAL THANKS                   *bible-verse-bible-verse.nvim-special-thanks*
 2. *query_gif*: https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/001fa095-75e5-4e5e-b029-b6970968e540
 3. *insert_gif*: https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/f4c94dcf-4fad-4f41-b038-9c184ac1f50d
 4. *image*: https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/8e176cf8-f99c-4f3e-91ff-21acb191a4d3
+5. *@class*: 
+6. *@field*: 
+7. *@field*: 
+8. *@field*: 
+9. *@field*: 
+10. *@field*: 
+11. *@field*: 
+12. *image*: https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/6724544e-5e30-4c1f-8380-89f6f1afb586
 
 Generated by panvimdoc <https://github.com/kdheepak/panvimdoc>
 
