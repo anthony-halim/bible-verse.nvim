@@ -46,7 +46,7 @@ function M.setup(opts)
   opts = opts or {}
   M.options = vim.tbl_deep_extend("force", M.defaults, opts)
   M.options.highlighter =
-      vim.tbl_deep_extend("force", M.options.highlighter, require("bible-verse.config.highlighter")._default_override)
+    vim.tbl_deep_extend("force", M.options.highlighter, require("bible-verse.config.highlighter")._default_override)
 
   -- Assert config is sane
   assert(
