@@ -474,7 +474,7 @@ separator = { hlgroup = "NonText" },
 
 Query Bible verse and returns a parsed, but unformatted, `Verse[]` object. 
 
-> This is intended for user who wants to integrate with the plugin programmatically and format the output themselves. For example for integrations, see [Recipes](#recipes).
+> This is intended for user who wants to integrate with the plugin programmatically and format the output themselves. For example for integrations, see [Recipes](#-recipes).
 
 <details>
   <summary>Lua API</summary>
