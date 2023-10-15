@@ -18,6 +18,8 @@ Insertion is done on the line **below** the current cursor position.
 
 ## 🛠️ Installation
 
+> Post installation, it is recommended to run `:checkhealth bible-verse` to make sure all dependencies are installed and can be accessed by the plugin.
+
 #### Plugin Installation
 
 This plugin is not set up by default. The only mandatory configuration to be supplied is `diatheke.translation`.
@@ -55,7 +57,6 @@ Below are the installation snippets for your convenience. Note that this is not 
 
 <details>
 <summary>MacOS Installation</summary>
-<br />
 
 ```sh
 # Install SWORD
@@ -75,7 +76,6 @@ yes "yes" 2>/dev/null | installmgr -ri CrossWire KJV # install KJV module from t
 
 <details>
 <summary>Ubuntu Installation</summary>
-<br />
 
 ```sh
 # Install SWORD
@@ -92,7 +92,6 @@ yes "yes" 2>/dev/null | installmgr -r CrossWire      # refresh remote source
 yes "yes" 2>/dev/null | installmgr -ri CrossWire KJV # install KJV module from the remote source
 ```
 </details>
-<br/>
 
 Add `$SWORD_PATH` to your shell profile to ensure Diatheke modules can be found.
 
@@ -100,8 +99,6 @@ Add `$SWORD_PATH` to your shell profile to ensure Diatheke modules can be found.
 # Example: adding to ZSH's .zshrc
 echo 'export SWORD_PATH="${HOME}/.sword" >> ~/.zshrc'
 ```
-
-> Post installation, it is recommended to run `:checkhealth bible-verse` to make sure all dependencies are installed and can be accessed by the plugin.
 
 ---
 
@@ -111,7 +108,7 @@ echo 'export SWORD_PATH="${HOME}/.sword" >> ~/.zshrc'
 
 This plugin does not set any key bindings by default. Example of setting keymaps:
 
-**Via Vim keymap**
+**Via Lua Vim API**
 
 <details>
 <br />
@@ -123,7 +120,7 @@ This plugin does not set any key bindings by default. Example of setting keymaps
 
 </details>
 
-**[lazy.nvim](https://github.com/folke/lazy.nvim) at installation phase**
+Via **[lazy.nvim](https://github.com/folke/lazy.nvim) at installation phase**
 
 <details>
 <br />
@@ -565,12 +562,12 @@ Query Bible verse and insert it below the cursor in the current buffer.
 
 This section show examples of integration with the plugin.
 
-**Integrate with splash screen**
+**Integration with splash screen**
 
 ![image](https://github.com/anthony-halim/bible-verse.nvim/assets/50617144/6724544e-5e30-4c1f-8380-89f6f1afb586)
 
 <details>
-  <summary>Configuration snippet: goolord/alpha-nvim</summary>
+  <summary>goolord/alpha-nvim configuration snippet</summary>
 
   ```lua
   -- Splash screen
