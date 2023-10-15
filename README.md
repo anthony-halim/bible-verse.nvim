@@ -107,88 +107,6 @@ echo 'export SWORD_PATH="${HOME}/.sword" >> ~/.zshrc'
 
 ## 🌱 Usage 
 
-#### API
-
-**Query** 
-
-Query Bible verse and returns a parsed, but unformatted, `Verse[]` object. 
-
-> This is intended for user who wants to integrate with the plugin programmatically and format the output themselves. For example for integrations, see [Recipes](#recipes).
-
-<details>
-  <summary>Lua API</summary>
-
-  ```lua
-  --- If random = true, will query a random verse. Else, we will query query_opt.query.
-  ---@param query_opt { query: string, random: boolean }
-  require("bible-verse").query(query_opt)
-  ```
-  Output:
-  ```lua
-  ---@class Verse
-  ---@field book string
-  ---@field chapter string
-  ---@field verse_number string
-  ---@field verse_prefix_newline boolean whether the verse is prepended with newline. Usually indicates when starting a new paragraph.
-  ---@field verse string
-  ---@field verse_suffix_newline boolean whether the verse is followed with newline. Usually indicates when finishing a paragraph.
-
-  -- We return Verse[], e.g.
-  {
-      {
-          book = "John",
-          chapter = "1",
-          verse_number = "13",
-          verse_prefix_newline = false,
-          verse = "Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.",
-          verse_suffix_newline = false,
-      }
-  }
-  ```
-</details>
-
-**Query and Show** 
-
-Query Bible verse and display the result to the screen.
-
-<details>
-  <summary>Command</summary>
-  
-  `:BibleVerseQuery` or `:BibleVerse query`
-</details>
-
-<details>
-  <summary>Lua API</summary>
-
-  ```lua
-  --- If query_opt is not supplied, will prompt user input through input UI.
-  --- If random = true, will query a random verse. Else, we will query query_opt.query.
-  ---@param query_opt? { query: string, random: boolean }
-  require("bible-verse").query_and_show(query_opt)
-  ```
-</details>
-
-**Query and Insert** 
-
-Query Bible verse and insert it below the cursor in the current buffer.
-
-<details>
-  <summary>Command</summary>
-  
-  `:BibleVerseInsert` or `:BibleVerse insert`
-</details>
-
-<details>
-  <summary>Lua API</summary>
-
-  ```lua
-  --- If query_opt is not supplied, will prompt user input through input UI.
-  --- If random = true, will query a random verse. Else, we will query query_opt.query.
-  ---@param query_opt? { query: string, random: boolean }
-  require("bible-verse").query_and_insert(query_opt)
-  ```
-</details>
-
 #### Key Bindings
 
 This plugin does not set any key bindings by default. Example of setting keymaps:
@@ -224,6 +142,10 @@ This plugin does not set any key bindings by default. Example of setting keymaps
               },
           })
       end,
+      opts = {
+          -- Configurations
+          ...
+      }
       keys = {
           { "<leader>Bq", "<cmd>BibleVerse query<cr>", desc = "Bible query" },
           { "<leader>Bi", "<cmd>BibleVerse insert<cr>", desc = "Bible insert" },
@@ -555,6 +477,90 @@ separator = { hlgroup = "NonText" },
 
 ---
 
+## ⚙️ API
+
+#### Query
+
+Query Bible verse and returns a parsed, but unformatted, `Verse[]` object. 
+
+> This is intended for user who wants to integrate with the plugin programmatically and format the output themselves. For example for integrations, see [Recipes](#recipes).
+
+<details>
+  <summary>Lua API</summary>
+
+  ```lua
+  --- If random = true, will query a random verse. Else, we will query query_opt.query.
+  ---@param query_opt { query: string, random: boolean }
+  require("bible-verse").query(query_opt)
+  ```
+  Output:
+  ```lua
+  ---@class Verse
+  ---@field book string
+  ---@field chapter string
+  ---@field verse_number string
+  ---@field verse_prefix_newline boolean whether the verse is prepended with newline. Usually indicates when starting a new paragraph.
+  ---@field verse string
+  ---@field verse_suffix_newline boolean whether the verse is followed with newline. Usually indicates when finishing a paragraph.
+
+  -- We return Verse[], e.g.
+  {
+      {
+          book = "John",
+          chapter = "1",
+          verse_number = "13",
+          verse_prefix_newline = false,
+          verse = "Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.",
+          verse_suffix_newline = false,
+      }
+  }
+  ```
+</details>
+
+#### Query and Show
+
+Query Bible verse and display the result to the screen.
+
+<details>
+  <summary>Command</summary>
+  
+  `:BibleVerseQuery` or `:BibleVerse query`
+</details>
+
+<details>
+  <summary>Lua API</summary>
+
+  ```lua
+  --- If query_opt is not supplied, will prompt user input through input UI.
+  --- If random = true, will query a random verse. Else, we will query query_opt.query.
+  ---@param query_opt? { query: string, random: boolean }
+  require("bible-verse").query_and_show(query_opt)
+  ```
+</details>
+
+#### Query and Insert
+
+Query Bible verse and insert it below the cursor in the current buffer.
+
+<details>
+  <summary>Command</summary>
+  
+  `:BibleVerseInsert` or `:BibleVerse insert`
+</details>
+
+<details>
+  <summary>Lua API</summary>
+
+  ```lua
+  --- If query_opt is not supplied, will prompt user input through input UI.
+  --- If random = true, will query a random verse. Else, we will query query_opt.query.
+  ---@param query_opt? { query: string, random: boolean }
+  require("bible-verse").query_and_insert(query_opt)
+  ```
+</details>
+
+---
+
 ## 🍲 Recipes
 
 This section show examples of integration with the plugin.
@@ -588,7 +594,7 @@ This section show examples of integration with the plugin.
       local verses_fmt_wrap_table = require("bible-verse.utils").wrap(verses_fmt_table, math.floor(vim.o.columns * 0.5))
 
       -- Add as footer
-      dashboard.section.footer.val = verses_fmt
+      dashboard.section.footer.val = verses_fmt_wrap_table
 
       return dashboard
     end,
