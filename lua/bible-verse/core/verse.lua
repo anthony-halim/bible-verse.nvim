@@ -1391,9 +1391,12 @@ local books = {
 }
 
 function M.random_verse()
+  math.randomseed(os.time())
+
   local book_name = books[math.random(1, #books)]
   local book_chapter = math.random(1, #bible_data[book_name])
   local book_verse = math.random(1, bible_data[book_name][book_chapter].max_verse)
+
   return book_name .. " " .. book_chapter .. ":" .. book_verse
 end
 
