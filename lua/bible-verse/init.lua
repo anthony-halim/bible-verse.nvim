@@ -6,10 +6,7 @@ M.setup = function(opts)
 
   -- Run healthcheck first
   if not require("bible-verse.health").check({ checkhealth = false }) then
-    vim.notify_once(
-      "bible-verse.nvim: checkhealth failed. Please run :checkhealth bible-verse.",
-      vim.log.levels.ERROR
-    )
+    vim.notify_once("bible-verse.nvim: checkhealth failed. Please run :checkhealth bible-verse.", vim.log.levels.ERROR)
     return
   end
 
@@ -25,10 +22,12 @@ end
 
 -- Exposed APIs
 
+---@deprecated
 ---@param command? BibleVerseCmd
 M.cmd = function(command)
   require("bible-verse.commands").cmd(command)
 end
+
 M.query = require("bible-verse.core").query
 M.query_and_show = require("bible-verse.core").query_and_show
 M.query_and_insert = require("bible-verse.core").query_and_insert
