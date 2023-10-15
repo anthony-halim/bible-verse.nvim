@@ -24,10 +24,10 @@ jobs:
           sudo apt install -y libsword-utils diatheke
           export SWORD_PATH="/tmp/bibleverse/.sword"
           mkdir -p "${SWORD_PATH}/mods.d"
-          yes "yes" | installmgr -init
-          yes "yes" | installmgr -sc
-          yes "yes" | installmgr -r CrossWire
-          yes "yes" | installmgr -ri CrossWire KJV
+          yes "yes" 2>/dev/null | installmgr -init
+          yes "yes" 2>/dev/null | installmgr -sc
+          yes "yes" 2>/dev/null | installmgr -r CrossWire
+          yes "yes" 2>/dev/null | installmgr -ri CrossWire KJV
 
       - name: Run Tests
         run: |
