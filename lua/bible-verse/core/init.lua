@@ -24,7 +24,7 @@ end
 function M.query(query_opt)
   local verse_query = query_opt.random and VerseLib.random_verse() or query_opt.query
   local ok, res_or_err =
-      pcall(Diatheke.call, Config.options.diatheke.translation, "plain", Config.options.diatheke.locale, verse_query)
+    pcall(Diatheke.call, Config.options.diatheke.translation, "plain", Config.options.diatheke.locale, verse_query)
   if not ok then
     error("query returned error|err=" .. res_or_err)
   end
@@ -74,7 +74,7 @@ function M.query_and_show(query_opt)
     local input_conf = vim.deepcopy(Config.options.ui.query_input)
     local relative_size = Utils.get_relative_size(input_conf.relative)
     local border_text_len =
-        math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
+      math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
 
     input_conf.size.width = Utils.clamp(border_text_len, relative_size.width, input_conf.size.max_width)
 
@@ -124,7 +124,7 @@ function M.query_and_insert(query_opt)
     local input_conf = vim.deepcopy(Config.options.ui.insert_input)
     local relative_size = Utils.get_relative_size(input_conf.relative)
     local border_text_len =
-        math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
+      math.max(string.len(input_conf.border.text.top or ""), string.len(input_conf.border.text.bottom or ""))
 
     input_conf.size.width = Utils.clamp(border_text_len, relative_size.width, input_conf.size.max_width)
 
