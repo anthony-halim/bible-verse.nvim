@@ -47,7 +47,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 }
 ```
 
-For full *opts*, see [Configuration](#configuration).
+For full *opts*, see [Configuration](#%EF%B8%8F--configuration).
 
 #### Diatheke Installation
 
@@ -156,7 +156,7 @@ Via **[lazy.nvim](https://github.com/folke/lazy.nvim) at installation phase**
 
 ## ✏️  Configuration
 
-Below is the full configuration as well as the defaults. You can override any of these options during the [Setup](#setup).
+Below is the full configuration as well as the defaults. You can override any of these options during the [plugin installation](#plugin-installation).
 
 ```lua
 {
@@ -324,7 +324,7 @@ Below is the full configuration as well as the defaults. You can override any of
 }
 ```
 
-For how `formatter.*` affects the output, see [Formatter](#formatter).
+For how `formatter.*` affects the output, see [Formatter](#-formatter).
 
 ---
 
