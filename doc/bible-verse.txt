@@ -1,4 +1,4 @@
-*bible-verse.txt*      For Neovim >= 0.9.1      Last change: 2023 September 08
+*bible-verse.txt*       For Neovim >= 0.9.1       Last change: 2023 October 15
 
 ==============================================================================
 Table of Contents                              *bible-verse-table-of-contents*
@@ -74,18 +74,18 @@ MacOS Installation ~
 
 
 >sh
-     Install SWORD
+    # Install SWORD
     brew install sword
     
     export SWORD_PATH="${HOME}/.sword"
     mkdir -p "${SWORD_PATH}/mods.d"
     
-    yes "yes" | installmgr -init  create a basic user config file
-    yes "yes" | installmgr -sc    sync config with known remote repos
+    yes "yes" | installmgr -init # create a basic user config file
+    yes "yes" | installmgr -sc   # sync config with known remote repos
     
-     Sample module installation with CrossWire remote source and KJV module.
-    yes "yes" | installmgr -r CrossWire       refresh remote source
-    yes "yes" | installmgr -ri CrossWire KJV  install KJV module from the remote source
+    # Sample module installation with CrossWire remote source and KJV module.
+    yes "yes" | installmgr -r CrossWire      # refresh remote source
+    yes "yes" | installmgr -ri CrossWire KJV # install KJV module from the remote source
 <
 
 Ubuntu Installation ~
@@ -93,18 +93,18 @@ Ubuntu Installation ~
 
 
 >sh
-     Install SWORD
+    # Install SWORD
     sudo apt install -y libsword-utils diatheke
     
     export SWORD_PATH="${HOME}/.sword"
     mkdir -p "${SWORD_PATH}/mods.d"
     
-    yes "yes" | installmgr -init  create a basic user config file
-    yes "yes" | installmgr -sc    sync config with known remote repos
+    yes "yes" | installmgr -init # create a basic user config file
+    yes "yes" | installmgr -sc   # sync config with known remote repos
     
-     Sample module installation with CrossWire remote source and KJV module.
-    yes "yes" | installmgr -r CrossWire       refresh remote source
-    yes "yes" | installmgr -ri CrossWire KJV  install KJV module from the remote source
+    # Sample module installation with CrossWire remote source and KJV module.
+    yes "yes" | installmgr -r CrossWire      # refresh remote source
+    yes "yes" | installmgr -ri CrossWire KJV # install KJV module from the remote source
 <
 
 
@@ -112,7 +112,7 @@ Ubuntu Installation ~
 Add $SWORD_PATH to your shell profile to ensure Diatheke modules can be found.
 
 >sh
-     Example: adding to ZSH's .zshrc
+    # Example: adding to ZSH's .zshrc
     echo 'export SWORD_PATH="${HOME}/.sword" >> ~/.zshrc'
 <
 
@@ -237,7 +237,7 @@ of these options during the |bible-verse-setup|.
             -- Formatter settings for bibleverse
             bibleverse = {
                 -- separator: text to be used as separator between chapters. Set to empty string to disable.
-                separator = " ",
+                separator = " ",
                 -- omit_translation_footnote: omit translation name from the bibleverseFont text.
                 omit_translation_footnote = false,
             }
@@ -354,7 +354,7 @@ of these options during the |bible-verse-setup|.
     }
 <
 
-For how `formatter.` affects the output, see |bible-verse-formatter|.
+For how `formatter.*` affects the output, see |bible-verse-formatter|.
 
 
 FORMATTER                             *bible-verse-bible-verse.nvim-formatter*
@@ -377,17 +377,17 @@ Overall format ~
 
 
 >markdown
-    > {book_name} {chapter}
+    > **{book_name} {chapter}**
     > 
     > <sup>{verse_number}</sup>{verse} [<sup>{verse_number}</sup>{verse}...]
     > 
     > {separator}
     > 
-    > {book_name} {chapter}
+    > **{book_name} {chapter}**
     > 
     > <sup>{verse_number}</sup>{verse} [<sup>{verse_number}</sup>{verse}...]
     >
-    > <sub>{translation}</sub>
+    > <sub>*{translation}*</sub>
 <
 
 Unrendered sample output ~
@@ -395,17 +395,17 @@ Unrendered sample output ~
 
 
 >markdown
-    > John 1
+    > **John 1**
     > 
     > <sup>51</sup>And he saith unto him, Verily, verily, I say unto you, Hereafter ye shall see heaven open, and the angels of God ascending and descending upon the Son of man.  
     > 
     > ---
     > 
-    > John 2
+    > **John 2**
     > 
     > <sup>1</sup>And the third day there was a marriage in Cana of Galilee; and the mother of Jesus was there: 
     > 
-    > <sub>KJV</sub>
+    > <sub>*KJV*</sub>
 <
 
 Rendered sample output ~
@@ -457,7 +457,7 @@ With the default bibleverse settings:
 
 >lua
     -- Formatter settings
-    separator = " ",
+    separator = " ",
     omit_translation_footnote = false,
     
     -- Highlighter settings
