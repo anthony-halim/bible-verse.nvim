@@ -176,7 +176,7 @@ Via **lazy.nvim at installation phase**
 CONFIGURATION                     *bible-verse-bible-verse.nvim-configuration*
 
 Below is the full configuration as well as the defaults. You can override any
-of these options during the |bible-verse-setup|.
+of these options during the |bible-verse-plugin-installation|.
 
 >lua
     {
