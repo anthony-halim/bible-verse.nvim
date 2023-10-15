@@ -6,7 +6,7 @@ jobs:
   tests:
     strategy:
       matrix:
-        neovim_version: ['nightly', 'v0.9.1']
+        neovim_version: ['nightly', 'v0.9.1', 'v0.9.2', 'v0.9.3', 'v0.9.4']
 
     runs-on: ubuntu-latest
 
