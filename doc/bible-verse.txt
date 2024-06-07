@@ -1,4 +1,4 @@
-*bible-verse.txt*       For Neovim >= 0.9.1       Last change: 2023 October 15
+*bible-verse.txt*         For Neovim >= 0.9.1        Last change: 2024 June 07
 
 ==============================================================================
 Table of Contents                              *bible-verse-table-of-contents*
@@ -13,6 +13,7 @@ Table of Contents                              *bible-verse-table-of-contents*
   - Recipes                             |bible-verse-bible-verse.nvim-recipes|
   - Alternatives                   |bible-verse-bible-verse.nvim-alternatives|
   - Special Thanks               |bible-verse-bible-verse.nvim-special-thanks|
+2. Links                                                   |bible-verse-links|
 
 ==============================================================================
 1. bible-verse.nvim                             *bible-verse-bible-verse.nvim*
